@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.SentencesDao">
+    <resultMap id="sentencesMap" type="com.example.tagtool.tagEntity.Sentences">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="is_marked" property="is_marked" jdbcType="INTEGER"/>
+    </resultMap>
+
+<!--    插入句子-->
+    <insert id="insertSentence" parameterType="com.example.tagtool.tagEntity.Sentences">
+        insert into tb_sentences(content)
+            values (#{content})
+    </insert>
+
+<!-- 删除句子-->
+    <delete id="deleteSentence">
+        delete from tb_sentences where content = #{content}
+    </delete>
+
+<!--    根据句子id获取句子内容-->
+    <select id="findSentenceById" parameterType="com.example.tagtool.tagEntity.Sentences">
+        select content
+        from tb_sentences
+        where id = #{id}
+    </select>
+
+<!--    更新句子的编辑状态-->
+    <update id="updateSentenceMark" parameterType="com.example.tagtool.tagEntity.Sentences">
+        update tb_sentences set is_marked = #{is_marked} where id = #{id}
+
+    </update>
+</mapper>
