@@ -44,11 +44,11 @@ public class SentencesController {
     }
 
     //    更新句子编辑状态
-    @RequestMapping("/updateSentenceMark")
+    @RequestMapping("/updateSentenceMarkById")
     @ResponseBody
-    public ResponseBean updateSentenceMark(Integer is_marked){
+    public ResponseBean updateSentenceMark(Sentences sentences){
         ResponseBean response = new ResponseBean();
-        response.setData(sentencesService.updateSentenceMarkById(is_marked));
+        response.setData(sentencesService.updateSentenceMarkById(sentences));
         response.setMessage("更新成功");
         return response;
     }

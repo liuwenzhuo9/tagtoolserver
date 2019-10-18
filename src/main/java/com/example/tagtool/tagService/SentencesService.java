@@ -18,7 +18,7 @@ public class SentencesService {
 //    根据句子id获取句子内容
     public String findSentenceById(Integer id) {return sentencesDao.findSentenceById(id);}
     //    更新句子编辑状态
-    public int updateSentenceMarkById(Integer id){return sentencesDao.updateSentenceMarkById(id);}
+    public int updateSentenceMarkById(Sentences sentences){return sentencesDao.updateSentenceMarkById(sentences);}
 //获取所有句子
     public List<Sentences> getAllSentences(){return sentencesDao.getAllSentences();}
 }

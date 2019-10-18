@@ -26,7 +26,7 @@
     </select>
 
 <!--    根据句子id更新句子的编辑状态-->
-    <update id="updateSentenceMarkById">
+    <update id="updateSentenceMarkById" parameterType="com.example.tagtool.tagEntity.Sentences">
         update tb_sentences set is_marked = #{is_marked} where id = #{id}
     </update>
 
