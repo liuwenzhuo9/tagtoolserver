@@ -60,4 +60,5 @@ public class EntityOnlyController {
         response.setMessage("查询成功");
     return response;
     }
+
 }

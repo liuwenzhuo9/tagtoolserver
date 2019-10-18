@@ -16,7 +16,7 @@ public class SentencesController {
 //    插入句子
     @RequestMapping("/insertSentence")
     @ResponseBody
-    public ResponseBean insertSentence(Sentences content){
+    public ResponseBean insertSentence(String content){
         ResponseBean response = new ResponseBean();
         response.setMessage("插入成功");
         response.setData(sentencesService.insertSentence(content));
@@ -26,7 +26,7 @@ public class SentencesController {
 //    删除句子
     @RequestMapping("/deleteSentence")
     @ResponseBody
-    public ResponseBean deleteSentence(Sentences content){
+    public ResponseBean deleteSentence(String content){
         ResponseBean response = new ResponseBean();
         response.setData(sentencesService.deleteSentence(content));
         response.setMessage("删除成功");
@@ -40,6 +40,26 @@ public class SentencesController {
         ResponseBean response = new ResponseBean();
         response.setData(sentencesService.findSentenceById(id));
         response.setMessage("查询成功");
+        return response;
+    }
+
+    //    更新句子编辑状态
+    @RequestMapping("/updateSentenceMark")
+    @ResponseBody
+    public ResponseBean updateSentenceMark(Integer is_marked){
+        ResponseBean response = new ResponseBean();
+        response.setData(sentencesService.updateSentenceMarkById(is_marked));
+        response.setMessage("更新成功");
+        return response;
+    }
+
+//    获取所有句子
+    @RequestMapping("/getAllSentences")
+    @ResponseBody
+    public ResponseBean getAllSentences(){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.getAllSentences());
         return response;
     }
 }

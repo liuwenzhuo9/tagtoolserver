@@ -10,4 +10,5 @@ public interface EntityOnlyDao {
     String findEntityById(Integer id);
     int findIdByEntity(String content);
 
+
 }

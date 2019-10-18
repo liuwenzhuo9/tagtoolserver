@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.EntityIndexDao">
+    <resultMap id="entityIndexMap" type="com.example.tagtool.tagEntity.EntityIndex">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="id_entity" property="id_entity" jdbcType="INTEGER"/>
+        <result column="id_sentence" property="id_sentence" jdbcType="INTEGER"/>
+        <result column="start_index" property="start_index" jdbcType="INTEGER"/>
+        <result column="end_index" property="end_index" jdbcType="INTEGER"/>
+    </resultMap>
+
+<!--    插入实体位置信息-->
+    <insert id="insertEntityIndex" parameterType="com.example.tagtool.tagEntity.EntityIndex">
+        insert into tb_entityindex(id_sentence,id_entity,start_index,end_index)
+        values (#{id_sentence},#{id_entity}, #{start_index},#{end_index})
+    </insert>
+
+<!--    根据句子id删除实体位置信息-->
+    <delete id="deleteEntityBySentenceId">
+        delete from tb_entityindex
+        where id_sentence = #{id_sentence}
+    </delete>
+
+<!--    根据句子id获取实体位置信息-->
+    <select id="getEntityIndexBySentenceId" resultType="com.example.tagtool.tagEntity.EntityIndex" resultMap="entityIndexMap">
+        select id,id_sentence,id_entity,start_index,end_index
+        from tb_entityindex
+        where id_sentence = #{id_sentence}
+    </select>
+
+<!--    根据实体id删除实体位置信息-->
+    <delete id="deleteEntityByEntityId">
+        delete from tb_entityindex
+        where id_entity = #{id_entity}
+    </delete>
+</mapper>

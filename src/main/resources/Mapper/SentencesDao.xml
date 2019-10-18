@@ -25,9 +25,14 @@
         where id = #{id}
     </select>
 
-<!--    更新句子的编辑状态-->
-    <update id="updateSentenceMark" parameterType="com.example.tagtool.tagEntity.Sentences">
+<!--    根据句子id更新句子的编辑状态-->
+    <update id="updateSentenceMarkById">
         update tb_sentences set is_marked = #{is_marked} where id = #{id}
-
     </update>
+
+<!--    获取所有句子-->
+    <select id="getAllSentences" resultType="com.example.tagtool.tagEntity.Sentences">
+        select *
+        from tb_sentences
+    </select>
 </mapper>
