@@ -19,12 +19,23 @@
     </delete>
 
 <!--    根据句子id获取句子内容-->
-    <select id="findSentenceById" parameterType="com.example.tagtool.tagEntity.Sentences">
+    <select id="findSentenceById" parameterType="java.lang.Integer" resultType="string">
         select content
         from tb_sentences
         where id = #{id}
     </select>
 
+    <!--    根据句子内容获取句子id-->
+    <select id="findIdBySentence" parameterType="string" resultType="java.lang.Integer">
+        select id
+        from tb_sentences
+        where content = #{content}
+    </select>
+
+<!--    更新句子内容-->
+    <update id="updateSentenceContentById" parameterType="com.example.tagtool.tagEntity.Sentences" >
+        update tb_sentences set content = #{content} where id = #{id}
+    </update>
 <!--    根据句子id更新句子的编辑状态-->
     <update id="updateSentenceMarkById" parameterType="com.example.tagtool.tagEntity.Sentences">
         update tb_sentences set is_marked = #{is_marked} where id = #{id}

@@ -43,6 +43,26 @@ public class SentencesController {
         return response;
     }
 
+    //    根据句子内容查询id
+    @RequestMapping("/findIdBySentence")
+    @ResponseBody
+    public ResponseBean findIdBySentence(String content){
+        ResponseBean response = new ResponseBean();
+        response.setData(sentencesService.findIdBySentence(content));
+        response.setMessage("查询成功");
+        return response;
+    }
+
+//    更新句子内容
+    @RequestMapping("/updateSentenceContentById")
+    @ResponseBody
+    public ResponseBean updateSentenceContentById(Sentences sentences){
+        ResponseBean response = new ResponseBean();
+        response.setData(sentencesService.updateSentenceContentById(sentences));
+        response.setMessage("更新成功");
+        return response;
+    }
+
     //    更新句子编辑状态
     @RequestMapping("/updateSentenceMarkById")
     @ResponseBody

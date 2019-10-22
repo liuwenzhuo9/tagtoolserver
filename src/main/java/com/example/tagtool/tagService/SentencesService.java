@@ -17,6 +17,10 @@ public class SentencesService {
     public int deleteSentence(String content) {return sentencesDao.deleteSentence(content);}
 //    根据句子id获取句子内容
     public String findSentenceById(Integer id) {return sentencesDao.findSentenceById(id);}
+    //    根据句子内容获取句子id
+    public int findIdBySentence(String content) {return sentencesDao.findIdBySentence(content);}
+//    更新句子内容
+    public int updateSentenceContentById(Sentences sentences) {return sentencesDao.updateSentenceContentById(sentences);}
     //    更新句子编辑状态
     public int updateSentenceMarkById(Sentences sentences){return sentencesDao.updateSentenceMarkById(sentences);}
 //获取所有句子

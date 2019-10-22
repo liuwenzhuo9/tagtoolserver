@@ -10,6 +10,8 @@ public interface SentencesDao {
     public int insertSentence(String content);
     public int deleteSentence(String content);
     String findSentenceById(Integer id);
+    int findIdBySentence(String content);
+    int updateSentenceContentById(Sentences sentences);
     int updateSentenceMarkById(Sentences sentences);
     List<Sentences> getAllSentences();
 }
