@@ -14,4 +14,6 @@ public interface SentencesDao {
     int updateSentenceContentById(Sentences sentences);
     int updateSentenceMarkById(Sentences sentences);
     List<Sentences> getAllSentences();
+    List<Sentences> getLastSentence(Integer id);
+    List<Sentences> getNextSentence(Integer id);
 }

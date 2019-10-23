@@ -46,4 +46,16 @@
         select *
         from tb_sentences
     </select>
+<!--    根据id查到上一条数据-->
+    <select id="getLastSentence" resultType="com.example.tagtool.tagEntity.Sentences">
+        select *
+        from tb_sentences
+        where id = (select max(id) from tb_sentences where id &lt; #{id});
+    </select>
+<!--    根据id查到下一条数据-->
+    <select id="getNextSentence" resultType="com.example.tagtool.tagEntity.Sentences">
+        select *
+        from tb_sentences
+        where id = (select min(id) from tb_sentences where id > #{id});
+    </select>
 </mapper>

@@ -25,4 +25,8 @@ public class SentencesService {
     public int updateSentenceMarkById(Sentences sentences){return sentencesDao.updateSentenceMarkById(sentences);}
 //获取所有句子
     public List<Sentences> getAllSentences(){return sentencesDao.getAllSentences();}
+//    根据id查到上一条数据
+    public List<Sentences> getLastSentence(Integer id){return sentencesDao.getLastSentence(id);}
+//    根据id查到下一条数据
+    public List<Sentences> getNextSentence(Integer id){return sentencesDao.getNextSentence(id);}
 }

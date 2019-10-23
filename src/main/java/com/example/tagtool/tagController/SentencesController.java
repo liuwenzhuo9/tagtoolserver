@@ -82,4 +82,24 @@ public class SentencesController {
         response.setData(sentencesService.getAllSentences());
         return response;
     }
+
+//根据id查到上一条数据
+    @RequestMapping("/getLastSentence")
+    @ResponseBody
+    public ResponseBean getLastSentence(Integer id){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.getLastSentence(id));
+        return response;
+    }
+
+//    根据id查到下一条数据
+    @RequestMapping("/getNextSentence")
+    @ResponseBody
+    public ResponseBean getNextSentence(Integer id){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.getNextSentence(id));
+        return response;
+    }
 }
