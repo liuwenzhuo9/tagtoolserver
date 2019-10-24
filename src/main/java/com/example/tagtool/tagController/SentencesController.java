@@ -102,4 +102,14 @@ public class SentencesController {
         response.setData(sentencesService.getNextSentence(id));
         return response;
     }
+
+//    找到第一个可被标记的句子
+    @RequestMapping("/getFirstUnmarkedSentence")
+    @ResponseBody
+    public ResponseBean getFirstUnmarkedSentence(){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.getFirstUnmarkedSentence());
+        return response;
+    }
 }

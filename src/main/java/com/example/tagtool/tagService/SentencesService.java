@@ -29,4 +29,6 @@ public class SentencesService {
     public List<Sentences> getLastSentence(Integer id){return sentencesDao.getLastSentence(id);}
 //    根据id查到下一条数据
     public List<Sentences> getNextSentence(Integer id){return sentencesDao.getNextSentence(id);}
+//    找到第一个可被标记的句子
+    public List<Sentences> getFirstUnmarkedSentence(){return sentencesDao.getFirstUnmarkedSentence();}
 }

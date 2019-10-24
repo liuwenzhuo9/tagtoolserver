@@ -26,7 +26,7 @@
     </select>
 
     <!--    根据句子内容获取句子id-->
-    <select id="findIdBySentence" parameterType="string" resultType="java.lang.Integer">
+    <select id="findIdBySentence" parameterType="string" resultType="java.lang.Integer" >
         select id
         from tb_sentences
         where content = #{content}
@@ -46,16 +46,23 @@
         select *
         from tb_sentences
     </select>
-<!--    根据id查到上一条数据-->
+<!--    根据id查到上一条未标记数据-->
     <select id="getLastSentence" resultType="com.example.tagtool.tagEntity.Sentences">
         select *
         from tb_sentences
-        where id = (select max(id) from tb_sentences where id &lt; #{id});
+        where id = (select max(id) from tb_sentences where id &lt; #{id} and is_marked = 0);
     </select>
-<!--    根据id查到下一条数据-->
+<!--    根据id查到下一条未标记数据-->
     <select id="getNextSentence" resultType="com.example.tagtool.tagEntity.Sentences">
         select *
         from tb_sentences
-        where id = (select min(id) from tb_sentences where id > #{id});
+        where id = (select min(id) from tb_sentences where id > #{id} and is_marked = 0) ;
+<!--        from tb_sentences where id <= #{id} and is_marked = 0 order by id asc LIMIT 1;-->
+    </select>
+<!--    找到第一个可被标记的句子-->
+    <select id="getFirstUnmarkedSentence" resultType="com.example.tagtool.tagEntity.Sentences" >
+        select *
+        from tb_sentences
+        where id = (select  min(id) from tb_sentences where is_marked = 0) ;
     </select>
 </mapper>

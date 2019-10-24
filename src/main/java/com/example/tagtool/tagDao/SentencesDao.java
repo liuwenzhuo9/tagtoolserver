@@ -16,4 +16,5 @@ public interface SentencesDao {
     List<Sentences> getAllSentences();
     List<Sentences> getLastSentence(Integer id);
     List<Sentences> getNextSentence(Integer id);
+    List<Sentences> getFirstUnmarkedSentence();
 }
