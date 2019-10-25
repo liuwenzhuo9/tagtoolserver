@@ -57,7 +57,6 @@
         select *
         from tb_sentences
         where id = (select min(id) from tb_sentences where id > #{id} and is_marked = 0) ;
-<!--        from tb_sentences where id <= #{id} and is_marked = 0 order by id asc LIMIT 1;-->
     </select>
 <!--    找到第一个可被标记的句子-->
     <select id="getFirstUnmarkedSentence" resultType="com.example.tagtool.tagEntity.Sentences" >
