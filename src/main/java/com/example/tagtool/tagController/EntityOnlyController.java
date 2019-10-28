@@ -16,10 +16,11 @@ public class EntityOnlyController {
 //    插入实体
 @RequestMapping("/insertEntity")
     @ResponseBody
-    public ResponseBean insertEntity(String content){
-    int data = entityOnlyService.insertEntity(content);
+    public ResponseBean insertEntity(EntityOnly entityOnly){
+    int data = entityOnlyService.insertEntity(entityOnly);
+    int idData = entityOnlyService.findIdByEntity(entityOnly.getContent());
     if(data == 1){
-        return new ResponseBean("插入成功", content);
+        return new ResponseBean("插入成功", idData);
     }else {
         return new ResponseBean("插入失败", data);
     }
@@ -30,9 +31,10 @@ public class EntityOnlyController {
     @ResponseBody
     public ResponseBean deleteEntity(String content){
     ResponseBean response = new ResponseBean();
+    int entityId = entityOnlyService.findIdByEntity(content);
     int result = entityOnlyService.deleteEntity(content);
     if (result == 1){
-        response.setData(result);
+        response.setData(entityId);
         response.setMessage("删除成功");
     }else{
         response.setMessage("删除失败");
@@ -61,4 +63,12 @@ public class EntityOnlyController {
     return response;
     }
 
+//    @RequestMapping("/updateLengthByEntityId")
+//    @ResponseBody
+//    public ResponseBean updateLengthByEntityId (EntityOnly entityOnly){
+//    ResponseBean response = new ResponseBean();
+//        response.setMessage("更新成功");
+//        response.setData(entityOnlyService.updateLengthByEntityId(entityOnly));
+//        return response;
+//    }
 }

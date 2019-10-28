@@ -11,7 +11,7 @@ public class EntityOnlyService {
     @Resource
     private EntityOnlyDao entityOnlyDao;
 //插入实体
-    public int insertEntity(String content) { return entityOnlyDao.insertEntity(content);}
+    public int insertEntity(EntityOnly entityOnly) { return entityOnlyDao.insertEntity(entityOnly);}
 
 //删除实体
     public int deleteEntity(String content) {return entityOnlyDao.deleteEntity(content);}
@@ -22,4 +22,5 @@ public class EntityOnlyService {
 //    根据实体内容查询实体id
     public int findIdByEntity(String content) {return entityOnlyDao.findIdByEntity(content);}
 
+//    public int updateLengthByEntityId(EntityOnly entityOnly) {return entityOnlyDao.updateLengthByEntityId(entityOnly);}
 }

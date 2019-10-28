@@ -5,10 +5,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EntityOnlyDao {
-    int insertEntity(String content);
+    int insertEntity(EntityOnly entityOnly);
     int deleteEntity(String content);
     String findEntityById(Integer id);
     int findIdByEntity(String content);
-
-
+//    int updateLengthByEntityId(EntityOnly entityOnly);
 }

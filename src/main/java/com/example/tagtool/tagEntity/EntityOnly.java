@@ -9,6 +9,7 @@ public class EntityOnly {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String content;
+    private int length;
 
     public int getId() {
         return id;
@@ -16,6 +17,10 @@ public class EntityOnly {
 
     public String getContent() {
         return content;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public void setId(int id) {
@@ -26,11 +31,16 @@ public class EntityOnly {
         this.content = content;
     }
 
+    public void setLength(int length) {
+        this.length = length;
+    }
+
     @Override
     public String toString() {
         return "EntityOnly{" +
                 "id=" + id +
                 ", content='" + content +'\'' +
+                ", length=" + length +
                 '}';
     }
 

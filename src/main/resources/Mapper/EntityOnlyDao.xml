@@ -4,11 +4,12 @@
     <resultMap id="entityOnlyMap" type="com.example.tagtool.tagEntity.EntityOnly">
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="length" property="length" jdbcType="INTEGER"/>
     </resultMap>
 <!--插入实体-->
     <insert id="insertEntity" parameterType="String">
-            insert into tb_entityonly (content)
-                values (#{content})
+            insert into tb_entityonly (content,length)
+                values (#{content},#{length})
     </insert>
 <!--删除实体-->
     <delete id="deleteEntity" parameterType="String">
@@ -21,10 +22,15 @@
             where id = #{id}
     </select>
 <!--    根据实体内容找实体id-->
-    <select id="findIdByEntity" parameterType="String" resultType="int">
+    <select id="findIdByEntity" parameterType="com.example.tagtool.tagEntity.EntityOnly" resultType="int">
             select id
             from tb_entityonly
             where content = #{content}
     </select>
-
+<!--    根据实体内容更新实体长度-->
+<!--    <update id="updateLengthByEntityId" parameterType="int" >-->
+<!--            update tb_entityonly-->
+<!--            set length = #{length}-->
+<!--            where id = #{id}-->
+<!--    </update>-->
 </mapper>
