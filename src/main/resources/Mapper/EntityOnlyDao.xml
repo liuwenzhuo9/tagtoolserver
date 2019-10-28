@@ -7,7 +7,7 @@
         <result column="length" property="length" jdbcType="INTEGER"/>
     </resultMap>
 <!--插入实体-->
-    <insert id="insertEntity" parameterType="String">
+    <insert id="insertEntity" parameterType="com.example.tagtool.tagEntity.EntityOnly">
             insert into tb_entityonly (content,length)
                 values (#{content},#{length})
     </insert>
@@ -27,10 +27,10 @@
             from tb_entityonly
             where content = #{content}
     </select>
-<!--    根据实体内容更新实体长度-->
-<!--    <update id="updateLengthByEntityId" parameterType="int" >-->
-<!--            update tb_entityonly-->
-<!--            set length = #{length}-->
-<!--            where id = #{id}-->
-<!--    </update>-->
+
+<!--获取所有实体，用于预标记-->
+    <select id="getAllEntity" resultType="com.example.tagtool.tagEntity.EntityOnly">
+        select *
+        from tb_entityonly;
+    </select>
 </mapper>

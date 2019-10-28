@@ -5,6 +5,7 @@ import com.example.tagtool.tagEntity.EntityOnly;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class EntityOnlyService {
@@ -22,5 +23,6 @@ public class EntityOnlyService {
 //    根据实体内容查询实体id
     public int findIdByEntity(String content) {return entityOnlyDao.findIdByEntity(content);}
 
-//    public int updateLengthByEntityId(EntityOnly entityOnly) {return entityOnlyDao.updateLengthByEntityId(entityOnly);}
+//    获取所有实体，用于预标记
+    public List<EntityOnly> getAllEntity(){return entityOnlyDao.getAllEntity();}
 }
