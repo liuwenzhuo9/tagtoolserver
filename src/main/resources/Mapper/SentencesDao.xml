@@ -64,4 +64,10 @@
         from tb_sentences
         where id = (select  min(id) from tb_sentences where is_marked = 0) ;
     </select>
+<!--    根据id查询句子的索引号-->
+    <select id="findIndexBySentenceId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*)
+        from tb_sentences
+        where id &lt;= #{id}
+    </select>
 </mapper>

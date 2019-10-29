@@ -112,4 +112,12 @@ public class SentencesController {
         response.setData(sentencesService.getFirstUnmarkedSentence());
         return response;
     }
+    @RequestMapping("/findIndexBySentenceId")
+    @ResponseBody
+    public ResponseBean findIndexBySentenceId(Integer id){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.findIndexBySentenceId(id));
+        return response;
+    }
 }
