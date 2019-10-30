@@ -70,4 +70,10 @@
         from tb_sentences
         where id &lt;= #{id}
     </select>
+<!--    查询从offset开始的count条数据-->
+    <select id="findSentenceFromOffset" parameterType="java.lang.Integer" resultType="com.example.tagtool.tagEntity.Sentences">
+        select *
+        from tb_sentences
+        where is_marked = 1 limit #{offset} , #{count};
+    </select>
 </mapper>

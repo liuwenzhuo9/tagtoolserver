@@ -18,4 +18,5 @@ public interface SentencesDao {
     List<Sentences> getNextSentence(Integer id);
     List<Sentences> getFirstUnmarkedSentence();
     int findIndexBySentenceId(Integer id);
+    List<Sentences> findSentenceFromOffset(Integer offset,Integer count);
 }

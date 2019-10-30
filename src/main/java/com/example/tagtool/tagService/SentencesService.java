@@ -31,5 +31,8 @@ public class SentencesService {
     public List<Sentences> getNextSentence(Integer id){return sentencesDao.getNextSentence(id);}
 //    找到第一个可被标记的句子
     public List<Sentences> getFirstUnmarkedSentence(){return sentencesDao.getFirstUnmarkedSentence();}
+//    根据id查询句子的索引号
     public int findIndexBySentenceId(Integer id){return sentencesDao.findIndexBySentenceId(id);}
+//    查询从offset开始的count条数据
+    public List<Sentences> findSentenceFromOffset(Integer offset,Integer count){return sentencesDao.findSentenceFromOffset(offset,count);}
 }

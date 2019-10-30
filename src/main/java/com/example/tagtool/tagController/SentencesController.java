@@ -115,12 +115,22 @@ public class SentencesController {
         response.setData(sentencesService.getFirstUnmarkedSentence());
         return response;
     }
+//    根据id查询句子的索引号
     @RequestMapping("/findIndexBySentenceId")
     @ResponseBody
     public ResponseBean findIndexBySentenceId(Integer id){
         ResponseBean response = new ResponseBean();
         response.setMessage("查询成功");
         response.setData(sentencesService.findIndexBySentenceId(id));
+        return response;
+    }
+//    查询从offset开始的count条数据
+    @RequestMapping("/findSentenceFromOffset")
+    @ResponseBody
+    public ResponseBean findSentenceFromOffset(Integer offset,Integer count){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.findSentenceFromOffset(offset,count));
         return response;
     }
 }
