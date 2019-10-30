@@ -27,10 +27,13 @@ public class SentencesController {
     @RequestMapping("/deleteSentence")
     @ResponseBody
     public ResponseBean deleteSentence(String content){
-        ResponseBean response = new ResponseBean();
-        response.setData(sentencesService.deleteSentence(content));
-        response.setMessage("删除成功");
-        return response;
+        int idData = sentencesService.findIdBySentence(content);
+        int data = sentencesService.deleteSentence(content);
+        if (data == 1) {
+            return new ResponseBean("删除成功", idData);
+        } else {
+            return new ResponseBean("删除失败", data);
+        }
     }
 
 //    根据id查询句子内容
