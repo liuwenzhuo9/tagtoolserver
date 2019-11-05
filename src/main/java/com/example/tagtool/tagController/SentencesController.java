@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 public class SentencesController {
@@ -89,21 +90,28 @@ public class SentencesController {
 //根据id查到上一条数据
     @RequestMapping("/getLastSentence")
     @ResponseBody
-    public ResponseBean getLastSentence(Integer id){
+    public ResponseBean getLastSentence(Integer id, Integer is_marked){
         ResponseBean response = new ResponseBean();
-        response.setMessage("查询成功");
-        response.setData(sentencesService.getLastSentence(id));
-        return response;
+        List<Sentences> listData = sentencesService.getLastSentence(id, is_marked);
+        if(listData == null||listData.isEmpty()){
+            return new ResponseBean("查询失败", 0);
+        }else{
+            return new ResponseBean("查询成功", listData);
+        }
+
     }
 
 //    根据id查到下一条数据
     @RequestMapping("/getNextSentence")
     @ResponseBody
-    public ResponseBean getNextSentence(Integer id){
+    public ResponseBean getNextSentence(Integer id, Integer is_marked){
         ResponseBean response = new ResponseBean();
-        response.setMessage("查询成功");
-        response.setData(sentencesService.getNextSentence(id));
-        return response;
+        List<Sentences> listData = sentencesService.getNextSentence(id, is_marked);
+        if(listData == null||listData.isEmpty()){
+            return new ResponseBean("查询失败", 0);
+        }else{
+            return new ResponseBean("查询成功", listData);
+        }
     }
 
 //    找到第一个可被标记的句子

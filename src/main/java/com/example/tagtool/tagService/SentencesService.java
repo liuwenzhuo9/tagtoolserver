@@ -26,9 +26,9 @@ public class SentencesService {
 //获取所有句子
     public List<Sentences> getAllSentences(){return sentencesDao.getAllSentences();}
 //    根据id查到上一条数据
-    public List<Sentences> getLastSentence(Integer id){return sentencesDao.getLastSentence(id);}
+    public List<Sentences> getLastSentence(Integer id,Integer is_marked){return sentencesDao.getLastSentence(id,is_marked);}
 //    根据id查到下一条数据
-    public List<Sentences> getNextSentence(Integer id){return sentencesDao.getNextSentence(id);}
+    public List<Sentences> getNextSentence(Integer id,Integer is_marked){return sentencesDao.getNextSentence(id,is_marked);}
 //    找到第一个可被标记的句子
     public List<Sentences> getFirstUnmarkedSentence(){return sentencesDao.getFirstUnmarkedSentence();}
 //    根据id查询句子的索引号

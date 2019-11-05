@@ -14,8 +14,8 @@ public interface SentencesDao {
     int updateSentenceContentById(Sentences sentences);
     int updateSentenceMarkById(Sentences sentences);
     List<Sentences> getAllSentences();
-    List<Sentences> getLastSentence(Integer id);
-    List<Sentences> getNextSentence(Integer id);
+    List<Sentences> getLastSentence(Integer id, Integer is_marked);
+    List<Sentences> getNextSentence(Integer id, Integer is_marked);
     List<Sentences> getFirstUnmarkedSentence();
     int findIndexBySentenceId(Integer id);
     List<Sentences> findSentenceFromOffset(Integer offset,Integer count);
