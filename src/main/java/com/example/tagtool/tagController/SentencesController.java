@@ -1,6 +1,7 @@
 package com.example.tagtool.tagController;
 
 import com.example.tagtool.tagEntity.Sentences;
+import com.example.tagtool.tagService.EntityIndexService;
 import com.example.tagtool.tagService.SentencesService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +14,9 @@ import java.util.List;
 public class SentencesController {
     @Resource
     private SentencesService sentencesService;
+
+    @Resource
+    private EntityIndexService entityIndexService;
 
 //    插入句子
     @RequestMapping("/insertSentence")
@@ -91,7 +95,6 @@ public class SentencesController {
     @RequestMapping("/getLastSentence")
     @ResponseBody
     public ResponseBean getLastSentence(Integer id, Integer is_marked){
-        ResponseBean response = new ResponseBean();
         List<Sentences> listData = sentencesService.getLastSentence(id, is_marked);
         if(listData == null||listData.isEmpty()){
             return new ResponseBean("查询失败", 0);
@@ -105,7 +108,6 @@ public class SentencesController {
     @RequestMapping("/getNextSentence")
     @ResponseBody
     public ResponseBean getNextSentence(Integer id, Integer is_marked){
-        ResponseBean response = new ResponseBean();
         List<Sentences> listData = sentencesService.getNextSentence(id, is_marked);
         if(listData == null||listData.isEmpty()){
             return new ResponseBean("查询失败", 0);
@@ -141,4 +143,25 @@ public class SentencesController {
         response.setData(sentencesService.findSentenceFromOffset(offset,count));
         return response;
     }
+
+    @RequestMapping("/deleteSentenceFromOffset")
+    @ResponseBody
+    public ResponseBean deleteSentenceFromOffset (Integer offset,Integer count){
+        List<Sentences> listData = sentencesService.findSentenceFromOffset(offset,count);
+        int size = listData.size();
+        int returnData = 0;
+        for(int i = 0; i < size;i++){
+            Sentences list = listData.get(i);
+            int idData = sentencesService.deleteSentence(list.getContent());
+            int indexData = entityIndexService.deleteEntityBySentenceId(list.getId());
+            returnData = returnData + idData - indexData;
+        }
+        if(returnData == 0){
+            return new ResponseBean("删除成功", 1);
+        }else{
+            return new ResponseBean("删除失败", 0);
+        }
+
+    }
+
 }
