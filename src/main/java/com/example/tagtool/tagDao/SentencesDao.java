@@ -13,11 +13,13 @@ public interface SentencesDao {
     int findIdBySentence(String content);
     int updateSentenceContentById(Sentences sentences);
     int updateSentenceMarkById(Sentences sentences);
-    List<Sentences> getAllSentences();
+    List<Sentences> getAllSentences(Integer is_marked);
     List<Sentences> getLastSentence(Integer id, Integer is_marked);
     List<Sentences> getNextSentence(Integer id, Integer is_marked);
     List<Sentences> getFirstUnmarkedSentence();
     int findIndexBySentenceId(Integer id);
     List<Sentences> findSentenceFromOffset(Integer offset,Integer count);
     int deleteSentenceFromOffset(Integer offset,Integer count);
+    int findUnmarkedNum();
+    List<Sentences> findUnmarkedNumSentence();
 }

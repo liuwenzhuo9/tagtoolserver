@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.AccountDao">
+    <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
+    <resultMap id="accountMap" type="com.example.tagtool.tagEntity.Account">
+        <!-- 结果集的主键 -->
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="role" property="role" jdbcType="VARCHAR" />
+
+    </resultMap>
+<!--插入账号-->
+    <insert id="insertAccount" parameterType="com.example.tagtool.tagEntity.Account">
+        insert into tb_account (account,name,password,role)
+        	values (#{account}, #{name},#{password}, #{role})
+    </insert>
+<!--找到所有账号信息-->
+    <select id="findAllAccount"  resultMap="accountMap" resultType="com.example.tagtool.tagEntity.Account">
+        select *
+        from tb_account
+    </select>
+<!--    根据账号找到对应角色-->
+    <select id="findRoleByAccount"  parameterType="String" resultType="String">
+        select role
+        from tb_account
+        where account = #{account}
+    </select>
+<!--    删除账号信息-->
+    <delete id="deleteAccount">
+		delete from tb_account where account = #{account}
+	</delete>
+<!--    更新密码-->
+    <update id="updatePassword" parameterType="com.example.tagtool.tagEntity.Account">
+        update tb_account set password = #{password} where account = #{account}
+    </update>
+
+    <select id="findAccountByAccount" parameterType="String" resultMap="accountMap" resultType="com.example.tagtool.tagEntity.Account">
+        select *
+        from tb_account
+        where account = #{account}
+    </select>
+
+
+    <select id="findAccountNumberByAccount" parameterType="String"  resultType="int">
+        select count(*)
+        from tb_account
+        where account = #{account}
+    </select>
+</mapper>
