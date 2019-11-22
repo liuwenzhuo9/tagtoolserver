@@ -17,9 +17,6 @@ public interface AccountDao {
     int deleteAccount(String account);
 //    更新密码
     int updatePassword(Account account);
-
-
     Account findAccountByAccount(String account);
     int findAccountNumberByAccount(String account);
-
 }

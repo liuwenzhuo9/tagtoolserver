@@ -9,7 +9,7 @@
 
 <!--    插入句子-->
     <insert id="insertSentence" parameterType="com.example.tagtool.tagEntity.Sentences">
-        insert into tb_sentences(content)
+            insert into tb_sentences(content)
             values (#{content})
     </insert>
 

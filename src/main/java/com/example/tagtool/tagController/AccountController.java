@@ -30,12 +30,13 @@ public class AccountController {
             return responseBean;
         }
         Account accountNow = accountService.findAccountByAccount(account);
-//        String dPassword = null;
-//        dPassword = AesEncryptUtil.decrypt(password);
-        if(accountNow.getPassword().equals(Md5Encrypt.string1MD5(password))) {
+        String dPassword = null;
+        dPassword = AesEncryptUtil.decrypt(password);
+//        System.out.println(accountNow.getPassword()+ "mima" +password);
+        if(accountNow.getPassword().equals(Md5Encrypt.string1MD5(dPassword))) {
             session.setAttribute("account", accountNow);
-
-            responseBean.setMessage("登录成功");
+            String name = accountNow.getName();
+            responseBean.setMessage(name);
             if (accountNow.getRole().equals("管理员")) {
                 responseBean.setData("system");
             } else if (accountNow.getRole().equals("实验室用户")) {
