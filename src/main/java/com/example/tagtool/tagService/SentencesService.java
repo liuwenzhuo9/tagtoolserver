@@ -37,4 +37,5 @@ public class SentencesService {
     public List<Sentences> findSentenceFromOffset(Integer offset,Integer count){return sentencesDao.findSentenceFromOffset(offset,count);}
     public int deleteSentenceFromOffset(Integer offset,Integer count){return sentencesDao.deleteSentenceFromOffset(offset,count);}
     public int findUnmarkedNum(){return sentencesDao.findUnmarkedNum();}
+    public List<Sentences> findSentenceByAuthor(String author){return sentencesDao.findSentenceByAuthor(author);}
 }

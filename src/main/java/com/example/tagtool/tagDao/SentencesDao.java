@@ -21,5 +21,5 @@ public interface SentencesDao {
     List<Sentences> findSentenceFromOffset(Integer offset,Integer count);
     int deleteSentenceFromOffset(Integer offset,Integer count);
     int findUnmarkedNum();
-    List<Sentences> findUnmarkedNumSentence();
+    List<Sentences> findSentenceByAuthor(String author);
 }

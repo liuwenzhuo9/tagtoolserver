@@ -41,6 +41,8 @@ public class AccountController {
                 responseBean.setData("system");
             } else if (accountNow.getRole().equals("实验室用户")) {
                 responseBean.setData("labUser");
+            } else if (accountNow.getRole().equals("普通用户")) {
+                responseBean.setData("regUser");
             }
         }else{
             responseBean.setMessage("密码错误");
@@ -120,7 +122,6 @@ public ResponseBean rePassword(String account, String oldPassword, String newPas
     }
 
     //插入账号
-    @AuthController(value = AuthLevel.LOGGED,roles = {RoleType.MANAGER_ROLE_ID})
     @RequestMapping("/insertAccount")
     @ResponseBody
     public ResponseBean insertAccount(Account account){

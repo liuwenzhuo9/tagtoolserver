@@ -83,4 +83,10 @@
         from tb_sentences
         where is_marked = 0
     </select>
+<!--    根据作者找到句子-->
+    <select id="findSentenceByAuthor" resultType="com.example.tagtool.tagEntity.Sentences">
+        select *
+        from tb_sentences
+        where author = #{author}
+    </select>
 </mapper>

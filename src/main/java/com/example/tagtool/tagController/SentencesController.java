@@ -173,5 +173,13 @@ public class SentencesController {
         return response;
     }
 
+    @RequestMapping("/findSentenceByAuthor")
+    @ResponseBody
+    public ResponseBean findSentenceByAuthor(String author){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.findSentenceByAuthor(author));
+        return response;
+    }
 
 }
