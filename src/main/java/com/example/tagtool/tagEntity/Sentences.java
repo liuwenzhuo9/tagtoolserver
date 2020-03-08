@@ -10,6 +10,7 @@ public class Sentences {
     private int id;
     private String content;
     private int is_marked;
+    private String author;
 
     public int getId() {
         return id;
@@ -23,6 +24,8 @@ public class Sentences {
         return is_marked;
     }
 
+    public String getAuthor() {  return author; }
+
     public void setContent(String content) {
         this.content = content;
     }
@@ -35,12 +38,15 @@ public class Sentences {
         this.is_marked = is_marked;
     }
 
+    public void setAuthor(String author) {  this.author = author;}
+
     @Override
     public String toString() {
         return "Sentences{" +
                 "id=" + id +
                 ", content='" + content +
                 ", is_marked=" + is_marked +
+                ",author=" + author +
                 '}';
     }
 

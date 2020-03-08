@@ -84,10 +84,10 @@ public class SentencesController {
 //    获取所有句子
     @RequestMapping("/getAllSentences")
     @ResponseBody
-    public ResponseBean getAllSentences(){
+    public ResponseBean getAllSentences(Integer is_marked){
         ResponseBean response = new ResponseBean();
         response.setMessage("查询成功");
-        response.setData(sentencesService.getAllSentences());
+        response.setData(sentencesService.getAllSentences(is_marked));
         return response;
     }
 
@@ -162,6 +162,24 @@ public class SentencesController {
             return new ResponseBean("删除失败", 0);
         }
 
+    }
+
+    @RequestMapping("/findUnmarkedNum")
+    @ResponseBody
+    public ResponseBean findUnmarkedNum (){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.findUnmarkedNum());
+        return response;
+    }
+
+    @RequestMapping("/findSentenceByAuthor")
+    @ResponseBody
+    public ResponseBean findSentenceByAuthor(String author){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(sentencesService.findSentenceByAuthor(author));
+        return response;
     }
 
 }

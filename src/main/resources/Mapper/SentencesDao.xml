@@ -9,7 +9,7 @@
 
 <!--    插入句子-->
     <insert id="insertSentence" parameterType="com.example.tagtool.tagEntity.Sentences">
-        insert into tb_sentences(content)
+            insert into tb_sentences(content)
             values (#{content})
     </insert>
 
@@ -41,10 +41,11 @@
         update tb_sentences set is_marked = #{is_marked} where id = #{id}
     </update>
 
-<!--    获取所有句子-->
+<!--    is_marked=0:获取未标记句子 is_marked=1:获取所有句子-->
     <select id="getAllSentences" resultType="com.example.tagtool.tagEntity.Sentences">
         select *
         from tb_sentences
+        where is_marked &lt;= #{is_marked}
     </select>
 <!--    根据id查到上一条数据-->
     <select id="getLastSentence" resultType="com.example.tagtool.tagEntity.Sentences">
@@ -75,5 +76,17 @@
         select *
         from tb_sentences
          limit #{offset} , #{count};
+    </select>
+<!--    找到未标记句子数目-->
+    <select id="findUnmarkedNum" resultType="java.lang.Integer">
+        select count(*)
+        from tb_sentences
+        where is_marked = 0
+    </select>
+<!--    根据作者找到句子-->
+    <select id="findSentenceByAuthor" resultType="com.example.tagtool.tagEntity.Sentences">
+        select *
+        from tb_sentences
+        where author = #{author}
     </select>
 </mapper>

@@ -12,14 +12,9 @@ public class EntityIndex {
     private int id_sentence;
     private int start_index;
     private int end_index;
+    private String author;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
 
     public int getEnd_index() {
         return end_index;
@@ -37,6 +32,10 @@ public class EntityIndex {
         return start_index;
     }
 
+    public String getAuthor() {  return author; }
+
+    public void setId(int id) { this.id = id; }
+
     public void setEnd_index(int end_index) {
         this.end_index = end_index;
     }
@@ -53,6 +52,8 @@ public class EntityIndex {
         this.start_index = start_index;
     }
 
+    public void setAuthor(String author) { this.author = author; }
+
     @Override
     public String toString() {
         return "EntityIndex{" +
@@ -60,6 +61,7 @@ public class EntityIndex {
                 ",id_sentence=" + id_sentence +
                 ",start_index=" + start_index +
                 ",end_index=" + end_index +
+                ",author=" + author +
                 '}';
     }
 }
