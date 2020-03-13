@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.TaskContentDao">
+    <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
+    <resultMap id="taskContentMap" type="com.example.tagtool.tagEntity.TaskContent">
+        <!-- 结果集的主键 -->
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
+        <result column="task_id" property="task_id" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="paragh_postion" property="paragh_postion" jdbcType="INTEGER" />
+
+
+    </resultMap>
+    <!--插入任务具体段落内容-->
+    <insert id="insertTaskContent" parameterType="com.example.tagtool.tagEntity.TaskContent">
+        insert into tb_task_content (task_id,content,paragh_postion)
+        values (#{task_id}, #{content},#{paragh_postion})
+    </insert>
+<!--根据任务id删除段落内容-->
+    <delete id="deleteContentByTaskId">
+        delete from tb_task_content where task_id = #{task_id}
+    </delete>
+<!--    根据任务id查找段落内容-->
+    <select id="findContentByTaskId" resultType="com.example.tagtool.tagEntity.TaskContent" resultMap="taskContentMap">
+        select *
+        from tb_task_content where task_id = #{task_id}
+    </select>
+</mapper>
+
+
