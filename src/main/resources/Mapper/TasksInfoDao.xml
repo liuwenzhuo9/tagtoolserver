@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.TasksInfoDao">
+    <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
+    <resultMap id="tasksInfoMap" type="com.example.tagtool.tagEntity.TasksInfo">
+        <!-- 结果集的主键 -->
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
+        <result column="leader_account" property="leader_account" jdbcType="VARCHAR"/>
+        <result column="leader_name" property="leader_name" jdbcType="VARCHAR"/>
+        <result column="tfile_path" property="tfile_path" jdbcType="VARCHAR" />
+        <result column="task_name" property="task_name" jdbcType="VARCHAR" />
+        <result column="task_type" property="task_type" jdbcType="VARCHAR" />
+        <result column="task_reward" property="task_reward" jdbcType="VARCHAR" />
+        <result column="task_intro" property="task_intro" jdbcType="VARCHAR" />
+        <result column="task_lable" property="task_lable" jdbcType="VARCHAR" />
+        <result column="member_num" property="member_num" jdbcType="INTEGER" />
+        <result column="member_ability" property="member_ability" jdbcType="VARCHAR" />
+        <result column="member_account" property="member_account" jdbcType="VARCHAR" />
+        <result column="member_finish" property="member_finish" jdbcType="INTEGER" />
+        <result column="sds_name" property="sds_name" jdbcType="VARCHAR" />
+        <result column="sds_path" property="sds_path" jdbcType="VARCHAR" />
+        <result column="is_finished" property="is_finished" jdbcType="INTEGER" />
+        <result column="deadline" property="deadline" jdbcType="VARCHAR" />
+
+    </resultMap>
+    <!--插入任务信息-->
+    <insert id="insertTaskInfo" parameterType="com.example.tagtool.tagEntity.TasksInfo">
+        insert into tb_tasks_info (leader_account,leader_name,tfile_path,task_name,task_type,task_reward,task_intro,task_lable,
+        member_num,member_account,member_ability,member_finish,sds_name,sds_path,deadline,is_finished)
+        values (#{leader_account}, #{leader_name},#{tfile_path},#{task_name}, #{task_type}, #{task_reward}, #{task_intro},#{task_lable},
+        	#{member_num},#{member_account}, #{member_ability}, #{member_finish},#{sds_name}, #{sds_path}, #{deadline},#{is_finished})
+    </insert>
+
+    <!--    查找所有未完成任务展示信息-->
+    <select id="findUnfinishedTasks" resultType="com.example.tagtool.tagEntity.TasksInfo">
+        select id,leader_name,task_name,task_name,task_type,task_reward,task_intro,member_num,member_ability,member_finish,deadline
+        from tb_tasks_info
+        where is_finish = 0
+    </select>
+
+<!--    根据id查询任务所有详细信息-->
+    <select id="findTaskById" resultType="com.example.tagtool.tagEntity.TasksInfo">
+        select *
+        from tb_tasks_info
+        where id = #{id}
+    </select>
+
+<!--    根据任务id查询参与用户账号-->
+    <select id="findMemberAccountByTaskId" resultType="String" parameterType="int">
+        select member_account
+        from tb_tasks_info
+        where id = #{id}
+    </select>
+
+<!--    根据任务id删除任务信息-->
+    <delete id="deleteTaskInfoByTaskId" parameterType="int">
+        delete from tb_tasks_info where id = #{id}
+    </delete>
+    
+<!--    根据任务id更新完成任务的人数-->
+    <update id="updateFinishMemberByTaskId" parameterType="int">
+        update tb_tasks_info set member_finish = #{member_finish} where id = #{id}
+    </update>
+
+<!--    根据任务id更新任务的完成状态-->
+    <update id="updateFinishStateByTaskId" parameterType="int">
+        update tb_tasks_info set is_finished = #{is_finished} where id = #{id}
+    </update>
+
+    <!--根据任务id更新参与人员的账号-->
+    <update id="updateMemberAccountByTaskId" >
+        update tb_tasks_info set member_account = #{member_account} where id = #{id}
+    </update>
+</mapper>
+
+
+    
