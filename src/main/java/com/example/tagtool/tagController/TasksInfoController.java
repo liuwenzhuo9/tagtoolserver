@@ -63,36 +63,48 @@ public class TasksInfoController {
         response.setData(tasksInfoService.deleteTaskInfoByTaskId(id));
         return response;
     }
-//根据任务id更新完成任务的人数
+//根据任务id更新完成任务的人数和任务状态
     @RequestMapping("/updateFinishMemberByTaskId")
     @ResponseBody
     public ResponseBean updateFinishMemberByTaskId(Integer id , Integer member_finish){
-        ResponseBean response = new ResponseBean();
-        response.setMessage("更新成功");
-        response.setData(tasksInfoService.updateFinishMemberByTaskId(id,member_finish));
-        return response;
-    }
-
-//    根据任务id更新任务的完成状态
-    @RequestMapping("/updateFinishStateByTaskId")
-    @ResponseBody
-    public ResponseBean updateFinishStateByTaskId(Integer id){
+        int data = tasksInfoService.updateFinishMemberByTaskId(id,member_finish);
         List<TasksInfo> tasksInfoData = tasksInfoService.findTaskById(id);
         TasksInfo tasksInfo = tasksInfoData.get(0);
         int totalNum = tasksInfo.getMember_num();
         int finishNum = tasksInfo.getMember_finish();
-        if(totalNum > finishNum){
+        if (totalNum > finishNum) {
             ResponseBean response = new ResponseBean();
             response.setMessage("更新成功");
-            response.setData(tasksInfoService.updateFinishStateByTaskId(id,0));
+            response.setData(tasksInfoService.updateFinishStateByTaskId(id, 0));
             return response;
-        }else{
+        } else {
             ResponseBean response = new ResponseBean();
             response.setMessage("更新成功");
-            response.setData(tasksInfoService.updateFinishStateByTaskId(id,1));
+            response.setData(tasksInfoService.updateFinishStateByTaskId(id, 1));
             return response;
         }
     }
+
+//    根据任务id更新任务的完成状态
+//    @RequestMapping("/updateFinishStateByTaskId")
+//    @ResponseBody
+//    public ResponseBean updateFinishStateByTaskId(Integer id){
+//        List<TasksInfo> tasksInfoData = tasksInfoService.findTaskById(id);
+//        TasksInfo tasksInfo = tasksInfoData.get(0);
+//        int totalNum = tasksInfo.getMember_num();
+//        int finishNum = tasksInfo.getMember_finish();
+//        if(totalNum > finishNum){
+//            ResponseBean response = new ResponseBean();
+//            response.setMessage("更新成功");
+//            response.setData(tasksInfoService.updateFinishStateByTaskId(id,0));
+//            return response;
+//        }else{
+//            ResponseBean response = new ResponseBean();
+//            response.setMessage("更新成功");
+//            response.setData(tasksInfoService.updateFinishStateByTaskId(id,1));
+//            return response;
+//        }
+//    }
 
 //    根据任务id更新参与人员的账号
     @RequestMapping("/updateMemberAccountByTaskId")

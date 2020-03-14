@@ -36,7 +36,7 @@
     <select id="findUnfinishedTasks" resultType="com.example.tagtool.tagEntity.TasksInfo">
         select id,leader_name,task_name,task_name,task_type,task_reward,task_intro,member_num,member_ability,member_finish,deadline
         from tb_tasks_info
-        where is_finish = 0
+        where is_finished = 0
     </select>
 
 <!--    根据id查询任务所有详细信息-->

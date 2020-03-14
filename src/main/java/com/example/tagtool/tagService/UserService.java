@@ -5,6 +5,7 @@ import com.example.tagtool.tagEntity.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -13,7 +14,7 @@ public class UserService {
 //    插入人员信息
     public int insertUserInfo(User user){return userDao.insertUserInfo(user);}
 //    根据用户账号查询任务情况
-    public String findTasksByUserAccount(String account){return userDao.findTasksByUserAccount(account);}
+    public List<User> findInfoByUserAccount(String account){return userDao.findInfoByUserAccount(account);}
 //    根据用户账号更新任务情况
     public int updateTasksByUserAccount(String account,String involved_tasks,String finished_tasks,String progress_tasks,String issue_tasks){
         return userDao.updateTasksByUserAccount(account,involved_tasks,finished_tasks,progress_tasks,issue_tasks);
@@ -23,6 +24,6 @@ public class UserService {
         return userDao.updateScoreByUserAccount(account,sds_score,overall_score);
     }
 //    根据用户账号查询成绩
-    public String findScoreByUserAccount(String account){return userDao.findScoreByUserAccount(account);}
+//    public String findScoreByUserAccount(String account){return userDao.findScoreByUserAccount(account);}
 
 }

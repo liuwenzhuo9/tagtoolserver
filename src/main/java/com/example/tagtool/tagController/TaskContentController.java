@@ -29,11 +29,7 @@ public class TaskContentController {
     @ResponseBody
     public ResponseBean deleteContentByTaskId(Integer task_id){
         int data = taskContentService.deleteContentByTaskId(task_id);
-        if(data == 1){
-            return new ResponseBean("删除成功",data);
-        }else{
-            return new ResponseBean("删除失败",data);
-        }
+        return new ResponseBean("删除成功",data);
     }
 //    根据任务id查找段落内容
     @RequestMapping("/findContentByTaskId")

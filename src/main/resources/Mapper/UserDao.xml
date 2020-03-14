@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tagtool.tagDao.UserDao">
     <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
-    <resultMap id="UserMap" type="com.example.tagtool.tagEntity.User">
+    <resultMap id="userMap" type="com.example.tagtool.tagEntity.User">
         <!-- 结果集的主键 -->
         <id column="id" property="id" jdbcType="INTEGER" />
         <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
@@ -20,14 +20,14 @@
     </resultMap>
     <!--插入人员信息-->
     <insert id="insertUserInfo" parameterType="com.example.tagtool.tagEntity.User">
-        insert into tb_tasks_info (name,account,gender,involved_tasks,finished_tasks,progress_tasks,
+        insert into tb_user (name,account,gender,involved_tasks,finished_tasks,progress_tasks,
         sds_score,overall_score)
         values (#{name}, #{account},#{gender},#{involved_tasks},#{finished_tasks},#{progress_tasks},
          #{sds_score},#{overall_score})
     </insert>
-<!--    根据用户账号查询任务情况-->
-    <select id="findTasksByUserAccount" parameterType="String">
-        select involved_tasks,finished_tasks,progress_tasks,issue_tasks
+<!--    根据用户账号查询用户信息-->
+    <select id="findInfoByUserAccount" resultMap="userMap" resultType="com.example.tagtool.tagEntity.User">
+        select *
         from tb_user
         where account =#{account}
     </select>
@@ -43,16 +43,16 @@
 <!--    根据用户账号更新成绩-->
     <update id="updateScoreByUserAccount">
         update tb_user
-        set sds_score = #{sds_score}
+        set sds_score = #{sds_score},
             overall_score = #{overall_score}
         where account = #{account}
     </update>
     <!--    根据用户账号查询成绩-->
-    <select id="findScoreByUserAccount" parameterType="String">
-        select sds_score,overall_score
-        from tb_user
-        where account =#{account}
-    </select>
+<!--    <select id="findScoreByUserAccount" parameterType="String">-->
+<!--        select sds_score,overall_score-->
+<!--        from tb_user-->
+<!--        where account =#{account}-->
+<!--    </select>-->
 
 </mapper>
 

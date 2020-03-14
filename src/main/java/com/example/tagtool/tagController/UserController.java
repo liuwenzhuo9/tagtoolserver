@@ -23,12 +23,12 @@ public class UserController {
         return responseBean;
     }
 //根据用户账号查询任务情况
-    @RequestMapping("/findTasksByUserAccount")
+    @RequestMapping("/findInfoByUserAccount")
     @ResponseBody
-    public ResponseBean findTasksByUserAccount(String account){
+    public ResponseBean findInfoByUserAccount(String account){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setMessage("查询成功");
-        responseBean.setData(userService.findTasksByUserAccount(account));
+        responseBean.setData(userService.findInfoByUserAccount(account));
         return responseBean;
     }
 
@@ -51,12 +51,12 @@ public class UserController {
         return responseBean;
     }
 //    根据用户账号查询成绩
-    @RequestMapping("/findScoreByUserAccount")
-    @ResponseBody
-    public ResponseBean findScoreByUserAccount(String account){
-        ResponseBean responseBean = new ResponseBean();
-        responseBean.setMessage("查询成功");
-        responseBean.setData(userService.findScoreByUserAccount(account));
-        return responseBean;
-    }
+//    @RequestMapping("/findScoreByUserAccount")
+//    @ResponseBody
+//    public ResponseBean findScoreByUserAccount(String account){
+//        ResponseBean responseBean = new ResponseBean();
+//        responseBean.setMessage("查询成功");
+//        responseBean.setData(userService.findScoreByUserAccount(account));
+//        return responseBean;
+//    }
 }
