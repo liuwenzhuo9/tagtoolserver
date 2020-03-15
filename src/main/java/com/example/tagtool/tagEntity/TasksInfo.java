@@ -10,7 +10,8 @@ public class TasksInfo {
     private int id;
     private String leader_account;
     private String leader_name;
-    private String tfile_path;
+//    private String tfile_path;
+    private String tfile_name;
     private String task_name;
     private String task_type;
     private String task_reward;
@@ -77,9 +78,9 @@ public class TasksInfo {
         return task_type;
     }
 
-    public String getTfile_path() {
-        return tfile_path;
-    }
+//    public String getTfile_path() {
+//        return tfile_path;
+//    }
 
     public void setId(int id) {
         this.id = id;
@@ -133,9 +134,9 @@ public class TasksInfo {
         this.task_type = task_type;
     }
 
-    public void setTfile_path(String tfile_path) {
-        this.tfile_path = tfile_path;
-    }
+//    public void setTfile_path(String tfile_path) {
+//        this.tfile_path = tfile_path;
+//    }
 
     public String getTask_intro() {
         return task_intro;
@@ -161,13 +162,22 @@ public class TasksInfo {
         this.member_finish = member_finish;
     }
 
+    public void setTfile_name(String tfile_name) {
+        this.tfile_name = tfile_name;
+    }
+
+    public String getTfile_name() {
+        return tfile_name;
+    }
+
     @Override
     public String toString() {
         return "TasksInfo{" +
                 "id=" + id +
                 ", leader_account='" + leader_account + '\'' +
                 ", leader_name='" + leader_name + '\'' +
-                ", tfile_path='" + tfile_path + '\'' +
+//                ", tfile_path='" + tfile_path + '\'' +
+                ", tfile_name='" + tfile_name + '\'' +
                 ", task_name='" + task_name + '\'' +
                 ", task_type='" + task_type + '\'' +
                 ", task_reward='" + task_reward + '\'' +

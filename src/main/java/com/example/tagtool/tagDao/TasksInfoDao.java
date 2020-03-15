@@ -11,6 +11,8 @@ public interface TasksInfoDao {
     int insertTaskInfo(TasksInfo tasksInfo);
 //    查找所有未完成任务展示信息
     List<TasksInfo> findUnfinishedTasks();
+//    根据任务类型获取未完成任务
+    List<TasksInfo> findTasksByTasksType(String task_type);
 //    根据id查询任务所有详细信息
     List<TasksInfo> findTaskById(Integer id);
 //    根据任务id查询参与用户账号

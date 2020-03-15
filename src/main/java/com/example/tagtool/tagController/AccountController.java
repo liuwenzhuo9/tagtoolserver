@@ -161,15 +161,15 @@ public ResponseBean rePassword(String account, String oldPassword, String newPas
     }
 
 //    删除账号
-    @AuthController(value = AuthLevel.LOGGED,roles = {RoleType.MANAGER_ROLE_ID})
-    @RequestMapping("deleteAccountByAccountAndRole")
+//    @AuthController(value = AuthLevel.LOGGED,roles = {RoleType.MANAGER_ROLE_ID})
+    @RequestMapping("/deleteAccountByAccountAndRole")
     @ResponseBody
     public ResponseBean deleteAccountByAccount(Account account){
         account.setPassword("123456");//若删除失败，则回填入账号表
         account.setName("错误");
         ResponseBean responseBean = new ResponseBean();
         String role = account.getRole();
-        if (role.equals("实验室用户")){
+        if (role.equals("普通用户")){
             int accountResult = accountService.deleteAccount(account.getAccount());
             if (accountResult == 1){
                 responseBean.setMessage("删除成功");

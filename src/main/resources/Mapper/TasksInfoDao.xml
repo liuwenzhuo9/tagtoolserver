@@ -8,7 +8,8 @@
         <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
         <result column="leader_account" property="leader_account" jdbcType="VARCHAR"/>
         <result column="leader_name" property="leader_name" jdbcType="VARCHAR"/>
-        <result column="tfile_path" property="tfile_path" jdbcType="VARCHAR" />
+<!--        <result column="tfile_path" property="tfile_path" jdbcType="VARCHAR" />-->
+<!--        <result column="tfile_name" property="tfile_name" jdbcType="VARCHAR" />-->
         <result column="task_name" property="task_name" jdbcType="VARCHAR" />
         <result column="task_type" property="task_type" jdbcType="VARCHAR" />
         <result column="task_reward" property="task_reward" jdbcType="VARCHAR" />
@@ -26,10 +27,10 @@
     </resultMap>
     <!--插入任务信息-->
     <insert id="insertTaskInfo" parameterType="com.example.tagtool.tagEntity.TasksInfo">
-        insert into tb_tasks_info (leader_account,leader_name,tfile_path,task_name,task_type,task_reward,task_intro,task_lable,
+        insert into tb_tasks_info (leader_account,leader_name,tfile_name,task_name,task_type,task_reward,task_intro,task_lable,
         member_num,member_account,member_ability,member_finish,sds_name,sds_path,deadline,is_finished)
-        values (#{leader_account}, #{leader_name},#{tfile_path},#{task_name}, #{task_type}, #{task_reward}, #{task_intro},#{task_lable},
-        	#{member_num},#{member_account}, #{member_ability}, #{member_finish},#{sds_name}, #{sds_path}, #{deadline},#{is_finished})
+        values (#{leader_account}, #{leader_name},#{tfile_name},#{task_name}, #{task_type}, #{task_reward}, #{task_intro},#{task_lable},
+        	#{member_num},#{member_account}, #{member_ability}, #{member_finish}, #{sds_name}, #{sds_path}, #{deadline},#{is_finished})
     </insert>
 
     <!--    查找所有未完成任务展示信息-->
@@ -37,6 +38,12 @@
         select id,leader_name,task_name,task_name,task_type,task_reward,task_intro,member_num,member_ability,member_finish,deadline
         from tb_tasks_info
         where is_finished = 0
+    </select>
+
+<!--    根据任务类型获取未完成任务-->
+    <select id="findTasksByTasksType" resultType="com.example.tagtool.tagEntity.TasksInfo">
+        select * from tb_tasks_info
+        where task_type = #{task_type} and is_finished = 0
     </select>
 
 <!--    根据id查询任务所有详细信息-->

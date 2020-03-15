@@ -35,6 +35,15 @@ public class TasksInfoController {
         response.setData(tasksInfoService.findUnfinishedTasks());
         return response;
     }
+//    根据任务类型获取未完成任务
+    @RequestMapping("/findTasksByTasksType")
+    @ResponseBody
+    public ResponseBean findTasksByTasksType(String task_type){
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(tasksInfoService.findTasksByTasksType(task_type));
+        return response;
+    }
     //    根据id查询任务所有详细信息
     @RequestMapping("/findTaskById")
     @ResponseBody

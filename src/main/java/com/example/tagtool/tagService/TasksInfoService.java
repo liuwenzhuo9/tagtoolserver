@@ -15,6 +15,8 @@ public class TasksInfoService {
     public int insertTaskInfo(TasksInfo tasksInfo){return tasksInfoDao.insertTaskInfo(tasksInfo);}
 //    查找所有未完成任务展示信息
     public List<TasksInfo> findUnfinishedTasks(){return tasksInfoDao.findUnfinishedTasks();}
+//    根据任务类型获取未完成任务
+    public List<TasksInfo> findTasksByTasksType(String task_type){return tasksInfoDao.findTasksByTasksType(task_type);}
 //    根据id查询任务所有详细信息
     public List<TasksInfo> findTaskById(Integer id){return tasksInfoDao.findTaskById(id);}
 //    根据任务id查询参与用户账号
