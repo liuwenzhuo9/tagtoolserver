@@ -79,6 +79,13 @@
     <update id="updateMemberAccountByTaskId" >
         update tb_tasks_info set member_account = #{member_account} where id = #{id}
     </update>
+
+<!--    根据任务名称获取任务id-->
+    <select id="findTaskIdByTaskName" resultType="int">
+        select id
+        from tb_tasks_info
+        where task_name = #{task_name}
+    </select>
 </mapper>
 
 

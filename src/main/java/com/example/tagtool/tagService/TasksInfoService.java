@@ -29,4 +29,6 @@ public class TasksInfoService {
     public int updateFinishStateByTaskId(Integer id,Integer is_finished){return tasksInfoDao.updateFinishStateByTaskId(id,is_finished);}
 //    根据任务id更新参与人员的账号
     public int updateMemberAccountByTaskId(Integer id,String member_account){return tasksInfoDao.updateMemberAccountByTaskId(id,member_account);}
+//    根据任务名称获取任务id
+    public int findTaskIdByTaskName(String task_name){return tasksInfoDao.findTaskIdByTaskName(task_name);}
 }

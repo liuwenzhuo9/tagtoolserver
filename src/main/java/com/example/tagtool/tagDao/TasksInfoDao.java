@@ -25,4 +25,6 @@ public interface TasksInfoDao {
     int updateFinishStateByTaskId(Integer id,Integer is_finished);
 //    根据任务id更新参与人员的账号
     int updateMemberAccountByTaskId(Integer id,String member_account);
+//    根据任务名称获取任务id
+    int findTaskIdByTaskName(String task_name);
 }

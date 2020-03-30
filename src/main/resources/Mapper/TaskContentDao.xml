@@ -7,6 +7,7 @@
         <id column="id" property="id" jdbcType="INTEGER" />
         <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
         <result column="task_id" property="task_id" jdbcType="INTEGER"/>
+        <result column="task_name" property="task_name" jdbcType="VARCHAR"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="paragh_postion" property="paragh_postion" jdbcType="INTEGER" />
 
@@ -14,8 +15,8 @@
     </resultMap>
     <!--插入任务具体段落内容-->
     <insert id="insertTaskContent" parameterType="com.example.tagtool.tagEntity.TaskContent">
-        insert into tb_task_content (task_id,content,paragh_postion)
-        values (#{task_id}, #{content},#{paragh_postion})
+        insert into tb_task_content (task_id,content,paragh_postion,task_name)
+        values (#{task_id}, #{content},#{par    agh_postion},#{task_name})
     </insert>
 <!--根据任务id删除段落内容-->
     <delete id="deleteContentByTaskId">

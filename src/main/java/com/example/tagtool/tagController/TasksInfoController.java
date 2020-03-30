@@ -124,4 +124,13 @@ public class TasksInfoController {
         reponse.setData(tasksInfoService.updateMemberAccountByTaskId(id,member_account));
         return reponse;
     }
+//    根据任务名称获取任务id
+    @RequestMapping("/findTaskIdByTaskName")
+    @ResponseBody
+    public ResponseBean findTaskIdByTaskName(String task_name){
+        ResponseBean reponse = new ResponseBean();
+        reponse.setMessage("查询成功");
+        reponse.setData(tasksInfoService.findTaskIdByTaskName(task_name));
+        return reponse;
+    }
 }

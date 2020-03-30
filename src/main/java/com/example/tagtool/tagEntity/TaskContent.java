@@ -11,6 +11,7 @@ public class TaskContent {
     private int task_id;
     private String content;
     private int paragh_postion;
+    private String task_name;
 
     public int getId() {
         return id;
@@ -44,11 +45,20 @@ public class TaskContent {
         this.task_id = task_id;
     }
 
+    public void setTask_name(String task_name) {
+        this.task_name = task_name;
+    }
+
+    public String getTask_name() {
+        return task_name;
+    }
+
     @Override
     public String toString(){
         return "TaskContent{" +
                 "id=" + id +
                 ",task_id=" + task_id +
+                ", task_name='" + task_name + '\'' +
                 ", content='" + content + '\'' +
                 ",paragh_postion=" + paragh_postion +
                 '}';
