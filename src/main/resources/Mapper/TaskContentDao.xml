@@ -9,14 +9,14 @@
         <result column="task_id" property="task_id" jdbcType="INTEGER"/>
         <result column="task_name" property="task_name" jdbcType="VARCHAR"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
-        <result column="paragh_postion" property="paragh_postion" jdbcType="INTEGER" />
+        <result column="paragraph_position" property="paragraph_position" jdbcType="INTEGER" />
 
 
     </resultMap>
     <!--插入任务具体段落内容-->
     <insert id="insertTaskContent" parameterType="com.example.tagtool.tagEntity.TaskContent">
-        insert into tb_task_content (task_id,content,paragh_postion,task_name)
-        values (#{task_id}, #{content},#{par    agh_postion},#{task_name})
+        insert into tb_task_content (task_id,content,paragraph_position,task_name)
+        values (#{task_id}, #{content},#{paragraph_position},#{task_name})
     </insert>
 <!--根据任务id删除段落内容-->
     <delete id="deleteContentByTaskId">

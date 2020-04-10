@@ -10,7 +10,7 @@ public class TaskContent {
     private int id;
     private int task_id;
     private String content;
-    private int paragh_postion;
+    private int paragraph_position;
     private String task_name;
 
     public int getId() {
@@ -21,8 +21,12 @@ public class TaskContent {
         this.id = id;
     }
 
-    public int getParagh_postion() {
-        return paragh_postion;
+    public int getParagraph_position() {
+        return paragraph_position;
+    }
+
+    public void setParagraph_position(int paragraph_position) {
+        this.paragraph_position = paragraph_position;
     }
 
     public int getTask_id() {
@@ -35,10 +39,6 @@ public class TaskContent {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public void setParagh_postion(int paragh_postion) {
-        this.paragh_postion = paragh_postion;
     }
 
     public void setTask_id(int task_id) {
@@ -60,7 +60,7 @@ public class TaskContent {
                 ",task_id=" + task_id +
                 ", task_name='" + task_name + '\'' +
                 ", content='" + content + '\'' +
-                ",paragh_postion=" + paragh_postion +
+                ",paragraph_position=" + paragraph_position +
                 '}';
     }
 }

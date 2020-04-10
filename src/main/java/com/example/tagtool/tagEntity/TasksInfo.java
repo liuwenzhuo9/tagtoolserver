@@ -183,13 +183,13 @@ public class TasksInfo {
                 ", task_reward='" + task_reward + '\'' +
                 ", task_intro='" + task_intro + '\'' +
                 ", task_lable='" + task_lable + '\'' +
-                ", member_num='" + member_num +
+                ", member_num=" + member_num +
                 ", member_ability='" + member_ability + '\'' +
                 ", member_account='" + member_account + '\'' +
                 ", member_finish='" + member_finish +
                 ", sds_name='" + sds_name + '\'' +
                 ", sds_path='" + sds_path + '\'' +
-                ", is_finished='" + is_finished +
+                ", is_finished=" + is_finished +
                 ", deadline='" + deadline + '\'' +
                 '}';
     }

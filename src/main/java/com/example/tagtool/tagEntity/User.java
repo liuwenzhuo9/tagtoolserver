@@ -102,15 +102,15 @@ public class User {
     public String toString(){
         return "User{" +
                 "id=" + id +
-                ", name='" + name +
-                ", account='" + account +
-                ", gender='" + gender +
-                ", involved_tasks='" + involved_tasks +
-                ", finished_tasks='" + finished_tasks +
-                ", progress_tasks='" + progress_tasks +
-                ", issue_tasks='" + issue_tasks +
-                ", sds_score='" + sds_score +
-                ", overall_score='" + overall_score +
+                ", name='" + name + '\'' +
+                ", account='" + account + '\'' +
+                ", gender='" + gender + '\'' +
+                ", involved_tasks='" + involved_tasks + '\'' +
+                ", finished_tasks='" + finished_tasks + '\'' +
+                ", progress_tasks='" + progress_tasks + '\'' +
+                ", issue_tasks='" + issue_tasks + '\'' +
+                ", sds_score='" + sds_score + '\'' +
+                ", overall_score='" + overall_score + '\'' +
                 '}';
     }
 }
