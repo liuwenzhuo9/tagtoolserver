@@ -3,7 +3,7 @@ package com.example.tagtool.tagEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_taskContent")
+@Table(name = "tb_task_content")
 public class TaskContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

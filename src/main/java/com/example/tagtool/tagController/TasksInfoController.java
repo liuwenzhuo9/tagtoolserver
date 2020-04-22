@@ -19,8 +19,9 @@ public class TasksInfoController {
     @ResponseBody
     public ResponseBean insertTaskInfo(TasksInfo tasksInfo){
         int data = tasksInfoService.insertTaskInfo(tasksInfo);
+        int dataId = tasksInfoService.findTaskIdByTaskName(tasksInfo.getTask_name());
         if(data == 1){
-            return new ResponseBean("插入成功",data);
+            return new ResponseBean("插入成功",dataId);
         }else{
             return new ResponseBean("插入失败",data);
         }
@@ -119,18 +120,18 @@ public class TasksInfoController {
     @RequestMapping("/updateMemberAccountByTaskId")
     @ResponseBody
     public ResponseBean updateMemberAccountByTaskId(Integer id,String member_account){
-        ResponseBean reponse = new ResponseBean();
-        reponse.setMessage("更新成功");
-        reponse.setData(tasksInfoService.updateMemberAccountByTaskId(id,member_account));
-        return reponse;
+        ResponseBean response = new ResponseBean();
+        response.setMessage("更新成功");
+        response.setData(tasksInfoService.updateMemberAccountByTaskId(id,member_account));
+        return response;
     }
 //    根据任务名称获取任务id
     @RequestMapping("/findTaskIdByTaskName")
     @ResponseBody
     public ResponseBean findTaskIdByTaskName(String task_name){
-        ResponseBean reponse = new ResponseBean();
-        reponse.setMessage("查询成功");
-        reponse.setData(tasksInfoService.findTaskIdByTaskName(task_name));
-        return reponse;
+        ResponseBean response = new ResponseBean();
+        response.setMessage("查询成功");
+        response.setData(tasksInfoService.findTaskIdByTaskName(task_name));
+        return response;
     }
 }

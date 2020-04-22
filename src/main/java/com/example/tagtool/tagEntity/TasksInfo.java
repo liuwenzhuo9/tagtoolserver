@@ -3,7 +3,7 @@ package com.example.tagtool.tagEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_tasksInfo")
+@Table(name = "tb_tasks_info")
 public class TasksInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +16,7 @@ public class TasksInfo {
     private String task_type;
     private String task_reward;
     private String task_intro;
-    private String task_lable;
+    private String task_label;
     private int member_num;
     private String member_ability;
     private int member_finish;
@@ -46,8 +46,8 @@ public class TasksInfo {
         return sds_name;
     }
 
-    public String getTask_lable() {
-        return task_lable;
+    public String getTask_label() {
+        return task_label;
     }
 
     public String getLeader_account() {
@@ -106,8 +106,8 @@ public class TasksInfo {
         this.sds_name = sds_name;
     }
 
-    public void setTask_lable(String task_lable) {
-        this.task_lable = task_lable;
+    public void setTask_label(String task_label) {
+        this.task_label = task_label;
     }
 
     public void setSds_path(String sds_path) {
@@ -182,7 +182,7 @@ public class TasksInfo {
                 ", task_type='" + task_type + '\'' +
                 ", task_reward='" + task_reward + '\'' +
                 ", task_intro='" + task_intro + '\'' +
-                ", task_lable='" + task_lable + '\'' +
+                ", task_label='" + task_label + '\'' +
                 ", member_num=" + member_num +
                 ", member_ability='" + member_ability + '\'' +
                 ", member_account='" + member_account + '\'' +

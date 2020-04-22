@@ -1,7 +1,6 @@
 package com.example.tagtool.tagDao;
 
 import com.example.tagtool.tagEntity.TaskContent;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,4 +13,6 @@ public interface TaskContentDao {
     int deleteContentByTaskId(Integer task_id);
 //    根据任务id查找段落内容
     List<TaskContent> findContentByTaskId(Integer task_id);
+    int findParagraphNumByTaskId(Integer task_id);
+    String findContentByParagraphId(Integer id);
 }

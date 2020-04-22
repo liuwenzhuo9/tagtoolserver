@@ -14,7 +14,7 @@
         <result column="task_type" property="task_type" jdbcType="VARCHAR" />
         <result column="task_reward" property="task_reward" jdbcType="VARCHAR" />
         <result column="task_intro" property="task_intro" jdbcType="VARCHAR" />
-        <result column="task_lable" property="task_lable" jdbcType="VARCHAR" />
+        <result column="task_label" property="task_label" jdbcType="VARCHAR" />
         <result column="member_num" property="member_num" jdbcType="INTEGER" />
         <result column="member_ability" property="member_ability" jdbcType="VARCHAR" />
         <result column="member_account" property="member_account" jdbcType="VARCHAR" />
@@ -27,15 +27,15 @@
     </resultMap>
     <!--插入任务信息-->
     <insert id="insertTaskInfo" parameterType="com.example.tagtool.tagEntity.TasksInfo">
-        insert into tb_tasks_info (leader_account,leader_name,tfile_name,task_name,task_type,task_reward,task_intro,task_lable,
+        insert into tb_tasks_info (leader_account,leader_name,tfile_name,task_name,task_type,task_reward,task_intro,task_label,
         member_num,member_account,member_ability,member_finish,sds_name,sds_path,deadline,is_finished)
-        values (#{leader_account}, #{leader_name},#{tfile_name},#{task_name}, #{task_type}, #{task_reward}, #{task_intro},#{task_lable},
+        values (#{leader_account}, #{leader_name},#{tfile_name},#{task_name}, #{task_type}, #{task_reward}, #{task_intro},#{task_label},
         	#{member_num},#{member_account}, #{member_ability}, #{member_finish}, #{sds_name}, #{sds_path}, #{deadline},#{is_finished})
     </insert>
 
     <!--    查找所有未完成任务展示信息-->
     <select id="findUnfinishedTasks" resultType="com.example.tagtool.tagEntity.TasksInfo">
-        select id,leader_name,task_name,task_name,task_type,task_reward,task_intro,member_num,member_ability,member_finish,deadline
+        select *
         from tb_tasks_info
         where is_finished = 0
     </select>
@@ -77,7 +77,7 @@
 
     <!--根据任务id更新参与人员的账号-->
     <update id="updateMemberAccountByTaskId" >
-        update tb_tasks_info set member_account = #{member_account} where id = #{id}
+        update tb_tasks_info set member_account =#{member_account} where id = #{id}
     </update>
 
 <!--    根据任务名称获取任务id-->

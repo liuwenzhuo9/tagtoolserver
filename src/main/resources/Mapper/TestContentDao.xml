@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.TestContentDao">
+    <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
+    <resultMap id="taskContentMap" type="com.example.tagtool.tagEntity.TestContent">
+        <!-- 结果集的主键 -->
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
+        <result column="task_id" property="task_id" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="test_label" property="test_label" jdbcType="VARCHAR"/>
+        <result column="paragraph_position" property="paragraph_position" jdbcType="VARCHAR" />
+
+
+    </resultMap>
+    <!--插入测试集具体段落内容-->
+    <insert id="insertTestContent" parameterType="com.example.tagtool.tagEntity.TestContent">
+        insert into tb_test_content (task_id,content,paragraph_position,test_label)
+        values (#{task_id}, #{content},#{paragraph_position},#{test_label})
+    </insert>
+    <!--根据任务id删除测试集段落内容-->
+    <delete id="deleteTestContentByTaskId">
+        delete from tb_test_content where task_id = #{task_id}
+    </delete>
+    <!--    根据任务id查找测试集段落内容-->
+    <select id="findTestContentByTaskId" resultType="com.example.tagtool.tagEntity.TestContent" resultMap="taskContentMap">
+        select *
+        from tb_test_content
+        where task_id = #{task_id}
+        order by paragraph_position
+    </select>
+    <!--    根据任务id查询测试集一共有多少个段落-->
+    <select id="findTestParagraphNumByTaskId" resultType="Int">
+        select count(*)
+        from tb_test_content where task_id = #{task_id}
+    </select>
+    <!--根据段落id查询测试集段落内容-->
+    <select id="findTestContentByParagraphId" resultType="String" parameterType="Int">
+        select content
+        from tb_test_content
+        where id = #{id}
+    </select>
+<!--    根据任务id和段落位置更新测试集结果-->
+    <update id="updateRightLabel">
+        update tb_test_content set test_label = #{test_label} where task_id = #{task_id} and paragraph_position=#{paragraph_position}
+    </update>
+</mapper>
+
+

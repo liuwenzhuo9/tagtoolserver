@@ -10,7 +10,6 @@ public class User {
     private int id;
     private String name;
     private String account;
-    private String gender;
     private String involved_tasks;
     private String finished_tasks;
     private String progress_tasks;
@@ -32,10 +31,6 @@ public class User {
 
     public String getFinished_tasks() {
         return finished_tasks;
-    }
-
-    public String getGender() {
-        return gender;
     }
 
     public String getInvolved_tasks() {
@@ -64,10 +59,6 @@ public class User {
 
     public void setFinished_tasks(String finished_tasks) {
         this.finished_tasks = finished_tasks;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public void setInvolved_tasks(String involved_tasks) {
@@ -104,7 +95,6 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", account='" + account + '\'' +
-                ", gender='" + gender + '\'' +
                 ", involved_tasks='" + involved_tasks + '\'' +
                 ", finished_tasks='" + finished_tasks + '\'' +
                 ", progress_tasks='" + progress_tasks + '\'' +

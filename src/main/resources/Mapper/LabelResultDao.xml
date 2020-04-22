@@ -37,4 +37,40 @@
         from tb_label_result
         where task_id = #{task_id} and paragraph_id = #{paragraph_id}
     </select>
+    <!--    根据任务id和用户account查询已标注的段落-->
+    <select id="findFinishParagraphNumByTaskId" resultType="Int" parameterType="com.example.tagtool.tagEntity.LabelResult">
+        select count(*)
+        from tb_label_result
+        where label_result is not null  and label_result &lt;&gt; '' and task_id = #{task_id} and user_account = #{user_account}
+    </select>
+<!--    根据任务id和用户account查询第一条未被标记的段落id，返回labelResult中的id和paragraph_position-->
+    <select id="findFirstUnfinishedParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
+        select *
+        from tb_label_result
+        where (label_result is null  or label_result = '') and task_id = #{task_id} and user_account = #{user_account}
+        order by paragraph_position
+        Limit 0,1
+    </select>
+<!--    根据任务id、用户账号、当前段落位置找到下一条未被标记的段落,返回labelResult中的id和paragraph_position-->
+    <select id="findNextUnfinishedParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
+        select *
+        from tb_label_result
+        where (label_result is null  or label_result = '') and task_id = #{task_id} and user_account = #{user_account} and paragraph_position &gt; #{paragraph_position}
+        order by paragraph_position
+        Limit 0,1
+    </select>
+    <!--    根据任务id、用户账号、当前段落位置找到上一条未被标记的段落,返回labelResult中的id和paragraph_position-->
+    <select id="findLastUnfinishedParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
+        select *
+        from tb_label_result
+        where (label_result is null  or label_result = '') and task_id = #{task_id} and user_account = #{user_account} and paragraph_position &lt; #{paragraph_position}
+        order by paragraph_position desc
+        Limit 0,1
+    </select>
+    <!--    根据结果id查询标注结果-->
+    <select id="findLabelResultById" resultType="com.example.tagtool.tagEntity.LabelResult">
+        select *
+        from tb_label_result
+        where id=#{id}
+    </select>
 </mapper>

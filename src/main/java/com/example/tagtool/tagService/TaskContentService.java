@@ -17,4 +17,6 @@ public class TaskContentService {
     public int deleteContentByTaskId(Integer task_id){return taskContentDao.deleteContentByTaskId(task_id);}
 //    根据任务id查找段落内容
     public List<TaskContent> findContentByTaskId(Integer task_id){return taskContentDao.findContentByTaskId(task_id);}
+    public int findParagraphNumByTaskId(Integer task_id){return taskContentDao.findParagraphNumByTaskId(task_id);}
+    public String findContentByParagraphId(Integer id){return taskContentDao.findContentByParagraphId(id);}
 }

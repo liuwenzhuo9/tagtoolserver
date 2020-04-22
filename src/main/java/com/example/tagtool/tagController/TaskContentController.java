@@ -40,4 +40,20 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+    @RequestMapping("/findParagraphNumByTaskId")
+    @ResponseBody
+    public ResponseBean findParagraphNumByTaskId(Integer task_id){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.findParagraphNumByTaskId(task_id));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+    @RequestMapping("/findContentByParagraphId")
+    @ResponseBody
+    public ResponseBean findContentByParagraphId(Integer id){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.findContentByParagraphId(id));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
 }

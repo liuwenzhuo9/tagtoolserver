@@ -8,7 +8,6 @@
         <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="account" property="account" jdbcType="VARCHAR"/>
-        <result column="gender" property="gender" jdbcType="VARCHAR" />
         <result column="involved_tasks" property="involved_tasks" jdbcType="VARCHAR" />
         <result column="finished_tasks" property="finished_tasks" jdbcType="VARCHAR" />
         <result column="progress_tasks" property="progress_tasks" jdbcType="VARCHAR" />
@@ -20,9 +19,9 @@
     </resultMap>
     <!--插入人员信息-->
     <insert id="insertUserInfo" parameterType="com.example.tagtool.tagEntity.User">
-        insert into tb_user (name,account,gender,involved_tasks,finished_tasks,progress_tasks,
+        insert into tb_user (name,account,involved_tasks,finished_tasks,progress_tasks,
         sds_score,overall_score)
-        values (#{name}, #{account},#{gender},#{involved_tasks},#{finished_tasks},#{progress_tasks},
+        values (#{name}, #{account},#{involved_tasks},#{finished_tasks},#{progress_tasks},
          #{sds_score},#{overall_score})
     </insert>
 <!--    根据用户账号查询用户信息-->

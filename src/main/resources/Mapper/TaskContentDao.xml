@@ -25,7 +25,20 @@
 <!--    根据任务id查找段落内容-->
     <select id="findContentByTaskId" resultType="com.example.tagtool.tagEntity.TaskContent" resultMap="taskContentMap">
         select *
+        from tb_task_content
+        where task_id = #{task_id}
+        order by paragraph_position
+    </select>
+<!--    根据任务id查询任务一共有多少个段落-->
+    <select id="findParagraphNumByTaskId" resultType="Int">
+        select count(*)
         from tb_task_content where task_id = #{task_id}
+    </select>
+<!--根据段落id查询段落内容-->
+    <select id="findContentByParagraphId" resultType="String" parameterType="Int">
+        select content
+        from tb_task_content
+        where id = #{id}
     </select>
 </mapper>
 
