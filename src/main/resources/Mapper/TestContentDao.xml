@@ -10,13 +10,13 @@
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="test_label" property="test_label" jdbcType="VARCHAR"/>
         <result column="paragraph_position" property="paragraph_position" jdbcType="VARCHAR" />
-
+        <result column="task_type" property="task_type" jdbcType="INTEGER"/>
 
     </resultMap>
     <!--插入测试集具体段落内容-->
     <insert id="insertTestContent" parameterType="com.example.tagtool.tagEntity.TestContent">
-        insert into tb_test_content (task_id,content,paragraph_position,test_label)
-        values (#{task_id}, #{content},#{paragraph_position},#{test_label})
+        insert into tb_test_content (task_id,content,paragraph_position,test_label,task_type)
+        values (#{task_id}, #{content},#{paragraph_position},#{test_label},#{task_type})
     </insert>
     <!--根据任务id删除测试集段落内容-->
     <delete id="deleteTestContentByTaskId">

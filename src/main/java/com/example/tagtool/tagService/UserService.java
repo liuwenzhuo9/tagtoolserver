@@ -19,6 +19,9 @@ public class UserService {
     public int updateTasksByUserAccount(String account,String involved_tasks,String finished_tasks,String progress_tasks,String issue_tasks){
         return userDao.updateTasksByUserAccount(account,involved_tasks,finished_tasks,progress_tasks,issue_tasks);
     }
+    public int updateJoinTasksByUserAccount(String account,String involved_tasks,String progress_tasks){
+        return userDao.updateJoinTasksByUserAccount(account, involved_tasks, progress_tasks);
+    }
 //    根据用户账号更新成绩
     public int updateScoreByUserAccount(String account,String sds_score,String overall_score){
         return userDao.updateScoreByUserAccount(account,sds_score,overall_score);

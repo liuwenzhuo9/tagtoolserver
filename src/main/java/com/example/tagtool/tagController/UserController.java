@@ -41,6 +41,14 @@ public class UserController {
         responseBean.setData(userService.updateTasksByUserAccount(account,involved_tasks,finished_tasks,progress_tasks,issue_tasks));
         return responseBean;
     }
+    @RequestMapping("/updateJoinTasksByUserAccount")
+    @ResponseBody
+    public ResponseBean updateJoinTasksByUserAccount(String account,String involved_tasks,String progress_tasks){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("更新成功");
+        responseBean.setData(userService.updateJoinTasksByUserAccount(account,involved_tasks,progress_tasks));
+        return responseBean;
+    }
 //    根据用户账号更新成绩
     @RequestMapping("/updateScoreByUserAccount")
     @ResponseBody

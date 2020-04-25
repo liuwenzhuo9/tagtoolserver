@@ -12,6 +12,7 @@ public class TestContent {
     private String content;
     private String paragraph_position;
     private String test_label;
+    private int task_type;
 
     public int getId() {
         return id;
@@ -33,6 +34,10 @@ public class TestContent {
         return test_label;
     }
 
+    public int getTask_type() {
+        return task_type;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
@@ -52,14 +57,20 @@ public class TestContent {
     public void setTest_label(String test_label) {
         this.test_label = test_label;
     }
+
+    public void setTask_type(int task_type) {
+        this.task_type = task_type;
+    }
+
     @Override
     public String toString(){
-        return "TaskContent{" +
+        return "TestContent{" +
                 "id=" + id +
                 ",task_id=" + task_id +
                 ", content='" + content + '\'' +
                 ", paragraph_position='" + paragraph_position + '\'' +
                 ",test_label=" + test_label + '\'' +
+                ",task_type=" + task_type + '\'' +
                 '}';
     }
 }

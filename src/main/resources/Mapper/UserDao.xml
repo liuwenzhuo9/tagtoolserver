@@ -39,6 +39,13 @@
             issue_tasks = #{issue_tasks}
          where account =#{account}
     </update>
+    <!--    当用户发布任务时，根据用户账号更新参与任务和进行的任务情况-->
+    <update id="updateJoinTasksByUserAccount">
+        update tb_user
+        set involved_tasks = #{involved_tasks},
+            progress_tasks = #{progress_tasks}
+         where account =#{account}
+    </update>
 <!--    根据用户账号更新成绩-->
     <update id="updateScoreByUserAccount">
         update tb_user
