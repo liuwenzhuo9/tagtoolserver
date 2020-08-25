@@ -78,48 +78,48 @@ public class AccountController {
     }
 
 //    修改密码
-@AuthController(value = AuthLevel.LOGGED,roles = {RoleType.MANAGER_ROLE_ID,RoleType.USER_ROLE_ID})
-@RequestMapping(value="/rePassword",method= RequestMethod.POST)
-@ResponseBody
-public ResponseBean rePassword(String account, String oldPassword, String newPassword,HttpSession session){
-    ResponseBean responseBean = new ResponseBean();
-    int accountNumber = accountService.findAccountNumberByAccount(account);
-    if (accountNumber==0){
-        responseBean.setMessage("账号错误");
-        responseBean.setData(0);
-        return responseBean;
-    }
-    Account user = (Account) session.getAttribute("account");
-    if(user == null) {
-        responseBean.setMessage("未登录");
-        responseBean.setData(0);
-        return responseBean;
-    }else if(!user.getAccount().equals(account)){
-        responseBean.setMessage("只能修改自己的密码");
-        responseBean.setData(0);
-        return responseBean;
-    }
-    Account accountNow = accountService.findAccountByAccount(account);
-    String dPassword = null;
-    String nPassword = null;
-    dPassword = AesEncryptUtil.decrypt(oldPassword);
-    nPassword = AesEncryptUtil.decrypt(newPassword);
-    if (accountNow.getPassword().equals(Md5Encrypt.string1MD5(dPassword))){
-        accountNow.setPassword(Md5Encrypt.string1MD5(nPassword));
-        int data = accountService.updatePassword(accountNow);
-        if (data == 1){
-            responseBean.setMessage("修改成功");
-            responseBean.setData(1);
+    @AuthController(value = AuthLevel.LOGGED,roles = {RoleType.MANAGER_ROLE_ID,RoleType.USER_ROLE_ID})
+    @RequestMapping(value="/rePassword",method= RequestMethod.POST)
+    @ResponseBody
+    public ResponseBean rePassword(String account, String oldPassword, String newPassword,HttpSession session){
+        ResponseBean responseBean = new ResponseBean();
+        int accountNumber = accountService.findAccountNumberByAccount(account);
+        if (accountNumber==0){
+            responseBean.setMessage("账号错误");
+            responseBean.setData(0);
+            return responseBean;
+        }
+        Account user = (Account) session.getAttribute("account");
+        if(user == null) {
+            responseBean.setMessage("未登录");
+            responseBean.setData(0);
+            return responseBean;
+        }else if(!user.getAccount().equals(account)){
+            responseBean.setMessage("只能修改自己的密码");
+            responseBean.setData(0);
+            return responseBean;
+        }
+        Account accountNow = accountService.findAccountByAccount(account);
+        String dPassword = null;
+        String nPassword = null;
+        dPassword = AesEncryptUtil.decrypt(oldPassword);
+        nPassword = AesEncryptUtil.decrypt(newPassword);
+        if (accountNow.getPassword().equals(Md5Encrypt.string1MD5(dPassword))){
+            accountNow.setPassword(Md5Encrypt.string1MD5(nPassword));
+            int data = accountService.updatePassword(accountNow);
+            if (data == 1){
+                responseBean.setMessage("修改成功");
+                responseBean.setData(1);
+            }else{
+                responseBean.setMessage("修改失败");
+                responseBean.setData(0);
+            }
         }else{
-            responseBean.setMessage("修改失败");
+            responseBean.setMessage("密码错误");
             responseBean.setData(0);
         }
-    }else{
-        responseBean.setMessage("密码错误");
-        responseBean.setData(0);
-    }
-    return responseBean;
-    }
+        return responseBean;
+        }
 
     //插入账号
     @RequestMapping("/insertAccount")
@@ -184,4 +184,14 @@ public ResponseBean rePassword(String account, String oldPassword, String newPas
         }
         return responseBean;
     }
+
+    @RequestMapping("/findAccountByAccount")
+    @ResponseBody
+    public ResponseBean findAccountByAccount(String account){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(accountService.findAccountByAccount(account));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+
 }

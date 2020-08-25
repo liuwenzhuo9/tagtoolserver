@@ -22,9 +22,15 @@ public class UserService {
     public int updateJoinTasksByUserAccount(String account,String involved_tasks,String progress_tasks){
         return userDao.updateJoinTasksByUserAccount(account, involved_tasks, progress_tasks);
     }
+    public int updateFinishTasksByUserAccount(String account,String progress_tasks,String finished_tasks){
+        return userDao.updateFinishTasksByUserAccount(account, progress_tasks, finished_tasks);
+    }
 //    根据用户账号更新成绩
     public int updateScoreByUserAccount(String account,String sds_score,String overall_score){
         return userDao.updateScoreByUserAccount(account,sds_score,overall_score);
+    }
+    public int deleteUser(String account){
+        return userDao.deleteUser(account);
     }
 //    根据用户账号查询成绩
 //    public String findScoreByUserAccount(String account){return userDao.findScoreByUserAccount(account);}

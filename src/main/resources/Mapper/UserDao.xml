@@ -46,6 +46,13 @@
             progress_tasks = #{progress_tasks}
          where account =#{account}
     </update>
+<!--    当用户完成任务时，根据用户账号更新已完成的任务情况-->
+    <update id="updateFinishTasksByUserAccount">
+        update tb_user
+        set progress_tasks = #{progress_tasks},
+            finished_tasks = #{finished_tasks}
+         where account =#{account}
+    </update>
 <!--    根据用户账号更新成绩-->
     <update id="updateScoreByUserAccount">
         update tb_user
@@ -53,6 +60,12 @@
             overall_score = #{overall_score}
         where account = #{account}
     </update>
+<!--    根据用户账号删除user信息-->
+    <delete id="deleteUser">
+        delete
+        from tb_user
+        where account = #{account}
+    </delete>
     <!--    根据用户账号查询成绩-->
 <!--    <select id="findScoreByUserAccount" parameterType="String">-->
 <!--        select sds_score,overall_score-->

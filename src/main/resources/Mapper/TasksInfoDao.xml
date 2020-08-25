@@ -21,6 +21,7 @@
         <result column="member_finish" property="member_finish" jdbcType="INTEGER" />
         <result column="sds_name" property="sds_name" jdbcType="VARCHAR" />
         <result column="sds_path" property="sds_path" jdbcType="VARCHAR" />
+        <result column="sds_pos" property="sds_pos" jdbcType="VARCHAR" />
         <result column="is_finished" property="is_finished" jdbcType="INTEGER" />
         <result column="deadline" property="deadline" jdbcType="VARCHAR" />
 
@@ -28,9 +29,9 @@
     <!--插入任务信息-->
     <insert id="insertTaskInfo" parameterType="com.example.tagtool.tagEntity.TasksInfo">
         insert into tb_tasks_info (leader_account,leader_name,tfile_name,task_name,task_type,task_reward,task_intro,task_label,
-        member_num,member_account,member_ability,member_finish,sds_name,sds_path,deadline,is_finished)
+        member_num,member_account,member_ability,member_finish,sds_name,sds_path,sds_pos,deadline,is_finished)
         values (#{leader_account}, #{leader_name},#{tfile_name},#{task_name}, #{task_type}, #{task_reward}, #{task_intro},#{task_label},
-        	#{member_num},#{member_account}, #{member_ability}, #{member_finish}, #{sds_name}, #{sds_path}, #{deadline},#{is_finished})
+        	#{member_num},#{member_account}, #{member_ability}, #{member_finish}, #{sds_name}, #{sds_path},  #{sds_pos},#{deadline},#{is_finished})
     </insert>
 
     <!--    查找所有未完成任务展示信息-->

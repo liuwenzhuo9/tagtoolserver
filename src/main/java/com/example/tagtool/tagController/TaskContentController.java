@@ -34,17 +34,17 @@ public class TaskContentController {
 //    根据任务id查找段落内容
     @RequestMapping("/findContentByTaskId")
     @ResponseBody
-    public ResponseBean findContentByTaskId(Integer task_id){
+    public ResponseBean findContentByTaskIdAndIsTest(Integer task_id, Integer is_test){
         ResponseBean responseBean = new ResponseBean();
-        responseBean.setData(taskContentService.findContentByTaskId(task_id));
+        responseBean.setData(taskContentService.findContentByTaskIdAndIsTest(task_id, is_test));
         responseBean.setMessage("查询成功");
         return responseBean;
     }
     @RequestMapping("/findParagraphNumByTaskId")
     @ResponseBody
-    public ResponseBean findParagraphNumByTaskId(Integer task_id){
+    public ResponseBean findParagraphNumByTaskIdAndIsTest(Integer task_id, Integer is_test){
         ResponseBean responseBean = new ResponseBean();
-        responseBean.setData(taskContentService.findParagraphNumByTaskId(task_id));
+        responseBean.setData(taskContentService.findParagraphNumByTaskIdAndIsTest(task_id, is_test));
         responseBean.setMessage("查询成功");
         return responseBean;
     }
@@ -53,6 +53,57 @@ public class TaskContentController {
     public ResponseBean findContentByParagraphId(Integer id){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setData(taskContentService.findContentByParagraphId(id));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+
+    @RequestMapping("/findLabeledTestNumByTaskId")
+    @ResponseBody
+    public ResponseBean findLabeledTestNumByTaskId(Integer task_id){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.findLabeledTestNumByTaskId(task_id));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+
+    @RequestMapping("/updateRightLabel")
+    @ResponseBody
+    public ResponseBean updateRightLabel(Integer task_id,String paragraph_position,String test_label){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.updateRightLabel(task_id, paragraph_position, test_label));
+        responseBean.setMessage("更新成功");
+        return responseBean;
+    }
+    @RequestMapping("/findFirstUnfinishedTestParagraph")
+    @ResponseBody
+    public ResponseBean findFirstUnfinishedTestParagraph(Integer task_id){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.findFirstUnfinishedTestParagraph(task_id));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+    @RequestMapping("/findNextUnfinishedTestParagraph")
+    @ResponseBody
+    public ResponseBean findNextUnfinishedTestParagraph(Integer task_id, String paragraph_position){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.findNextUnfinishedTestParagraph(task_id, paragraph_position));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+    @RequestMapping("/findLastUnfinishedTestParagraph")
+    @ResponseBody
+    public ResponseBean findLastUnfinishedTestParagraph(Integer task_id, String paragraph_position){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.findLastUnfinishedTestParagraph(task_id, paragraph_position));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+
+    @RequestMapping("/getTestLabelByTaskId")
+    @ResponseBody
+    public ResponseBean getTestLabelByTaskId(Integer task_id){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.getTestLabelByTaskId(task_id));
         responseBean.setMessage("查询成功");
         return responseBean;
     }

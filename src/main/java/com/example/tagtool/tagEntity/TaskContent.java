@@ -12,6 +12,9 @@ public class TaskContent {
     private String content;
     private int paragraph_position;
     private String task_name;
+    private int is_test;//为1表示测试句子
+    private String test_label;
+    private int task_type;//为1表示标签标注
 
     public int getId() {
         return id;
@@ -53,6 +56,30 @@ public class TaskContent {
         return task_name;
     }
 
+    public void setIs_test(int is_test) {
+        this.is_test = is_test;
+    }
+
+    public int getIs_test() {
+        return is_test;
+    }
+
+    public void setTask_type(int task_type) {
+        this.task_type = task_type;
+    }
+
+    public int getTask_type() {
+        return task_type;
+    }
+
+    public void setTest_label(String test_label) {
+        this.test_label = test_label;
+    }
+
+    public String getTest_label() {
+        return test_label;
+    }
+
     @Override
     public String toString(){
         return "TaskContent{" +
@@ -61,6 +88,9 @@ public class TaskContent {
                 ", task_name='" + task_name + '\'' +
                 ", content='" + content + '\'' +
                 ",paragraph_position=" + paragraph_position +
+                "is_test=" + is_test +
+                "task_type=" + task_type +
+                ", test_label='" + test_label + '\'' +
                 '}';
     }
 }

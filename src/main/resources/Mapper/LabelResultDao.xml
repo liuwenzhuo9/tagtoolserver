@@ -5,7 +5,7 @@
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="task_id" property="task_id" jdbcType="INTEGER"/>
         <result column="paragraph_id" property="paragraph_id" jdbcType="INTEGER"/>
-        <result column="paragraph_position" property="paragraph_position" jdbcType="VARCHAR"/>
+        <result column="paragraph_position" property="paragraph_position" jdbcType="INTEGER"/>
         <result column="user_account" property="user_account" jdbcType="VARCHAR"/>
         <result column="label_result" property="label_result" jdbcType="VARCHAR"/>
         <result column="task_type" property="task_type" jdbcType="INTEGER"/>
@@ -31,13 +31,19 @@
             from tb_label_result
             where task_id = #{task_id}
     </delete>
+    <!--    根据任务id和用户account删除标注信息-->
+    <delete id="deleteLabelByTaskIdAndAccount" parameterType="com.example.tagtool.tagEntity.LabelResult">
+            delete
+            from tb_label_result
+            where task_id = #{task_id} and user_account = #{user_account}
+    </delete>
 <!--    根据任务id和段落id查询标注结果-->
     <select id="findLabelByTaskAndParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
         select *
         from tb_label_result
         where task_id = #{task_id} and paragraph_id = #{paragraph_id}
     </select>
-    <!--    根据任务id和用户account查询已标注的段落-->
+    <!--    根据任务id和用户account查询已标注的段落数-->
     <select id="findFinishParagraphNumByTaskId" resultType="Int" parameterType="com.example.tagtool.tagEntity.LabelResult">
         select count(*)
         from tb_label_result
@@ -49,7 +55,7 @@
         from tb_label_result
         where (label_result is null  or label_result = '') and task_id = #{task_id} and user_account = #{user_account}
         order by paragraph_position
-        Limit 0,1
+--         Limit 0,1
     </select>
 <!--    根据任务id、用户账号、当前段落位置找到下一条未被标记的段落,返回labelResult中的id和paragraph_position-->
     <select id="findNextUnfinishedParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
@@ -67,10 +73,18 @@
         order by paragraph_position desc
         Limit 0,1
     </select>
-    <!--    根据结果id查询标注结果-->
-    <select id="findLabelResultById" resultType="com.example.tagtool.tagEntity.LabelResult">
-        select *
+    <!--    根据任务id和用户账号查询标注结果-->
+    <select id="findLabelResultByTaskIdAndAccount" resultType="String">
+        select label_result
         from tb_label_result
-        where id=#{id}
+        where task_id = #{task_id} and user_account = #{user_account}
+        order by paragraph_position
+    </select>
+<!--    根据任务id和用户账号查询段落id-->
+    <select id="findParaIdByTaskIdAndAccount" resultType="INTEGER">
+        select paragraph_id
+        from tb_label_result
+        where task_id = #{task_id} and user_account = #{user_account}
+        order by paragraph_position
     </select>
 </mapper>

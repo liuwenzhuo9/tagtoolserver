@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 
 @RestController
 public class UserController {
@@ -49,6 +53,15 @@ public class UserController {
         responseBean.setData(userService.updateJoinTasksByUserAccount(account,involved_tasks,progress_tasks));
         return responseBean;
     }
+
+    @RequestMapping("/updateFinishTasksByUserAccount")
+    @ResponseBody
+    public ResponseBean updateFinishTasksByUserAccount(String account,String progress_tasks,String finished_tasks){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("更新成功");
+        responseBean.setData(userService.updateFinishTasksByUserAccount(account, progress_tasks, finished_tasks));
+        return responseBean;
+    }
 //    根据用户账号更新成绩
     @RequestMapping("/updateScoreByUserAccount")
     @ResponseBody
@@ -58,6 +71,16 @@ public class UserController {
         responseBean.setData(userService.updateScoreByUserAccount(account,sds_score,overall_score));
         return responseBean;
     }
+
+    @RequestMapping("/deleteUser")
+    @ResponseBody
+    public ResponseBean deleteUser(String account){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("删除成功");
+        responseBean.setData(userService.deleteUser(account));
+        return responseBean;
+    }
+
 //    根据用户账号查询成绩
 //    @RequestMapping("/findScoreByUserAccount")
 //    @ResponseBody
@@ -68,3 +91,4 @@ public class UserController {
 //        return responseBean;
 //    }
 }
+ 

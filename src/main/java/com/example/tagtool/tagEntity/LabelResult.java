@@ -10,7 +10,7 @@ public class LabelResult {
     private int id;
     private int task_id;
     private int paragraph_id;
-    private String paragraph_position;
+    private int paragraph_position;
     private String user_account;
     private String label_result;
     private int task_type;
@@ -47,16 +47,16 @@ public class LabelResult {
         return task_id;
     }
 
-    public String getParagraph_position() {
-        return paragraph_position;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setParagraph_position(String paragraph_position) {
+    public void setParagraph_position(int paragraph_position) {
         this.paragraph_position = paragraph_position;
+    }
+
+    public int getParagraph_position() {
+        return paragraph_position;
     }
 
     public void setTask_id(int task_id) {
@@ -77,7 +77,7 @@ public class LabelResult {
                 "id=" + id +
                 "task_id=" + task_id +
                 "paragraph_id=" + paragraph_id +
-                ", paragraph_position='" + paragraph_position + '\'' +
+                "paragraph_position='" + paragraph_position +
                 ", user_account='" + user_account + '\'' +
                 ", label_result='" + label_result + '\'' +
                 ", task_type=" + task_type +

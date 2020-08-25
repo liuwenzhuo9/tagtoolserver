@@ -23,6 +23,7 @@ public class TasksInfo {
     private String member_account;
     private String sds_name;
     private String sds_path;
+    private String sds_pos; //测试集的随机位置
     private int is_finished;
     private String deadline;
 
@@ -114,6 +115,14 @@ public class TasksInfo {
         this.sds_path = sds_path;
     }
 
+    public String getSds_pos() {
+        return sds_pos;
+    }
+
+    public void setSds_pos(String sds_pos) {
+        this.sds_pos = sds_pos;
+    }
+
     public String getDeadline() {
         return deadline;
     }
@@ -189,6 +198,7 @@ public class TasksInfo {
                 ", member_finish='" + member_finish +
                 ", sds_name='" + sds_name + '\'' +
                 ", sds_path='" + sds_path + '\'' +
+                ", sds_pos='" + sds_pos + '\'' +
                 ", is_finished=" + is_finished +
                 ", deadline='" + deadline + '\'' +
                 '}';
