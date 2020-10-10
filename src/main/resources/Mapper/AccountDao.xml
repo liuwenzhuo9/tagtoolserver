@@ -43,10 +43,21 @@
         where account = #{account}
     </select>
 
+    <select id="findAccountByName" parameterType="String" resultMap="accountMap" resultType="com.example.tagtool.tagEntity.Account">
+        select *
+        from tb_account
+        where name = #{name}
+    </select>
 
     <select id="findAccountNumberByAccount" parameterType="String"  resultType="int">
         select count(*)
         from tb_account
         where account = #{account}
+    </select>
+
+    <select id="findAccountNumberByName" parameterType="String"  resultType="int">
+        select count(*)
+        from tb_account
+        where name = #{name}
     </select>
 </mapper>

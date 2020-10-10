@@ -16,6 +16,10 @@ public class User {
     private String issue_tasks;
     private String sds_score;
     private String overall_score;
+    private String power_l;
+    private String power_s;
+    private String label_scores;
+    private String sequence_scores;
 
     public void setId(int id) {
         this.id = id;
@@ -89,6 +93,38 @@ public class User {
         this.issue_tasks = issue_tasks;
     }
 
+    public String getLabel_scores() {
+        return label_scores;
+    }
+
+    public void setLabel_scores(String label_scores) {
+        this.label_scores = label_scores;
+    }
+
+    public String getSequence_scores() {
+        return sequence_scores;
+    }
+
+    public void setSequence_scores(String sequence_scores) {
+        this.sequence_scores = sequence_scores;
+    }
+
+    public String getPower_l() {
+        return power_l;
+    }
+
+    public String getPower_s() {
+        return power_s;
+    }
+
+    public void setPower_l(String power_l) {
+        this.power_l = power_l;
+    }
+
+    public void setPower_s(String power_s) {
+        this.power_s = power_s;
+    }
+
     @Override
     public String toString(){
         return "User{" +
@@ -101,6 +137,9 @@ public class User {
                 ", issue_tasks='" + issue_tasks + '\'' +
                 ", sds_score='" + sds_score + '\'' +
                 ", overall_score='" + overall_score + '\'' +
+                ", power_l='" + power_l + '\'' +
+                ", label_scores='" + label_scores + '\'' +
+                ", sequence_scores='" + sequence_scores + '\'' +
                 '}';
     }
 }

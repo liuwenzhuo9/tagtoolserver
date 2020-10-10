@@ -24,5 +24,8 @@ public class TaskContentService {
     public List<TaskContent> findFirstUnfinishedTestParagraph(Integer task_id){return taskContentDao.findFirstUnfinishedTestParagraph(task_id);}
     public List<TaskContent> findNextUnfinishedTestParagraph(Integer task_id,String paragraph_position){return taskContentDao.findNextUnfinishedTestParagraph(task_id,paragraph_position);}
     public List<TaskContent> findLastUnfinishedTestParagraph(Integer task_id,String paragraph_position){return taskContentDao.findLastUnfinishedTestParagraph(task_id,paragraph_position);}
+    public List<TaskContent> findFirstTestParagraph(Integer task_id){return taskContentDao.findFirstTestParagraph(task_id);}
+    public List<TaskContent> findNextTestParagraph(Integer task_id,String paragraph_position){return taskContentDao.findNextTestParagraph(task_id,paragraph_position);}
+    public List<TaskContent> findLastTestParagraph(Integer task_id,String paragraph_position){return taskContentDao.findLastTestParagraph(task_id,paragraph_position);}
     public List<String> getTestLabelByTaskId(Integer task_id){return taskContentDao.getTestLabelByTaskId(task_id);}
 }

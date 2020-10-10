@@ -53,7 +53,7 @@
         set test_label = #{test_label}
         where task_id = #{task_id} and paragraph_position=#{paragraph_position} and is_test = 1
     </update>
-    <!--    根据任务id查询第一条未被标记的测试集段落，返回TestContent中的id和paragraph_position-->
+    <!--    根据任务id查询第一条未被标记的测试集段落-->
     <select id="findFirstUnfinishedTestParagraph" resultType="com.example.tagtool.tagEntity.TaskContent">
         select *
         from tb_task_content
@@ -61,7 +61,7 @@
         order by paragraph_position
         Limit 0,1
     </select>
-    <!--    根据任务id、当前段落位置找到下一条未被标记的测试集段落,返回TestContent中的id和paragraph_position-->
+    <!--    根据任务id、当前段落位置找到下一条未被标记的测试集段落-->
     <select id="findNextUnfinishedTestParagraph" resultType="com.example.tagtool.tagEntity.TaskContent">
         select *
         from tb_task_content
@@ -69,11 +69,33 @@
         order by paragraph_position
         Limit 0,1
     </select>
-    <!--    根据任务id、当前段落位置找到上一条未被标记的测试集段落,返回TestContent中的id和paragraph_position-->
+    <!--    根据任务id、当前段落位置找到上一条未被标记的测试集段落-->
     <select id="findLastUnfinishedTestParagraph" resultType="com.example.tagtool.tagEntity.TaskContent">
         select *
         from tb_task_content
         where (test_label is null  or test_label = '') and task_id = #{task_id} and paragraph_position &lt; #{paragraph_position} and is_test = 1
+        order by paragraph_position desc
+        Limit 0,1
+    </select>
+    <!--    根据任务id查询第一条测试集段落-->
+    <select id="findFirstTestParagraph" resultType="com.example.tagtool.tagEntity.TaskContent">
+        select *
+        from tb_task_content
+        where task_id = #{task_id} and is_test = 1 and paragraph_position=0
+    </select>
+    <!--    根据任务id、当前段落位置找到下一条测试集段落-->
+    <select id="findNextTestParagraph" resultType="com.example.tagtool.tagEntity.TaskContent">
+        select *
+        from tb_task_content
+        where task_id = #{task_id} and paragraph_position &gt; #{paragraph_position} and is_test = 1
+        order by paragraph_position
+        Limit 0,1
+    </select>
+    <!--    根据任务id、当前段落位置找到上一条测试集段落-->
+    <select id="findLastTestParagraph" resultType="com.example.tagtool.tagEntity.TaskContent">
+        select *
+        from tb_task_content
+        where task_id = #{task_id} and paragraph_position &lt; #{paragraph_position} and is_test = 1
         order by paragraph_position desc
         Limit 0,1
     </select>

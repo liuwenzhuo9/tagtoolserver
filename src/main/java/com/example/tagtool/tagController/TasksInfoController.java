@@ -82,17 +82,14 @@ public class TasksInfoController {
         TasksInfo tasksInfo = tasksInfoData.get(0);
         int totalNum = tasksInfo.getMember_num();
         int finishNum = tasksInfo.getMember_finish();
+        ResponseBean response = new ResponseBean();
+        response.setMessage("更新成功");
         if (totalNum > finishNum) {
-            ResponseBean response = new ResponseBean();
-            response.setMessage("更新成功");
             response.setData(tasksInfoService.updateFinishStateByTaskId(id, 0));
-            return response;
         } else {
-            ResponseBean response = new ResponseBean();
-            response.setMessage("更新成功");
             response.setData(tasksInfoService.updateFinishStateByTaskId(id, 1));
-            return response;
         }
+        return response;
     }
 
 //    根据任务id更新任务的完成状态

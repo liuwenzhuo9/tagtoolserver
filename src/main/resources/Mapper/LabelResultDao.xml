@@ -55,7 +55,7 @@
         from tb_label_result
         where (label_result is null  or label_result = '') and task_id = #{task_id} and user_account = #{user_account}
         order by paragraph_position
---         Limit 0,1
+        Limit 0,1
     </select>
 <!--    根据任务id、用户账号、当前段落位置找到下一条未被标记的段落,返回labelResult中的id和paragraph_position-->
     <select id="findNextUnfinishedParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
@@ -70,6 +70,28 @@
         select *
         from tb_label_result
         where (label_result is null  or label_result = '') and task_id = #{task_id} and user_account = #{user_account} and paragraph_position &lt; #{paragraph_position}
+        order by paragraph_position desc
+        Limit 0,1
+    </select>
+    <!--    根据任务id和用户account查询第一条段落id，返回labelResult中的id和paragraph_position-->
+    <select id="findFirstParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
+        select *
+        from tb_label_result
+        where task_id = #{task_id} and user_account = #{user_account} and paragraph_position = 0
+    </select>
+    <!--    根据任务id、用户账号、当前段落位置找到下一条段落,返回labelResult中的id和paragraph_position-->
+    <select id="findNextParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
+        select *
+        from tb_label_result
+        where task_id = #{task_id} and user_account = #{user_account} and paragraph_position &gt; #{paragraph_position}
+        order by paragraph_position
+        Limit 0,1
+    </select>
+    <!--    根据任务id、用户账号、当前段落位置找到上一条段落,返回labelResult中的id和paragraph_position-->
+    <select id="findLastParagraph" resultType="com.example.tagtool.tagEntity.LabelResult">
+        select *
+        from tb_label_result
+        where task_id = #{task_id} and user_account = #{user_account} and paragraph_position &lt; #{paragraph_position}
         order by paragraph_position desc
         Limit 0,1
     </select>

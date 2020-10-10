@@ -20,5 +20,8 @@ public interface TaskContentDao {
     List<TaskContent> findFirstUnfinishedTestParagraph(Integer task_id);
     List<TaskContent> findNextUnfinishedTestParagraph(Integer task_id,String paragraph_position);
     List<TaskContent> findLastUnfinishedTestParagraph(Integer task_id,String paragraph_position);
+    List<TaskContent> findFirstTestParagraph(Integer task_id);
+    List<TaskContent> findNextTestParagraph(Integer task_id,String paragraph_position);
+    List<TaskContent> findLastTestParagraph(Integer task_id,String paragraph_position);
     List<String> getTestLabelByTaskId(Integer task_id);
 }

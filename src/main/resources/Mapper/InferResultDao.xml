@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.InferResultDao">
+    <resultMap id="entityOnlyMap" type="com.example.tagtool.tagEntity.InferResult">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="task_id" property="task_id" jdbcType="INTEGER"/>
+        <result column="paragraph_id" property="paragraph_id" jdbcType="INTEGER"/>
+        <result column="paragraph_position" property="paragraph_position" jdbcType="INTEGER"/>
+        <result column="infer_result" property="infer_result" jdbcType="VARCHAR"/>
+        <result column="task_type" property="task_type" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--插入用户的标注预测结果-->
+    <insert id="insertInferResult" parameterType="com.example.tagtool.tagEntity.InferResult">
+                insert into tb_infer_result (task_id,paragraph_id,paragraph_position,infer_result,task_type,content)
+                values (#{task_id},#{paragraph_id},#{paragraph_position},#{infer_result},#{task_type},#{content})
+    </insert>
+    <!--根据标注的信息id更新标注预测信息-->
+    <update id="updateInferLabelById" parameterType="com.example.tagtool.tagEntity.InferResult">
+        update tb_infer_result set infer_result = #{infer_result} where id = #{id}
+    </update>
+    <!--    根据任务id删除标注预测信息-->
+    <delete id="deleteInferLabelByTaskId" parameterType="int">
+        delete
+        from tb_infer_result
+        where task_id = #{task_id}
+    </delete>
+    <!--    根据任务id和段落id查询标注预测结果-->
+    <select id="findInferLabelByTaskAndParagraph" resultType="com.example.tagtool.tagEntity.InferResult">
+        select *
+        from tb_infer_result
+        where task_id = #{task_id} and paragraph_id = #{paragraph_id}
+    </select>
+    <!--    根据任务id查询标注结果-->
+    <select id="findInferLabelResultByTaskId" resultType="String">
+        select infer_result
+        from tb_infer_result
+        where task_id = #{task_id}
+        order by paragraph_position
+    </select>
+</mapper>

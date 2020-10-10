@@ -6,59 +6,89 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class AccountController {
     @Resource
     private AccountService accountService;
 
-//    登录
+//    账号或用户名登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     public ResponseBean login(String account, String password, HttpSession session){
         ResponseBean responseBean = new ResponseBean();
-        Object accountLast = session.getAttribute("account");
-        if(accountLast !=null){
-            responseBean.setMessage("已经登录");
-            responseBean.setData(0);
-            return responseBean;
-        }
-        int accountNumber = accountService.findAccountNumberByAccount(account);
-        if(accountNumber ==0){
-            responseBean.setMessage("账号错误");
-            responseBean.setData(1);
-            return responseBean;
-        }
-        Account accountNow = accountService.findAccountByAccount(account);
-        String dPassword = null;
-        dPassword = AesEncryptUtil.decrypt(password);
+        Pattern pattern = Pattern.compile("^-?\\d+(\\.\\d+)?$");
+        Matcher isNum = pattern.matcher(account);
+        if (isNum.matches()) {
+            //账号登录
+            Object accountLast = session.getAttribute("account");
+            if(accountLast !=null){
+                responseBean.setMessage("已经登录");
+                responseBean.setData(0);
+                return responseBean;
+            }
+            int accountNumber = accountService.findAccountNumberByAccount(account);
+            if(accountNumber ==0){
+                responseBean.setMessage("账号错误");
+                responseBean.setData(1);
+                return responseBean;
+            }
+            Account accountNow = accountService.findAccountByAccount(account);
+            String dPassword = AesEncryptUtil.decrypt(password);
 //        System.out.println(accountNow.getPassword()+ "mima" +password);
-        if(accountNow.getPassword().equals(Md5Encrypt.string1MD5(dPassword))) {
-            session.setAttribute("account", accountNow);
-            String name = accountNow.getName();
-            responseBean.setMessage(name);
-            if (accountNow.getRole().equals("管理员")) {
-                responseBean.setData("system");
-            } else if (accountNow.getRole().equals("实验室用户")) {
-                responseBean.setData("labUser");
-            } else if (accountNow.getRole().equals("普通用户")) {
-                responseBean.setData("regUser");
+            if(accountNow.getPassword().equals(Md5Encrypt.string1MD5(dPassword))) {
+                session.setAttribute("account", accountNow);
+                String name = accountNow.getName();
+                responseBean.setMessage(name);
+                if (accountNow.getRole().equals("管理员")) {
+                    responseBean.setData("system");
+                } else if (accountNow.getRole().equals("实验室用户")) {
+                    responseBean.setData("labUser");
+                } else if (accountNow.getRole().equals("普通用户")) {
+                    responseBean.setData("regUser");
+                }
+            }else{
+                responseBean.setMessage("密码错误");
+                responseBean.setData(2);
             }
         }else{
-            responseBean.setMessage("密码错误");
-            responseBean.setData(2);
+            //用户名登录
+            Object accountLast = session.getAttribute("account");
+            if(accountLast !=null){
+                responseBean.setMessage("已经登录");
+                responseBean.setData(0);
+                return responseBean;
+            }
+            int accountNumber = accountService.findAccountNumberByName(account);
+            if(accountNumber ==0){
+                responseBean.setMessage("用户名错误");
+                responseBean.setData(1);
+                return responseBean;
+            }
+            Account accountNow = accountService.findAccountByName(account);
+            String dPassword = AesEncryptUtil.decrypt(password);
+        System.out.println(accountNow.getPassword()+ "mima" +password);
+            if(accountNow.getPassword().equals(Md5Encrypt.string1MD5(dPassword))) {
+                session.setAttribute("account", accountNow);
+                String name = accountNow.getName();
+                responseBean.setMessage(name);
+                if (accountNow.getRole().equals("管理员")) {
+                    responseBean.setData("system");
+                } else if (accountNow.getRole().equals("实验室用户")) {
+                    responseBean.setData("labUser");
+                } else if (accountNow.getRole().equals("普通用户")) {
+                    responseBean.setData("regUser");
+                }
+            }else{
+                responseBean.setMessage("密码错误");
+                responseBean.setData(2);
+            }
         }
+
         return responseBean;
     }
-
-//    @RequestMapping(value = "/findAccountByAccount")
-//    @ResponseBody
-//    public ResponseBean findAccountByAccount(String account){
-//        ResponseBean response = new ResponseBean();
-//        response.setMessage("查询成功");
-//        response.setData(accountService.findAccountByAccount(account));
-//        return response;
-//    }
 
 //    注销
     @RequestMapping(value = "/loginOut")
@@ -190,6 +220,15 @@ public class AccountController {
     public ResponseBean findAccountByAccount(String account){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setData(accountService.findAccountByAccount(account));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+
+    @RequestMapping("/findAccountByName")
+    @ResponseBody
+    public ResponseBean findAccountByName(String name){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(accountService.findAccountByName(name));
         responseBean.setMessage("查询成功");
         return responseBean;
     }

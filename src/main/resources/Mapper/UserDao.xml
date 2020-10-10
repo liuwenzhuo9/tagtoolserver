@@ -14,15 +14,18 @@
         <result column="issue_tasks" property="issue_tasks" jdbcType="VARCHAR" />
         <result column="sds_score" property="sds_score" jdbcType="VARCHAR" />
         <result column="overall_score" property="overall_score" jdbcType="VARCHAR" />
-
+        <result column="power_l" property="power_l" jdbcType="VARCHAR" />
+        <result column="power_s" property="power_s" jdbcType="VARCHAR" />
+        <result column="label_scores" property="label_scores" jdbcType="VARCHAR" />
+        <result column="sequence_scores" property="sequence_scores" jdbcType="VARCHAR" />
 
     </resultMap>
     <!--插入人员信息-->
     <insert id="insertUserInfo" parameterType="com.example.tagtool.tagEntity.User">
         insert into tb_user (name,account,involved_tasks,finished_tasks,progress_tasks,
-        sds_score,overall_score)
+        sds_score,overall_score,power_l,power_s,label_scores,sequence_scores)
         values (#{name}, #{account},#{involved_tasks},#{finished_tasks},#{progress_tasks},
-         #{sds_score},#{overall_score})
+         #{sds_score},#{overall_score},#{power_l},#{power_s},#{label_scores},#{sequence_scores})
     </insert>
 <!--    根据用户账号查询用户信息-->
     <select id="findInfoByUserAccount" resultMap="userMap" resultType="com.example.tagtool.tagEntity.User">
@@ -53,11 +56,28 @@
             finished_tasks = #{finished_tasks}
          where account =#{account}
     </update>
-<!--    根据用户账号更新成绩-->
-    <update id="updateScoreByUserAccount">
+<!--    根据用户账号更新标签标注总成绩-->
+    <update id="updateLabelPowerByUserAccount">
         update tb_user
-        set sds_score = #{sds_score},
-            overall_score = #{overall_score}
+        set power_l = #{power_l}
+        where account = #{account}
+    </update>
+    <!--    根据用户账号更新序列标注总成绩-->
+    <update id="updateSequencePowerByUserAccount">
+        update tb_user
+        set power_s = #{power_s}
+        where account = #{account}
+    </update>
+    <!--    根据用户账号更新标签标注分数-->
+    <update id="updateLabelScoresByUserAccount">
+        update tb_user
+        set label_scores = #{label_scores}
+        where account = #{account}
+    </update>
+    <!--    根据用户账号更新序列标注分数-->
+    <update id="updateSequenceScoresByUserAccount">
+        update tb_user
+        set sequence_scores = #{sequence_scores}
         where account = #{account}
     </update>
 <!--    根据用户账号删除user信息-->
@@ -66,9 +86,9 @@
         from tb_user
         where account = #{account}
     </delete>
-    <!--    根据用户账号查询成绩-->
-<!--    <select id="findScoreByUserAccount" parameterType="String">-->
-<!--        select sds_score,overall_score-->
+<!--    &lt;!&ndash;    根据用户账号查询成绩&ndash;&gt;-->
+<!--    <select id="findPowerByUserAccount" parameterType="String" resultType="com.example.tagtool.tagEntity.User">-->
+<!--        select sds_score,overall_score,power-->
 <!--        from tb_user-->
 <!--        where account =#{account}-->
 <!--    </select>-->

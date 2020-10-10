@@ -13,12 +13,12 @@ public class Account {
     private String password;
     private String role;
 
-    public int getId() {
-        return id;
-    }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getAccount() {

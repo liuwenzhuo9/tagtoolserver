@@ -21,6 +21,9 @@ public class LabelResultService {
     public List<LabelResult> findFirstUnfinishedParagraph(Integer task_id,String user_account){return labelResultDao.findFirstUnfinishedParagraph(task_id, user_account);}
     public List<LabelResult> findNextUnfinishedParagraph(Integer task_id,String user_account,Integer paragraph_position){return labelResultDao.findNextUnfinishedParagraph(task_id, user_account,paragraph_position);}
     public List<LabelResult> findLastUnfinishedParagraph(Integer task_id,String user_account,Integer paragraph_position){return labelResultDao.findLastUnfinishedParagraph(task_id, user_account,paragraph_position);}
+    public List<LabelResult> findFirstParagraph(Integer task_id,String user_account){return labelResultDao.findFirstParagraph(task_id, user_account);}
+    public List<LabelResult> findNextParagraph(Integer task_id,String user_account,Integer paragraph_position){return labelResultDao.findNextParagraph(task_id, user_account,paragraph_position);}
+    public List<LabelResult> findLastParagraph(Integer task_id,String user_account,Integer paragraph_position){return labelResultDao.findLastParagraph(task_id, user_account,paragraph_position);}
     public List<String> findLabelResultByTaskIdAndAccount(Integer task_id,String user_account){return labelResultDao.findLabelResultByTaskIdAndAccount(task_id, user_account);}
     public List<Integer> findParaIdByTaskIdAndAccount(Integer task_id, String user_account) {return labelResultDao.findParaIdByTaskIdAndAccount(task_id, user_account);}
 

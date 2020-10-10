@@ -28,5 +28,7 @@ public class AccountService {
     public  int updatePassword(Account account) {return accountDao.updatePassword(account);}
 
     public Account findAccountByAccount(String account){return accountDao.findAccountByAccount(account);}
+    public Account findAccountByName(String name){return accountDao.findAccountByName(name);}
     public int findAccountNumberByAccount(String account){return accountDao.findAccountNumberByAccount(account);}
+    public int findAccountNumberByName(String name){return accountDao.findAccountNumberByName(name);}
 }

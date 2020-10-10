@@ -25,14 +25,24 @@ public class UserService {
     public int updateFinishTasksByUserAccount(String account,String progress_tasks,String finished_tasks){
         return userDao.updateFinishTasksByUserAccount(account, progress_tasks, finished_tasks);
     }
-//    根据用户账号更新成绩
-    public int updateScoreByUserAccount(String account,String sds_score,String overall_score){
-        return userDao.updateScoreByUserAccount(account,sds_score,overall_score);
+//    根据用户账号更新标签标注成绩
+    public int updateLabelPowerByUserAccount(String account,String power_l){
+        return userDao.updateLabelPowerByUserAccount(account,power_l);
+    }
+//    根据用户账号更新序列标注成绩
+    public int updateSequencePowerByUserAccount(String account,String power_s){
+        return userDao.updateSequencePowerByUserAccount(account,power_s);
+    }
+    public int updateLabelScoresByUserAccount(String account,String label_scores){
+        return userDao.updateLabelScoresByUserAccount(account,label_scores);
+    }
+    public int updateSequenceScoresByUserAccount(String account,String sequence_scores){
+        return userDao.updateSequenceScoresByUserAccount(account,sequence_scores);
     }
     public int deleteUser(String account){
         return userDao.deleteUser(account);
     }
 //    根据用户账号查询成绩
-//    public String findScoreByUserAccount(String account){return userDao.findScoreByUserAccount(account);}
+//    public List<User> findPowerByUserAccount(String account){return userDao.findPowerByUserAccount(account);}
 
 }

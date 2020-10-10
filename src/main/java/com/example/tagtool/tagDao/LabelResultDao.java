@@ -18,6 +18,9 @@ public interface LabelResultDao {
     List<LabelResult> findFirstUnfinishedParagraph(Integer task_id,String user_account);
     List<LabelResult> findNextUnfinishedParagraph(Integer task_id,String user_account,Integer paragraph_position);
     List<LabelResult> findLastUnfinishedParagraph(Integer task_id,String user_account,Integer paragraph_position);
+    List<LabelResult> findFirstParagraph(Integer task_id,String user_account);
+    List<LabelResult> findNextParagraph(Integer task_id,String user_account,Integer paragraph_position);
+    List<LabelResult> findLastParagraph(Integer task_id,String user_account,Integer paragraph_position);
     List<String> findLabelResultByTaskIdAndAccount(Integer task_id,String user_account);
     List<Integer> findParaIdByTaskIdAndAccount(Integer task_id,String user_account);
 }

@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 
 @RestController
@@ -26,7 +23,8 @@ public class UserController {
         responseBean.setMessage("插入成功");
         return responseBean;
     }
-//根据用户账号查询任务情况
+
+    //根据用户账号查询任务情况
     @RequestMapping("/findInfoByUserAccount")
     @ResponseBody
     public ResponseBean findInfoByUserAccount(String account){
@@ -45,6 +43,7 @@ public class UserController {
         responseBean.setData(userService.updateTasksByUserAccount(account,involved_tasks,finished_tasks,progress_tasks,issue_tasks));
         return responseBean;
     }
+
     @RequestMapping("/updateJoinTasksByUserAccount")
     @ResponseBody
     public ResponseBean updateJoinTasksByUserAccount(String account,String involved_tasks,String progress_tasks){
@@ -62,13 +61,42 @@ public class UserController {
         responseBean.setData(userService.updateFinishTasksByUserAccount(account, progress_tasks, finished_tasks));
         return responseBean;
     }
-//    根据用户账号更新成绩
-    @RequestMapping("/updateScoreByUserAccount")
+
+    //    根据用户账号更新标签标注成绩
+    @RequestMapping("/updateLabelPowerByUserAccount")
     @ResponseBody
-    public ResponseBean updateScoreByUserAccount(String account,String sds_score,String overall_score){
+    public ResponseBean updateLabelPowerByUserAccount(String account,String power_l){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setMessage("更新成功");
-        responseBean.setData(userService.updateScoreByUserAccount(account,sds_score,overall_score));
+        responseBean.setData(userService.updateLabelPowerByUserAccount(account,power_l));
+        return responseBean;
+    }
+
+    //    根据用户账号更新序列标注成绩
+    @RequestMapping("/updateSequencePowerByUserAccount")
+    @ResponseBody
+    public ResponseBean updateSequencePowerByUserAccount(String account,String power_s){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("更新成功");
+        responseBean.setData(userService.updateSequencePowerByUserAccount(account,power_s));
+        return responseBean;
+    }
+
+    @RequestMapping("/updateLabelScoresByUserAccount")
+    @ResponseBody
+    public ResponseBean updateLabelScoresByUserAccount(String account,String label_scores){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("更新成功");
+        responseBean.setData(userService.updateLabelScoresByUserAccount(account,label_scores));
+        return responseBean;
+    }
+
+    @RequestMapping("/updateSequenceScoresByUserAccount")
+    @ResponseBody
+    public ResponseBean updateSequenceScoresByUserAccount(String account,String sequence_scores){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("更新成功");
+        responseBean.setData(userService.updateSequenceScoresByUserAccount(account,sequence_scores));
         return responseBean;
     }
 
@@ -81,14 +109,5 @@ public class UserController {
         return responseBean;
     }
 
-//    根据用户账号查询成绩
-//    @RequestMapping("/findScoreByUserAccount")
-//    @ResponseBody
-//    public ResponseBean findScoreByUserAccount(String account){
-//        ResponseBean responseBean = new ResponseBean();
-//        responseBean.setMessage("查询成功");
-//        responseBean.setData(userService.findScoreByUserAccount(account));
-//        return responseBean;
-//    }
 }
  

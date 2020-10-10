@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.TimeDao">
+    <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
+    <resultMap id="timeMap" type="com.example.tagtool.tagEntity.Time">
+        <!-- 结果集的主键 -->
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
+        <result column="account" property="account" jdbcType="VARCHAR"/>
+        <result column="task_id" property="task_id" jdbcType="INTEGER" />
+        <result column="use_time" property="use_time" jdbcType="INTEGER" />
+        <result column="is_finish" property="is_finish" jdbcType="INTEGER" />
+
+    </resultMap>
+    <!--插入用户在每个任务中的标注用时-->
+    <insert id="insertLabelTime" parameterType="com.example.tagtool.tagEntity.Time">
+        insert into tb_time (account,task_id,use_time,is_finish)
+        values (#{account},#{task_id},#{use_time},#{is_finish})
+    </insert>
+    <!--    根据用户账号和任务id获取标注用时-->
+        <select id="getLabelTimeByAccount" resultMap="timeMap" resultType="com.example.tagtool.tagEntity.Time">
+        select *
+        from tb_time
+        where account =#{account} and task_id = #{task_id}
+    </select>
+    <!--    根据用户账号和任务id更新标注用时-->
+    <update id="updateLabelTime">
+        update tb_time
+        set use_time = #{use_time}
+         where account =#{account} and task_id = #{task_id}
+    </update>
+<!--根据用户账号和任务id删除标注用时-->
+    <delete id="deleteLabelTime">
+        delete
+        from tb_time
+        where account =#{account} and task_id = #{task_id}
+    </delete>
+<!--根据用户账号和任务id更新任务完成情况-->
+    <update id="updateIsFinishInTime">
+        update tb_time
+        set is_finish = #{is_finish}
+        where account =#{account} and task_id = #{task_id}
+    </update>
+    <!--    根据任务id获取全部用户用时-->
+    <select id="getLabelTimeByTaskId"  resultType="com.example.tagtool.tagEntity.Time">
+        select *
+        from tb_time
+        where task_id = #{task_id}
+    </select>
+
+</mapper>
+
+
