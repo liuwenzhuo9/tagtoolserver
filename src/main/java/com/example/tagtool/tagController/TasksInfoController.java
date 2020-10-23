@@ -2,6 +2,7 @@ package com.example.tagtool.tagController;
 
 import com.example.tagtool.tagEntity.TasksInfo;
 import com.example.tagtool.tagService.TasksInfoService;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,11 @@ public class TasksInfoController {
     @Resource
     private TasksInfoService tasksInfoService;
 
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void isTimeOut(){
+        System.out.println("hello...");
+    }
     //插入任务信息
     @RequestMapping("/insertTaskInfo")
     @ResponseBody
