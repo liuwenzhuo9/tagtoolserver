@@ -14,6 +14,8 @@ public class InferResult {
     private String infer_result;
     private int task_type;
     private String content;
+    private String ci;
+    private String final_result;//存放众包发布者确认后的结果
 
     public int getId() {
         return id;
@@ -71,6 +73,22 @@ public class InferResult {
         return content;
     }
 
+    public void setCi(String ci) {
+        this.ci = ci;
+    }
+
+    public String getCi() {
+        return ci;
+    }
+
+    public void setFinal_result(String final_result) {
+        this.final_result = final_result;
+    }
+
+    public String getFinal_result() {
+        return final_result;
+    }
+
     @Override
     public String toString(){
         return "InferResult{" +
@@ -80,7 +98,9 @@ public class InferResult {
                 "paragraph_position='" + paragraph_position +
                 ", infer_result='" + infer_result + '\'' +
                 ", task_type=" + task_type +
-                ", content=" + content +
+                ", content=" + content + '\'' +
+                ", ci=" + ci + '\'' +
+                ", final_result=" + final_result + '\'' +
                 '}';
     }
 }

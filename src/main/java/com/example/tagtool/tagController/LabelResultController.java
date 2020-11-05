@@ -207,7 +207,7 @@ public class LabelResultController {
 
     @RequestMapping("/inferLabelResult")
     @ResponseBody
-    public ResponseBean inferLabelResult(Integer task_id){
+    public List<String> inferLabelResult(Integer task_id){
         List<TasksInfo> info = tasksInfoService.findTaskById(task_id);
         TasksInfo taskInfo = info.get(0);
         //        peopleSum记录用户账号信息
@@ -282,6 +282,7 @@ public class LabelResultController {
             List<String> godKey = taskContentService.getTestLabelByTaskId(task_id);
             String[] god_key = godKey.toArray(new String[]{});
             List<String> a = label_result_2(people_account, tag,  res, pos,  god_key, paragraph_len, task_id);
+            System.out.println(res.get(0).size());
             infer_res = a;
 //            for(int p = 0; p<peoLen; p++){
 //                double total_score = 0.0;
@@ -345,24 +346,41 @@ public class LabelResultController {
 //            }
         }
 
-//        //        获取每个任务正式任务的paragraph id和 content
-//        List<TaskContent> taskContent = taskContentService.findContentByTaskIdAndIsTest(task_id, 0);
+        //        获取每个任务正式任务的paragraph id和 content
+        List<TaskContent> taskContent = taskContentService.findContentByTaskIdAndIsTest(task_id, 0);
+
+        //            计算用户标注的一致性ci
+        if(taskInfo.getTask_type().equals("标签标注")){
+            double[] ci = labelCI(res, infer_res);
+            for(int i = 0; i<ci.length; i++){
+                inferResultServie.updateCIByPosition(task_id, i, ci[i]+"");
+            }
+        }
+        if(taskInfo.getTask_type().equals("序列标注")){
+            double[] ci = sequenceCI(res, infer_res, paragraph_len);
+            for(int i = 0; i<ci.length; i++){
+                inferResultServie.updateCIByPosition(task_id, i, ci[i]+"");
+            }
+        }
 //        //        插入tb_infer_result中
 //        for(int i = 0; i< taskContent.size(); i++){
 //            InferResult infer = new InferResult();
 //            infer.setTask_id(task_id);
 //            infer.setParagraph_id(taskContent.get(i).getId());
 //            infer.setParagraph_position(taskContent.get(i).getParagraph_position());
-//            infer.setInfer_result(infer_res.get(i));
+////            infer.setInfer_result(infer_res.get(i));
 //            infer.setTask_type(taskContent.get(i).getTask_type());
 //            infer.setContent(taskContent.get(i).getContent());
 //            inferResultServie.insertInferResult(infer);
 //        }
 
-        ResponseBean responseBean = new ResponseBean();
-        responseBean.setData(infer_res);
-        responseBean.setMessage("推测成功");
-        return responseBean;
+
+//        ResponseBean responseBean = new ResponseBean();
+//        responseBean.setData(infer_res);
+//        responseBean.setMessage("推测成功");
+//        return responseBean;
+
+        return infer_res;
 
     }
 
@@ -672,5 +690,60 @@ public class LabelResultController {
             answer.add(key_2[i]);
         }
         return answer;
+    }
+
+//    计算序列标注的用户结果一致性
+    public double[] sequenceCI(List<List<String>> resArr, List<String> key, List<Integer> paragraph_len)  {
+        int peopleLen = resArr.size();
+        int sentenceLen = key.size();
+        double[] ans = new double[sentenceLen];
+        for(int i = 0; i<sentenceLen; i++){
+            String[][] resIndexArr = new String[peopleLen][];
+            for(int j = 0; j<peopleLen; j++){
+                resIndexArr[j] = getIndexTag(resArr.get(j).get(i), paragraph_len.get(i));
+                // System.out.println(resIndexArr[j].length);
+            }
+            double sentenceCI = 0.0;
+            String[] sentenceKey = key.get(i).split(", ");
+            for(int m = 0; m<paragraph_len.get(i); m++){
+                int yizhi = 0;
+                for(int n = 0; n<peopleLen; n++){
+                    if(resIndexArr[n][m] == null ){
+                        resIndexArr[n][m] = "null";
+                    }
+                    if(resIndexArr[n][m].equals(sentenceKey[m])){
+                        yizhi++;
+                    }
+                }
+                double indexCI = (double)yizhi/peopleLen;
+                if(indexCI < 0.3){
+                    indexCI = (double)indexCI*indexCI;
+                }
+                sentenceCI += indexCI;
+            }
+            sentenceCI = (double)sentenceCI/paragraph_len.get(i);
+            ans[i] = sentenceCI;
+        }
+        return ans;
+    }
+//    计算标签标注的用户结果一致性
+    public double[] labelCI(List<List<String>> res, List<String> key){
+        int peopleLen = res.size();
+        int sentenceLen = key.size();
+        double[] sentenceCI = new double[sentenceLen];
+        for(int i = 0; i<sentenceLen; i++){
+            int ci = 0;
+            for(int j = 0; j<peopleLen; j++){
+                if(res.get(j).get(i).equals(key.get(i))){
+                    ci++;
+                }
+            }
+            double singleCI = (double)ci/peopleLen;
+            if(singleCI < 0.3){
+                singleCI = (double)singleCI*singleCI;
+            }
+            sentenceCI[i] = singleCI;
+        }
+        return sentenceCI;
     }
 }

@@ -9,33 +9,64 @@
         <result column="infer_result" property="infer_result" jdbcType="VARCHAR"/>
         <result column="task_type" property="task_type" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="ci" property="ci" jdbcType="VARCHAR"/>
+        <result column="final_result" property="final_result" jdbcType="VARCHAR"/>
     </resultMap>
     <!--插入用户的标注预测结果-->
     <insert id="insertInferResult" parameterType="com.example.tagtool.tagEntity.InferResult">
-                insert into tb_infer_result (task_id,paragraph_id,paragraph_position,infer_result,task_type,content)
-                values (#{task_id},#{paragraph_id},#{paragraph_position},#{infer_result},#{task_type},#{content})
+                insert into tb_infer_result (task_id,paragraph_id,paragraph_position,infer_result,task_type,content,ci,final_result)
+                values (#{task_id},#{paragraph_id},#{paragraph_position},#{infer_result},#{task_type},#{content},#{ci},#{final_result})
     </insert>
-    <!--根据标注的信息id更新标注预测信息-->
-    <update id="updateInferLabelById" parameterType="com.example.tagtool.tagEntity.InferResult">
-        update tb_infer_result set infer_result = #{infer_result} where id = #{id}
-    </update>
-    <!--    根据任务id删除标注预测信息-->
-    <delete id="deleteInferLabelByTaskId" parameterType="int">
+    <!--    根据任务id删除标注结果信息-->
+    <delete id="deleteInferResultByTaskId" parameterType="int">
         delete
         from tb_infer_result
         where task_id = #{task_id}
     </delete>
-    <!--    根据任务id和段落id查询标注预测结果-->
-    <select id="findInferLabelByTaskAndParagraph" resultType="com.example.tagtool.tagEntity.InferResult">
+    <!--根据句子id更新标注预测信息-->
+    <update id="updateInferResultBySentenceId" parameterType="com.example.tagtool.tagEntity.InferResult">
+        update tb_infer_result set infer_result = #{infer_result} where paragraph_id = #{paragraph_id}
+    </update>
+<!--    根据句子id更新一致性ci-->
+    <update id="updateCIBySentenceId" parameterType="com.example.tagtool.tagEntity.InferResult">
+        update tb_infer_result set ci = #{ci} where paragraph_id = #{paragraph_id}
+    </update>
+    <!--    根据句子id更新最终标注结果final_result-->
+    <update id="updateFinalResultBySentenceId" parameterType="com.example.tagtool.tagEntity.InferResult">
+        update tb_infer_result set final_result = #{final_result} where paragraph_id = #{paragraph_id}
+    </update>
+<!--根据句子位置和任务id更新标注预测信息-->
+    <update id="updateInferResultByPosition" parameterType="com.example.tagtool.tagEntity.InferResult">
+        update tb_infer_result set infer_result = #{infer_result}
+        where paragraph_position = #{paragraph_position} and task_id = #{task_id}
+    </update>
+    <!--根据句子位置和任务id更新一致性ci-->
+    <update id="updateCIByPosition" parameterType="com.example.tagtool.tagEntity.InferResult">
+        update tb_infer_result set ci = #{ci}
+        where paragraph_position = #{paragraph_position} and task_id = #{task_id}
+    </update>
+    <!--根据句子位置和任务id更新最终标注结果final_result-->
+    <update id="updateFinalResultByPosition" parameterType="com.example.tagtool.tagEntity.InferResult">
+        update tb_infer_result set final_result = #{final_result}
+        where paragraph_position = #{paragraph_position} and task_id = #{task_id}
+    </update>
+    <!--    根据任务id获取所有句子标注信息-->
+    <select id="findInferInfoByTaskId" resultType="com.example.tagtool.tagEntity.InferResult">
         select *
-        from tb_infer_result
-        where task_id = #{task_id} and paragraph_id = #{paragraph_id}
-    </select>
-    <!--    根据任务id查询标注结果-->
-    <select id="findInferLabelResultByTaskId" resultType="String">
-        select infer_result
         from tb_infer_result
         where task_id = #{task_id}
         order by paragraph_position
+    </select>
+    <!--    根据句子id获取标注信息-->
+    <select id="findInferInfoBySentenceId" resultType="com.example.tagtool.tagEntity.InferResult">
+        select *
+        from tb_infer_result
+        where paragraph_id = #{paragraph_id}
+    </select>
+    <!--    根据句子位置获取标注信息-->
+    <select id="findInferInfoByPosition" resultType="com.example.tagtool.tagEntity.InferResult">
+        select *
+        from tb_infer_result
+        where task_id = #{task_id} and paragraph_position = #{paragraph_position}
     </select>
 </mapper>

@@ -24,4 +24,5 @@ public interface TaskContentDao {
     List<TaskContent> findNextTestParagraph(Integer task_id,String paragraph_position);
     List<TaskContent> findLastTestParagraph(Integer task_id,String paragraph_position);
     List<String> getTestLabelByTaskId(Integer task_id);
+    List<TaskContent> getFormalParagraph(Integer task_id);
 }

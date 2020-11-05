@@ -132,4 +132,13 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+
+    @RequestMapping("/getFormalParagraph")
+    @ResponseBody
+    public ResponseBean getFormalParagraph(Integer task_id){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(taskContentService.getFormalParagraph(task_id));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
 }

@@ -106,6 +106,13 @@
         where task_id = #{task_id} and is_test = 1
         order by paragraph_position
     </select>
+<!--    根据任务id查询所有正式任务的信息-->
+    <select id="getFormalParagraph" resultType="com.example.tagtool.tagEntity.TaskContent">
+        select *
+        from tb_task_content
+        where task_id = #{task_id} and is_test = 0
+        order by paragraph_position
+    </select>
 </mapper>
 
 

@@ -28,4 +28,5 @@ public class TaskContentService {
     public List<TaskContent> findNextTestParagraph(Integer task_id,String paragraph_position){return taskContentDao.findNextTestParagraph(task_id,paragraph_position);}
     public List<TaskContent> findLastTestParagraph(Integer task_id,String paragraph_position){return taskContentDao.findLastTestParagraph(task_id,paragraph_position);}
     public List<String> getTestLabelByTaskId(Integer task_id){return taskContentDao.getTestLabelByTaskId(task_id);}
+    public List<TaskContent> getFormalParagraph(Integer task_id){return taskContentDao.getFormalParagraph(task_id);}
 }

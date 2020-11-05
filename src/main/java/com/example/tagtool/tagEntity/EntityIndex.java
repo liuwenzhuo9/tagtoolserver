@@ -3,7 +3,7 @@ package com.example.tagtool.tagEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_entityindex")
+@Table(name = "tb_entity_index")
 public class EntityIndex {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

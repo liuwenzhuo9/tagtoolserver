@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,10 +17,17 @@ public class TasksInfoController {
     @Resource
     private TasksInfoService tasksInfoService;
 
-
-    @Scheduled(cron = "0 0 0 * * *")
+//定时判断任务是否截止
+    @Scheduled(cron = "0 0 0 * * *")//每天零点判断任务是否结束
     public void isTimeOut(){
-        System.out.println("hello...");
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        List<TasksInfo> info = tasksInfoService.findUnfinishedTasks();
+        for(int i = 0; i<info.size(); i++){
+            if(df.format(new Date()).equals(info.get(i).getDeadline())){
+                tasksInfoService.updateFinishStateByTaskId(info.get(i).getId(),1);
+            }
+        }
     }
     //插入任务信息
     @RequestMapping("/insertTaskInfo")
