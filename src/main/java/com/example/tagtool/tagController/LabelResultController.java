@@ -97,14 +97,15 @@ public class LabelResultController {
     @ResponseBody
     public ResponseBean findFirstUnfinishedParagraph(Integer task_id,String user_account){
         List<LabelResult> data = labelResultService.findFirstUnfinishedParagraph(task_id, user_account);
-        LabelResult dataLabel = data.get(0);
-        int resultId = dataLabel.getId();
-        int[] arr =new int[2];
-        arr[0] = resultId;
-        arr[1] = dataLabel.getParagraph_position();
         ResponseBean responseBean = new ResponseBean();
-        responseBean.setMessage(taskContentService.findContentByParagraphId(dataLabel.getParagraph_id()));
-        responseBean.setData(arr);
+        if(data.size() == 0){
+            responseBean.setMessage("查找失败");
+            responseBean.setData(0);
+        }else{
+            LabelResult dataLabel = data.get(0);
+            responseBean.setMessage(taskContentService.findContentByParagraphId(dataLabel.getParagraph_id()));
+            responseBean.setData(dataLabel);
+        }
         return responseBean;
     }
 
@@ -112,14 +113,15 @@ public class LabelResultController {
     @ResponseBody
     public ResponseBean findNextUnfinishedParagraph(Integer task_id,String user_account,Integer paragraph_position){
         List<LabelResult> dataN = labelResultService.findNextUnfinishedParagraph(task_id, user_account,paragraph_position);
-        LabelResult dataNext = dataN.get(0);
-        int resultId = dataNext.getId();
-        int[] arr =new int[2];
-        arr[0] = resultId;
-        arr[1] = dataNext.getParagraph_position();
         ResponseBean responseBean = new ResponseBean();
-        responseBean.setMessage(taskContentService.findContentByParagraphId(dataNext.getParagraph_id()));
-        responseBean.setData(arr);
+        if(dataN.size() == 0){
+            responseBean.setMessage("查找失败");
+            responseBean.setData(0);
+        }else{
+            LabelResult dataNext = dataN.get(0);
+            responseBean.setMessage(taskContentService.findContentByParagraphId(dataNext.getParagraph_id()));
+            responseBean.setData(dataNext);
+        }
         return responseBean;
     }
 
@@ -127,14 +129,15 @@ public class LabelResultController {
     @ResponseBody
     public ResponseBean findLastUnfinishedParagraph(Integer task_id,String user_account,Integer paragraph_position){
         List<LabelResult> dataL = labelResultService.findLastUnfinishedParagraph(task_id, user_account,paragraph_position);
-        LabelResult dataLast = dataL.get(0);
-        int resultId = dataLast.getId();
-        int[] arr =new int[2];
-        arr[0] = resultId;
-        arr[1] = dataLast.getParagraph_position();
         ResponseBean responseBean = new ResponseBean();
-        responseBean.setMessage(taskContentService.findContentByParagraphId(dataLast.getParagraph_id()));
-        responseBean.setData(arr);
+        if(dataL.size() == 0){
+            responseBean.setMessage("查找失败");
+            responseBean.setData(0);
+        }else{
+            LabelResult dataLast = dataL.get(0);
+            responseBean.setMessage(taskContentService.findContentByParagraphId(dataLast.getParagraph_id()));
+            responseBean.setData(dataLast);
+        }
         return responseBean;
     }
 
@@ -142,14 +145,15 @@ public class LabelResultController {
     @ResponseBody
     public ResponseBean findFirstParagraph(Integer task_id,String user_account){
         List<LabelResult> data = labelResultService.findFirstParagraph(task_id, user_account);
-        LabelResult dataLabel = data.get(0);
-        int resultId = dataLabel.getId();
-        int[] arr =new int[2];
-        arr[0] = resultId;
-        arr[1] = dataLabel.getParagraph_position();
         ResponseBean responseBean = new ResponseBean();
-        responseBean.setMessage(taskContentService.findContentByParagraphId(dataLabel.getParagraph_id()));
-        responseBean.setData(arr);
+        if(data.size() == 0){
+            responseBean.setMessage("查找失败");
+            responseBean.setData(0);
+        }else{
+            LabelResult dataLabel = data.get(0);
+            responseBean.setMessage(taskContentService.findContentByParagraphId(dataLabel.getParagraph_id()));
+            responseBean.setData(dataLabel);
+        }
         return responseBean;
     }
 
@@ -157,14 +161,15 @@ public class LabelResultController {
     @ResponseBody
     public ResponseBean findNextParagraph(Integer task_id,String user_account,Integer paragraph_position){
         List<LabelResult> dataN = labelResultService.findNextParagraph(task_id, user_account,paragraph_position);
-        LabelResult dataNext = dataN.get(0);
-        int resultId = dataNext.getId();
-        int[] arr =new int[2];
-        arr[0] = resultId;
-        arr[1] = dataNext.getParagraph_position();
         ResponseBean responseBean = new ResponseBean();
-        responseBean.setMessage(taskContentService.findContentByParagraphId(dataNext.getParagraph_id()));
-        responseBean.setData(arr);
+        if(dataN.size() == 0){
+            responseBean.setMessage("查找失败");
+            responseBean.setData(0);
+        }else{
+            LabelResult dataNext = dataN.get(0);
+            responseBean.setMessage(taskContentService.findContentByParagraphId(dataNext.getParagraph_id()));
+            responseBean.setData(dataNext);
+        }
         return responseBean;
     }
 
@@ -172,14 +177,15 @@ public class LabelResultController {
     @ResponseBody
     public ResponseBean findLastParagraph(Integer task_id,String user_account,Integer paragraph_position){
         List<LabelResult> dataL = labelResultService.findLastParagraph(task_id, user_account,paragraph_position);
-        LabelResult dataLast = dataL.get(0);
-        int resultId = dataLast.getId();
-        int[] arr =new int[2];
-        arr[0] = resultId;
-        arr[1] = dataLast.getParagraph_position();
         ResponseBean responseBean = new ResponseBean();
-        responseBean.setMessage(taskContentService.findContentByParagraphId(dataLast.getParagraph_id()));
-        responseBean.setData(arr);
+        if(dataL.size() == 0){
+            responseBean.setMessage("查找失败");
+            responseBean.setData(0);
+        }else{
+            LabelResult dataLast = dataL.get(0);
+            responseBean.setMessage(taskContentService.findContentByParagraphId(dataLast.getParagraph_id()));
+            responseBean.setData(dataLast);
+        }
         return responseBean;
     }
 
