@@ -35,7 +35,8 @@ public class SentencesService {
     public int findIndexBySentenceId(Integer id){return sentencesDao.findIndexBySentenceId(id);}
 //    查询从offset开始的count条数据
     public List<Sentences> findSentenceFromOffset(Integer offset,Integer count){return sentencesDao.findSentenceFromOffset(offset,count);}
-    public int deleteSentenceFromOffset(Integer offset,Integer count){return sentencesDao.deleteSentenceFromOffset(offset,count);}
+//    找到未标记句子数目
     public int findUnmarkedNum(){return sentencesDao.findUnmarkedNum();}
+//    根据作者找到句子
     public List<Sentences> findSentenceByAuthor(String author){return sentencesDao.findSentenceByAuthor(author);}
 }

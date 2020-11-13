@@ -86,13 +86,6 @@
         from tb_user
         where account = #{account}
     </delete>
-<!--    &lt;!&ndash;    根据用户账号查询成绩&ndash;&gt;-->
-<!--    <select id="findPowerByUserAccount" parameterType="String" resultType="com.example.tagtool.tagEntity.User">-->
-<!--        select sds_score,overall_score,power-->
-<!--        from tb_user-->
-<!--        where account =#{account}-->
-<!--    </select>-->
-
 </mapper>
 
 

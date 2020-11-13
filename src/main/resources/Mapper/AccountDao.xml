@@ -36,25 +36,25 @@
     <update id="updatePassword" parameterType="com.example.tagtool.tagEntity.Account">
         update tb_account set password = #{password} where account = #{account}
     </update>
-
+<!--根据账号查询用户账号信息-->
     <select id="findAccountByAccount" parameterType="String" resultMap="accountMap" resultType="com.example.tagtool.tagEntity.Account">
         select *
         from tb_account
         where account = #{account}
     </select>
-
+<!--根据用户名查询用户账号信息-->
     <select id="findAccountByName" parameterType="String" resultMap="accountMap" resultType="com.example.tagtool.tagEntity.Account">
         select *
         from tb_account
         where name = #{name}
     </select>
-
+<!--根据账号查询是否有重复账号-->
     <select id="findAccountNumberByAccount" parameterType="String"  resultType="int">
         select count(*)
         from tb_account
         where account = #{account}
     </select>
-
+<!--根据用户名查询是否有重复账号-->
     <select id="findAccountNumberByName" parameterType="String"  resultType="int">
         select count(*)
         from tb_account

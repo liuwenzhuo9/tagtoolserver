@@ -27,7 +27,7 @@ public class LabelResultController {
     private TimeService timeService;
     @Resource
     private InferResultServie inferResultServie;
-
+//插入用户的标注结果
     @RequestMapping("/insertLabelResult")
     @ResponseBody
     public ResponseBean insertLabelResult(LabelResult labelResult){
@@ -38,7 +38,7 @@ public class LabelResultController {
             return new ResponseBean("插入失败",data);
         }
     }
-
+//根据标注的信息id更新标注信息
     @RequestMapping("/updateLabelById")
     @ResponseBody
     public ResponseBean updateLabelById(Integer id,String label_result){
@@ -47,7 +47,7 @@ public class LabelResultController {
         responseBean.setData(labelResultService.updateLabelById(id,label_result));
         return responseBean;
     }
-
+//根据标注者账号删除标注信息
     @RequestMapping("/deleteLabelByAccount")
     @ResponseBody
     public ResponseBean deleteLabelByAccount(String user_account){
@@ -56,7 +56,7 @@ public class LabelResultController {
         responseBean.setMessage("删除成功");
         return responseBean;
     }
-
+//根据任务id删除标注信息
     @RequestMapping("/deleteLabelByTaskId")
     @ResponseBody
     public ResponseBean deleteLabelByTaskId(Integer task_id){
@@ -65,7 +65,7 @@ public class LabelResultController {
         responseBean.setMessage("删除成功");
         return responseBean;
     }
-
+//根据任务id和用户account删除标注信息
     @RequestMapping("/deleteLabelByTaskIdAndAccount")
     @ResponseBody
     public ResponseBean deleteLabelByTaskIdAndAccount(String account,Integer task_id){
@@ -74,7 +74,7 @@ public class LabelResultController {
         responseBean.setMessage("删除成功");
         return responseBean;
     }
-
+//根据任务id和段落id查询标注结果
     @RequestMapping("/findLabelByTaskAndParagraph")
     @ResponseBody
     public ResponseBean findLabelByTaskAndParagraph(Integer task_id,Integer paragraph_id){
@@ -83,7 +83,7 @@ public class LabelResultController {
         responseBean.setData(labelResultService.findLabelByTaskAndParagraph(task_id, paragraph_id));
         return responseBean;
     }
-
+//根据任务id和用户account查询已标注的段落数
     @RequestMapping("/findFinishParagraphNumByTaskId")
     @ResponseBody
     public ResponseBean findFinishParagraphNumByTaskId(Integer task_id,String user_account){
@@ -92,7 +92,7 @@ public class LabelResultController {
         responseBean.setData(labelResultService.findFinishParagraphNumByTaskId(task_id, user_account));
         return responseBean;
     }
-
+//根据任务id和用户account查询第一条未被标记的段落id
     @RequestMapping("/findFirstUnfinishedParagraph")
     @ResponseBody
     public ResponseBean findFirstUnfinishedParagraph(Integer task_id,String user_account){
@@ -108,7 +108,7 @@ public class LabelResultController {
         }
         return responseBean;
     }
-
+//根据任务id、用户账号、当前段落位置找到下一条未被标记的段落
     @RequestMapping("/findNextUnfinishedParagraph")
     @ResponseBody
     public ResponseBean findNextUnfinishedParagraph(Integer task_id,String user_account,Integer paragraph_position){
@@ -124,7 +124,7 @@ public class LabelResultController {
         }
         return responseBean;
     }
-
+//根据任务id、用户账号、当前段落位置找到上一条未被标记的段落
     @RequestMapping("/findLastUnfinishedParagraph")
     @ResponseBody
     public ResponseBean findLastUnfinishedParagraph(Integer task_id,String user_account,Integer paragraph_position){
@@ -140,7 +140,7 @@ public class LabelResultController {
         }
         return responseBean;
     }
-
+//    根据任务id和用户account查询第一条段落
     @RequestMapping("/findFirstParagraph")
     @ResponseBody
     public ResponseBean findFirstParagraph(Integer task_id,String user_account){
@@ -156,7 +156,7 @@ public class LabelResultController {
         }
         return responseBean;
     }
-
+//根据任务id、用户账号、当前段落位置找到下一条段落
     @RequestMapping("/findNextParagraph")
     @ResponseBody
     public ResponseBean findNextParagraph(Integer task_id,String user_account,Integer paragraph_position){
@@ -172,7 +172,7 @@ public class LabelResultController {
         }
         return responseBean;
     }
-
+//根据任务id、用户账号、当前段落位置找到上一条段落
     @RequestMapping("/findLastParagraph")
     @ResponseBody
     public ResponseBean findLastParagraph(Integer task_id,String user_account,Integer paragraph_position){
@@ -188,7 +188,7 @@ public class LabelResultController {
         }
         return responseBean;
     }
-
+//根据任务id和用户账号查询标注结果
     @RequestMapping("/findLabelResultByTaskIdAndAccount")
     @ResponseBody
     public ResponseBean findLabelResultByTaskIdAndAccount(Integer task_id,String user_account){
@@ -197,7 +197,7 @@ public class LabelResultController {
         responseBean.setMessage("查找成功");
         return responseBean;
     }
-
+//根据任务id和用户账号查询段落id
     @RequestMapping("/findParaLenByTaskIdAndAccount")
     @ResponseBody
     public List<Integer> findParaLenByTaskIdAndAccount(Integer task_id,String user_account){
@@ -210,7 +210,7 @@ public class LabelResultController {
         }
         return paraLen;
     }
-
+//根据任务id预测标注结果
     @RequestMapping("/inferLabelResult")
     @ResponseBody
     public List<String> inferLabelResult(Integer task_id){

@@ -34,5 +34,4 @@
         where id_entity = #{id_entity}
     </delete>
 
-<!--    根据实体id和句子id删除-->
 </mapper>

@@ -17,8 +17,12 @@ public interface AccountDao {
     int deleteAccount(String account);
 //    更新密码
     int updatePassword(Account account);
+//    根据账号查询用户账号信息
     Account findAccountByAccount(String account);
+//    根据用户名查询用户账号信息
     Account findAccountByName(String name);
+//    根据账号查询是否有重复账号
     int findAccountNumberByAccount(String account);
+//    根据用户名查询是否有重复账号
     int findAccountNumberByName(String name);
 }

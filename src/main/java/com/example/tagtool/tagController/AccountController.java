@@ -214,7 +214,7 @@ public class AccountController {
         }
         return responseBean;
     }
-
+//根据账号查询用户账号信息
     @RequestMapping("/findAccountByAccount")
     @ResponseBody
     public ResponseBean findAccountByAccount(String account){
@@ -223,7 +223,7 @@ public class AccountController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
-
+//根据用户名查询用户账号信息
     @RequestMapping("/findAccountByName")
     @ResponseBody
     public ResponseBean findAccountByName(String name){

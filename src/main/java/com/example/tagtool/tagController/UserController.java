@@ -43,7 +43,7 @@ public class UserController {
         responseBean.setData(userService.updateTasksByUserAccount(account,involved_tasks,finished_tasks,progress_tasks,issue_tasks));
         return responseBean;
     }
-
+//当用户发布任务时，根据用户账号更新参与任务和进行的任务情况
     @RequestMapping("/updateJoinTasksByUserAccount")
     @ResponseBody
     public ResponseBean updateJoinTasksByUserAccount(String account,String involved_tasks,String progress_tasks){
@@ -52,7 +52,7 @@ public class UserController {
         responseBean.setData(userService.updateJoinTasksByUserAccount(account,involved_tasks,progress_tasks));
         return responseBean;
     }
-
+//    当用户完成任务时，根据用户账号更新已完成的任务情况
     @RequestMapping("/updateFinishTasksByUserAccount")
     @ResponseBody
     public ResponseBean updateFinishTasksByUserAccount(String account,String progress_tasks,String finished_tasks){
@@ -81,7 +81,7 @@ public class UserController {
         responseBean.setData(userService.updateSequencePowerByUserAccount(account,power_s));
         return responseBean;
     }
-
+//根据用户账号更新标签标注分数
     @RequestMapping("/updateLabelScoresByUserAccount")
     @ResponseBody
     public ResponseBean updateLabelScoresByUserAccount(String account,String label_scores){
@@ -90,7 +90,7 @@ public class UserController {
         responseBean.setData(userService.updateLabelScoresByUserAccount(account,label_scores));
         return responseBean;
     }
-
+//根据用户账号更新序列标注分数
     @RequestMapping("/updateSequenceScoresByUserAccount")
     @ResponseBody
     public ResponseBean updateSequenceScoresByUserAccount(String account,String sequence_scores){
@@ -99,7 +99,7 @@ public class UserController {
         responseBean.setData(userService.updateSequenceScoresByUserAccount(account,sequence_scores));
         return responseBean;
     }
-
+//根据用户账号删除user信息
     @RequestMapping("/deleteUser")
     @ResponseBody
     public ResponseBean deleteUser(String account){

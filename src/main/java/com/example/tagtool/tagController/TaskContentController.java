@@ -40,6 +40,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+//    根据任务id查询任务一共有多少个正式/测试段落
     @RequestMapping("/findParagraphNumByTaskId")
     @ResponseBody
     public ResponseBean findParagraphNumByTaskIdAndIsTest(Integer task_id, Integer is_test){
@@ -48,6 +49,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+//    根据段落id查询段落内容
     @RequestMapping("/findContentByParagraphId")
     @ResponseBody
     public ResponseBean findContentByParagraphId(Integer id){
@@ -56,7 +58,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
-
+//      根据任务id查询测试集已标注的段落数
     @RequestMapping("/findLabeledTestNumByTaskId")
     @ResponseBody
     public ResponseBean findLabeledTestNumByTaskId(Integer task_id){
@@ -65,7 +67,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
-
+//      根据任务id和段落位置更新测试集结果
     @RequestMapping("/updateRightLabel")
     @ResponseBody
     public ResponseBean updateRightLabel(Integer task_id,String paragraph_position,String test_label){
@@ -74,6 +76,7 @@ public class TaskContentController {
         responseBean.setMessage("更新成功");
         return responseBean;
     }
+//    根据任务id查询第一条未被标记的测试集段落
     @RequestMapping("/findFirstUnfinishedTestParagraph")
     @ResponseBody
     public ResponseBean findFirstUnfinishedTestParagraph(Integer task_id){
@@ -82,6 +85,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+//    根据任务id、当前段落位置找到下一条未被标记的测试集段落
     @RequestMapping("/findNextUnfinishedTestParagraph")
     @ResponseBody
     public ResponseBean findNextUnfinishedTestParagraph(Integer task_id, String paragraph_position){
@@ -90,6 +94,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+//    根据任务id、当前段落位置找到上一条未被标记的测试集段落
     @RequestMapping("/findLastUnfinishedTestParagraph")
     @ResponseBody
     public ResponseBean findLastUnfinishedTestParagraph(Integer task_id, String paragraph_position){
@@ -98,7 +103,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
-
+//根据任务id查询第一条测试集段落
     @RequestMapping("/findFirstTestParagraph")
     @ResponseBody
     public ResponseBean findFirstTestParagraph(Integer task_id){
@@ -107,6 +112,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+//    根据任务id、当前段落位置找到下一条测试集段落
     @RequestMapping("/findNextTestParagraph")
     @ResponseBody
     public ResponseBean findNextTestParagraph(Integer task_id, String paragraph_position){
@@ -115,6 +121,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+//    根据任务id、当前段落位置找到上一条测试集段落
     @RequestMapping("/findLastTestParagraph")
     @ResponseBody
     public ResponseBean findLastTestParagraph(Integer task_id, String paragraph_position){
@@ -123,7 +130,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
-
+//  根据任务id获取该任务的测试集结果
     @RequestMapping("/getTestLabelByTaskId")
     @ResponseBody
     public ResponseBean getTestLabelByTaskId(Integer task_id){
@@ -132,7 +139,7 @@ public class TaskContentController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
-
+//根据任务id查询所有正式任务的信息
     @RequestMapping("/getFormalParagraph")
     @ResponseBody
     public ResponseBean getFormalParagraph(Integer task_id){

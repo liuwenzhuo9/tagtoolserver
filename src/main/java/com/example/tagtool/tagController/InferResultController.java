@@ -16,6 +16,7 @@ public class InferResultController {
     private InferResultServie inferResultServie;
     @Resource
     private LabelResultController labelResultController;
+//  插入用户的标注预测结果
     @RequestMapping("/insertInferResult")
     @ResponseBody
     public ResponseBean insertInferResult(InferResult inferResult){
@@ -26,14 +27,14 @@ public class InferResultController {
             return new ResponseBean("插入失败",data);
         }
     }
-
+//  根据任务id删除标注结果信息
     @RequestMapping("/deleteInferResultByTaskId")
     @ResponseBody
     public ResponseBean deleteInferResultByTaskId(Integer task_id){
         int data = inferResultServie.deleteInferResultByTaskId(task_id);
         return new ResponseBean("删除成功",data);
     }
-
+//  根据句子id更新标注预测信息
     @RequestMapping("/updateInferResultBySentenceId")
     @ResponseBody
     public ResponseBean updateInferResultBySentenceId(Integer paragraph_id, String infer_result){
@@ -44,7 +45,7 @@ public class InferResultController {
             return new ResponseBean("更新失败",data);
         }
     }
-
+//  根据句子id更新一致性ci
     @RequestMapping("/updateCIBySentenceId")
     @ResponseBody
     public ResponseBean updateCIBySentenceId(Integer paragraph_id, String ci){
@@ -55,7 +56,7 @@ public class InferResultController {
             return new ResponseBean("更新失败",data);
         }
     }
-
+//  根据句子id更新最终标注结果final_result
     @RequestMapping("/updateFinalResultBySentenceId")
     @ResponseBody
     public ResponseBean updateFinalResultBySentenceId(Integer paragraph_id, String final_result){
@@ -66,7 +67,7 @@ public class InferResultController {
             return new ResponseBean("更新失败",data);
         }
     }
-
+//  根据句子位置和任务id更新标注预测信息
     @RequestMapping("/updateInferResultByPosition")
     @ResponseBody
     public ResponseBean updateInferResultByPosition(Integer task_id, Integer paragraph_position, String infer_result){
@@ -77,7 +78,7 @@ public class InferResultController {
             return new ResponseBean("更新失败",data);
         }
     }
-
+//  根据句子位置和任务id更新一致性ci
     @RequestMapping("/updateCIByPosition")
     @ResponseBody
     public ResponseBean updateCIByPosition(Integer task_id, Integer paragraph_position, String ci){
@@ -88,7 +89,7 @@ public class InferResultController {
             return new ResponseBean("更新失败",data);
         }
     }
-
+//  根据句子位置和任务id更新最终标注结果final_result
     @RequestMapping("/updateFinalResultByPosition")
     @ResponseBody
     public ResponseBean updateFinalResultByPosition(Integer task_id, Integer paragraph_position, String final_result){
@@ -99,7 +100,7 @@ public class InferResultController {
             return new ResponseBean("更新失败",data);
         }
     }
-
+//  根据任务id获取所有句子标注信息
     @RequestMapping("/findInferInfoByTaskId")
     @ResponseBody
     public ResponseBean findInferInfoByTaskId(Integer task_id){
@@ -113,14 +114,14 @@ public class InferResultController {
         }
         return new ResponseBean("查询成功",inferResultServie.findInferInfoByTaskId(task_id));
     }
-
+//  根据句子id获取标注信息
     @RequestMapping("/findInferInfoBySentenceId")
     @ResponseBody
     public ResponseBean findInferInfoBySentenceId(Integer paragraph_id){
         List<InferResult> data = inferResultServie.findInferInfoBySentenceId(paragraph_id);
         return new ResponseBean("查询成功",data);
     }
-
+//  根据句子位置获取标注信息
     @RequestMapping("/findInferInfoByPosition")
     @ResponseBody
     public ResponseBean findInferInfoByPosition(Integer task_id, Integer paragraph_position){

@@ -143,7 +143,7 @@ public class SentencesController {
         response.setData(sentencesService.findSentenceFromOffset(offset,count));
         return response;
     }
-
+//删除从offset开始的count条数据
     @RequestMapping("/deleteSentenceFromOffset")
     @ResponseBody
     public ResponseBean deleteSentenceFromOffset (Integer offset,Integer count){
