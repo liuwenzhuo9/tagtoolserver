@@ -13,7 +13,7 @@ public class TasksInfo {
 //    private String tfile_path;
     private String tfile_name;
     private String task_name;
-    private String task_type;
+    private int task_type;
     private String task_reward;
     private String task_intro;
     private String task_label;
@@ -26,6 +26,7 @@ public class TasksInfo {
     private String sds_pos; //测试集的随机位置
     private int is_finished;
     private String deadline;
+    private double granularity;
 
     public int getId() {
         return id;
@@ -73,10 +74,6 @@ public class TasksInfo {
 
     public String getSds_path() {
         return sds_path;
-    }
-
-    public String getTask_type() {
-        return task_type;
     }
 
 //    public String getTfile_path() {
@@ -139,10 +136,6 @@ public class TasksInfo {
         this.task_reward = task_reward;
     }
 
-    public void setTask_type(String task_type) {
-        this.task_type = task_type;
-    }
-
 //    public void setTfile_path(String tfile_path) {
 //        this.tfile_path = tfile_path;
 //    }
@@ -179,6 +172,23 @@ public class TasksInfo {
         return tfile_name;
     }
 
+    public int getTask_type() {
+        return task_type;
+    }
+
+    public void setTask_type(int task_type) {
+        this.task_type = task_type;
+    }
+
+    public void setGranularity(double granularity) {
+        this.granularity = granularity;
+    }
+
+    public double getGranularity() {
+        return granularity;
+    }
+
+
     @Override
     public String toString() {
         return "TasksInfo{" +
@@ -188,7 +198,7 @@ public class TasksInfo {
 //                ", tfile_path='" + tfile_path + '\'' +
                 ", tfile_name='" + tfile_name + '\'' +
                 ", task_name='" + task_name + '\'' +
-                ", task_type='" + task_type + '\'' +
+                ", task_type='" + task_type +
                 ", task_reward='" + task_reward + '\'' +
                 ", task_intro='" + task_intro + '\'' +
                 ", task_label='" + task_label + '\'' +
@@ -201,6 +211,7 @@ public class TasksInfo {
                 ", sds_pos='" + sds_pos + '\'' +
                 ", is_finished=" + is_finished +
                 ", deadline='" + deadline + '\'' +
+                ", granularity=" + granularity +
                 '}';
     }
 }

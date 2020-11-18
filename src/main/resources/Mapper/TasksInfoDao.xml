@@ -11,7 +11,7 @@
 <!--        <result column="tfile_path" property="tfile_path" jdbcType="VARCHAR" />-->
 <!--        <result column="tfile_name" property="tfile_name" jdbcType="VARCHAR" />-->
         <result column="task_name" property="task_name" jdbcType="VARCHAR" />
-        <result column="task_type" property="task_type" jdbcType="VARCHAR" />
+        <result column="task_type" property="task_type" jdbcType="INTEGER" />
         <result column="task_reward" property="task_reward" jdbcType="VARCHAR" />
         <result column="task_intro" property="task_intro" jdbcType="VARCHAR" />
         <result column="task_label" property="task_label" jdbcType="VARCHAR" />
@@ -24,14 +24,16 @@
         <result column="sds_pos" property="sds_pos" jdbcType="VARCHAR" />
         <result column="is_finished" property="is_finished" jdbcType="INTEGER" />
         <result column="deadline" property="deadline" jdbcType="VARCHAR" />
+        <result column="granularity" property="granularity" jdbcType="NUMERIC" />
 
     </resultMap>
     <!--插入任务信息-->
     <insert id="insertTaskInfo" parameterType="com.example.tagtool.tagEntity.TasksInfo">
         insert into tb_tasks_info (leader_account,leader_name,tfile_name,task_name,task_type,task_reward,task_intro,task_label,
-        member_num,member_account,member_ability,member_finish,sds_name,sds_path,sds_pos,deadline,is_finished)
+        member_num,member_account,member_ability,member_finish,sds_name,sds_path,sds_pos,deadline,is_finished,granularity)
         values (#{leader_account}, #{leader_name},#{tfile_name},#{task_name}, #{task_type}, #{task_reward}, #{task_intro},#{task_label},
-        	#{member_num},#{member_account}, #{member_ability}, #{member_finish}, #{sds_name}, #{sds_path},  #{sds_pos},#{deadline},#{is_finished})
+        	#{member_num},#{member_account}, #{member_ability}, #{member_finish}, #{sds_name}, #{sds_path},  #{sds_pos},#{deadline},
+        	#{is_finished},#{granularity})
     </insert>
 
     <!--    查找所有未完成任务展示信息-->

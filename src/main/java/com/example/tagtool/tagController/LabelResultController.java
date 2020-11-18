@@ -254,7 +254,7 @@ public class LabelResultController {
         List<String> infer_res = new ArrayList<>();
 
         //        判断是否为带黄金数据的标签标注任务
-        if(taskInfo.getSds_name() != null && taskInfo.getSds_name() != "" && taskInfo.getTask_type().equals("标签标注")){
+        if(taskInfo.getSds_name() != null && taskInfo.getSds_name() != "" && taskInfo.getTask_type()==1){
             //      黄金数据在任务中的位置
             String[] pos = taskInfo.getSds_pos().split(",");
 
@@ -281,7 +281,7 @@ public class LabelResultController {
         }
 
         //        判断是否为带黄金数据的序列标注任务
-        if(taskInfo.getSds_name() != null && taskInfo.getSds_name() != "" && taskInfo.getTask_type().equals("序列标注")){
+        if(taskInfo.getSds_name() != null && taskInfo.getSds_name() != "" && taskInfo.getTask_type()==0){
             //      黄金数据在任务中的位置
             String[] pos = taskInfo.getSds_pos().split(",");
             //      黄金数据的正确结果
@@ -307,7 +307,7 @@ public class LabelResultController {
 
 
         //        判断是否为*不带*黄金数据的标签标注任务
-        if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type().equals("标签标注")){
+        if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==1){
             //            根据原始的power和多数投票法预测的标注结果
             String[] key_1 = infer_label(people_account, tag, res, power_l);
             //            根据时间和准确率更新用户加权，重新预测
@@ -330,7 +330,7 @@ public class LabelResultController {
 
 
         //        判断是否为*不带*黄金数据的序列标注任务
-        if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type().equals("序列标注")){
+        if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==0){
             //            根据原始的power和多数投票法预测的序列标注结果
             String[] key_1 = infer_sequence(people_account, tag,  res, paragraph_len, power_s);
             //            根据时间和准确率更新用户加权，重新预测
@@ -356,13 +356,13 @@ public class LabelResultController {
         List<TaskContent> taskContent = taskContentService.findContentByTaskIdAndIsTest(task_id, 0);
 
         //            计算用户标注的一致性ci
-        if(taskInfo.getTask_type().equals("标签标注")){
+        if(taskInfo.getTask_type()==1){
             double[] ci = labelCI(res, infer_res);
             for(int i = 0; i<ci.length; i++){
                 inferResultServie.updateCIByPosition(task_id, i, ci[i]+"");
             }
         }
-        if(taskInfo.getTask_type().equals("序列标注")){
+        if(taskInfo.getTask_type()==0){
             double[] ci = sequenceCI(res, infer_res, paragraph_len);
             for(int i = 0; i<ci.length; i++){
                 inferResultServie.updateCIByPosition(task_id, i, ci[i]+"");
