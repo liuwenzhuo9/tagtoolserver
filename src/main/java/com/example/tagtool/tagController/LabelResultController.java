@@ -1,5 +1,6 @@
 package com.example.tagtool.tagController;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.example.tagtool.tagEntity.*;
 import com.example.tagtool.tagService.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
+import java.nio.file.FileSystemNotFoundException;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -27,7 +30,8 @@ public class LabelResultController {
     private TimeService timeService;
     @Resource
     private InferResultServie inferResultServie;
-//插入用户的标注结果
+
+    //插入用户的标注结果
     @RequestMapping("/insertLabelResult")
     @ResponseBody
     public ResponseBean insertLabelResult(LabelResult labelResult){
@@ -213,7 +217,7 @@ public class LabelResultController {
 //根据任务id预测标注结果
     @RequestMapping("/inferLabelResult")
     @ResponseBody
-    public List<String> inferLabelResult(Integer task_id){
+    public List<String> inferLabelResult(Integer task_id, Integer type){
         List<TasksInfo> info = tasksInfoService.findTaskById(task_id);
         TasksInfo taskInfo = info.get(0);
         //        peopleSum记录用户账号信息
@@ -228,12 +232,12 @@ public class LabelResultController {
             String p_label = userInfo.get(0).getPower_l();
             String p_sequence = userInfo.get(0).getPower_s();
             if(p_label == null || p_label.equals("")){
-                power_l[i] = 0.0;
+                power_l[i] = 0.5;
             }else{
                 power_l[i] = Double.parseDouble(p_label);
             }
             if(p_sequence == null || p_sequence.equals("")){
-                power_s[i] = 0.0;
+                power_s[i] = 0.5;
             }else{
                 power_s[i] = Double.parseDouble(p_sequence);
             }
@@ -253,7 +257,7 @@ public class LabelResultController {
         //        记录预测结果
         List<String> infer_res = new ArrayList<>();
 
-        //        判断是否为带黄金数据的标签标注任务
+        //        判断是否为带黄金数据的单标签标注任务
         if(taskInfo.getSds_name() != null && taskInfo.getSds_name() != "" && taskInfo.getTask_type()==1){
             //      黄金数据在任务中的位置
             String[] pos = taskInfo.getSds_pos().split(",");
@@ -288,7 +292,6 @@ public class LabelResultController {
             List<String> godKey = taskContentService.getTestLabelByTaskId(task_id);
             String[] god_key = godKey.toArray(new String[]{});
             List<String> a = label_result_2(people_account, tag,  res, pos,  god_key, paragraph_len, task_id);
-            System.out.println(res.get(0).size());
             infer_res = a;
 //            for(int p = 0; p<peoLen; p++){
 //                double total_score = 0.0;
@@ -305,29 +308,36 @@ public class LabelResultController {
 //            }
         }
 
+        //          判断是否为带黄金数据的量级标签标注任务
+        if(taskInfo.getSds_name() != null && taskInfo.getSds_name() != "" && taskInfo.getTask_type()==2){
+            //      黄金数据在任务中的位置
+            String[] pos = taskInfo.getSds_pos().split(",");
+            //      黄金数据的正确结果
+            List<String> godKey = taskContentService.getTestLabelByTaskId(task_id);
+            String[] god_key = godKey.toArray(new String[]{});
+            List<String> a = label_result_3(people_account, pos,  tag, res,  god_key, type);
+            infer_res = a;
+        }
 
-        //        判断是否为*不带*黄金数据的标签标注任务
+        //        判断是否为带黄金数据的多层次标签标注任务
+        if(taskInfo.getSds_name() != null && taskInfo.getSds_name() != "" && taskInfo.getTask_type()==3){
+            //      黄金数据在任务中的位置
+            String[] pos = taskInfo.getSds_pos().split(",");
+            //      黄金数据的正确结果
+            List<String> godKey = taskContentService.getTestLabelByTaskId(task_id);
+            String[] god_key = godKey.toArray(new String[]{});
+            List<String> a = label_result_4(people_account, pos, taskInfo.getTask_label(), res,  god_key);
+            infer_res = a;
+        }
+
+        //        判断是否为*不带*黄金数据的单标签标注任务
         if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==1){
             //            根据原始的power和多数投票法预测的标注结果
             String[] key_1 = infer_label(people_account, tag, res, power_l);
             //            根据时间和准确率更新用户加权，重新预测
             List<String> key_2 = update_infer_label(people_account,  task_id,  res,  key_1,  power_l, tag);
             infer_res = key_2;
-
-//            更新用户power_l
-//            for(int p = 0; p<peoLen; p++){
-//                String[] infer_key_toArr = key_2.toArray(new String[]{});
-//                String[] res_toArr = res.toArray(new String[]{});
-//                double p_score = label_acc(infer_key_toArr, res_toArr);
-//                User user = userService.findInfoByUserAccount(people_account.get(p)).get(0);
-//                String new_label_scores = user.getLabel_scores() + "," + p_score;
-//                String[] score_arr = new_label_scores.split(",");
-//                double new_power_l = (Double.parseDouble(user.getPower_l()) + p_score)/score_arr.length;
-//                userService.updateLabelPowerByUserAccount(people_account.get(p),String.valueOf(new_power_l));
-//                userService.updateLabelScoresByUserAccount(people_account.get(p),new_label_scores);
-//            }
         }
-
 
         //        判断是否为*不带*黄金数据的序列标注任务
         if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==0){
@@ -352,22 +362,46 @@ public class LabelResultController {
 //            }
         }
 
+        //        判断是否为*不带*黄金数据的量级标签标注任务
+        if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==2){
+            //            根据原始的power和多数投票法预测的量级标签标注任务结果
+            List<String> key_1 = order_label_result(people_account, tag,  res, power_l, type);
+            infer_res = key_1;
+        }
+
+        //        判断是否为*不带*黄金数据的多层次标签标注任务
+        if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==3){
+            //            根据原始的power和多数投票法预测的量级标签标注任务结果
+            List<String> key_1 = multi_label_result(people_account, taskInfo.getTask_label(),  res, power_l);
+            infer_res = key_1;
+        }
+
         //        获取每个任务正式任务的paragraph id和 content
         List<TaskContent> taskContent = taskContentService.findContentByTaskIdAndIsTest(task_id, 0);
 
-        //            计算用户标注的一致性ci
+        double[] ci = new double[res.size()];
+        //            计算用户单标签标注的一致性ci
         if(taskInfo.getTask_type()==1){
-            double[] ci = labelCI(res, infer_res);
-            for(int i = 0; i<ci.length; i++){
-                inferResultServie.updateCIByPosition(task_id, i, ci[i]+"");
-            }
+            ci = labelCI(res, infer_res);
         }
+        //        计算用户序列标注的一致性ci
         if(taskInfo.getTask_type()==0){
-            double[] ci = sequenceCI(res, infer_res, paragraph_len);
-            for(int i = 0; i<ci.length; i++){
-                inferResultServie.updateCIByPosition(task_id, i, ci[i]+"");
-            }
+            ci = sequenceCI(res, infer_res, paragraph_len);
         }
+        //        计算用户量级标签标注的一致性ci
+        if(taskInfo.getTask_type()==2){
+            ci = orderCI(infer_res, res);
+        }
+        //        计算用户多层次标签标注的一致性ci
+        if(taskInfo.getTask_type()==3){
+            ci = multiCI(infer_res, res);
+        }
+//        将一致性检测的数值插入tb_infer_result中
+        for(int i = 0; i<ci.length; i++){
+//            System.out.println(ci[i]);
+            inferResultServie.updateCIByPosition(task_id, i, ci[i]+"");
+        }
+
 //        //        插入tb_infer_result中
 //        for(int i = 0; i< taskContent.size(); i++){
 //            InferResult infer = new InferResult();
@@ -379,18 +413,12 @@ public class LabelResultController {
 //            infer.setContent(taskContent.get(i).getContent());
 //            inferResultServie.insertInferResult(infer);
 //        }
-
-
-//        ResponseBean responseBean = new ResponseBean();
-//        responseBean.setData(infer_res);
-//        responseBean.setMessage("推测成功");
-//        return responseBean;
-
+//        System.out.println(infer_res);
         return infer_res;
 
     }
 
-//    带黄金数据的标签标注结果预测方法
+//    带黄金数据的标签标注结果合并方法
     public List<String> label_result_1(List<String> people_account, String[] pos, String[] tag, List<List<String>> res, String[] god_key, int task_id) {
         int peoLen = people_account.size();
         int gdLen = god_key.length;
@@ -408,7 +436,7 @@ public class LabelResultController {
                 p_res.add(res.get(p - cnt).get(Integer.parseInt(pos[i]) - i));//此时res中存放的是剔除了黄金数据后的正式标注结果
                 res.get(p - cnt).remove(Integer.parseInt(pos[i]) - i);
             }
-//剔除准确率低于0.6的用户及其结果
+        //剔除准确率低于0.6的用户及其结果
             if((double)score / gdLen < 0.6) {
                 res.remove(p - cnt);
                 people_account.remove(p - cnt);
@@ -454,7 +482,7 @@ public class LabelResultController {
         return key_2;
     }
 
-//    带黄金数据的序列标注结果预测算法
+//    带黄金数据的序列标注结果合并方法
     public List<String> label_result_2(List<String> people_account, String[] tag, List<List<String>> res, String[] pos, String[] god_key, List<Integer> paragraph_len, int task_id) {
         // 计算用户在黄金任务中的标注表现
         int peoLen = people_account.size();
@@ -496,8 +524,111 @@ public class LabelResultController {
         return key_2;
     }
 
+//    带黄金数据的量级标签结果合并方法
+    public List<String> label_result_3(List<String> people_account, String[] pos, String[] tag, List<List<String>> res, String[] god_key, int type){
+        int peoLen = people_account.size();
+        int gdLen = god_key.length;
+        List<List<String>> god_res = new ArrayList<>();
+        List<Double> p_score = new ArrayList<>();
+        int cnt = 0;
+        for(int i = 0; i<peoLen; i++) {
+            List<String> p_res = new ArrayList<>();
+            double score = 0.0;
+            for(int g = 0; g<gdLen; g++) {
+                score += order_label_acc(god_key[g], res.get(i-cnt).get(Integer.parseInt(pos[g])-g));
+                p_res.add(res.get(i - cnt).get(Integer.parseInt(pos[g]) - g));
+                res.get(i - cnt).remove(Integer.parseInt(pos[g]) - g);
+            }
+            if((double)score / gdLen < 0.6) {
+                res.remove(i - cnt);
+                people_account.remove(i - cnt);
+                cnt++;
+            }else{
+                p_score.add((double)score / gdLen);
+                god_res.add(p_res);
+            }
+        }
+        peoLen = people_account.size();
+        List<Double> diff = new ArrayList<>();
+        for(int i = 0; i<gdLen; i++) {
+            double score = 0;
+            for(int j = 0; j<peoLen; j++) {
+                score += order_label_acc(god_key[i], god_res.get(j).get(i));
+            }
+            diff.add(score / gdLen);
+        }
+        Double[] power = new Double[peoLen];
+        Double total_power = 0.0;
+        for(int i = 0; i<peoLen; i++){
+            double score = 0.0;
+            double e = 0.00001;
+            for(int j = 0; j<gdLen; j++){
+                double s = order_label_acc(god_key[j], god_res.get(i).get(j));
+                if(s == 0){
+                    score -= 1;
+                }else{
+                    score += s * (double)1/(diff.get(j) + e);
+                }
+            }
+            total_power = total_power + score;
+            power[i] = score;
+        }
+        return order_label_result(people_account, tag, res, power, type);
+    }
+
+//    带黄金数据的多层次标签标注结果合并方法
+    public List<String> label_result_4(List<String> people_account, String[] pos, String tag, List<List<String>> res, String[] god_key) {
+        int peoLen = people_account.size();
+        int gdLen = god_key.length;
+        List<List<String>> god_res = new ArrayList<>();
+        List<Double> p_score = new ArrayList<>();
+        int cnt = 0;
+        for(int i = 0; i<peoLen; i++) {
+            List<String> p_res = new ArrayList<>();
+            double score = 0.0;
+            for(int g = 0; g<gdLen; g++) {
+                score += multi_label_acc(god_key[g], res.get(i-cnt).get(Integer.parseInt(pos[g]) - g));
+                p_res.add(res.get(i-cnt).get(Integer.parseInt(pos[g]) - g));
+                res.get(i-cnt).remove(Integer.parseInt(pos[g]) - g);
+
+            }
+            if(score / gdLen < 0.6) {
+                res.remove(i-cnt);
+                people_account.remove(i-cnt);
+                cnt++;
+            }else{
+                p_score.add(score / gdLen);
+                god_res.add(p_res);
+            }
+        }
+        peoLen = people_account.size();
+        List<Double> diff = new ArrayList<>();
+        for(int i = 0; i<gdLen; i++) {
+            double score = 0;
+            for(int j = 0; j<peoLen; j++) {
+                score += multi_label_acc(god_key[i], god_res.get(j).get(i));
+            }
+            diff.add(score / gdLen);
+        }
+        Double[] power = new Double[peoLen];
+        for(int i = 0; i<peoLen; i++){
+            double score = 0.0;
+            double e = 0.00001;
+            for(int j = 0; j<gdLen; j++){
+                double temp = multi_label_acc(god_key[i], god_res.get(i).get(j));
+                if(score != 0){
+                    score += temp * (double)1/(diff.get(j) + e);
+                }else{
+                    score -= 1;
+                }
+            }
+            power[i] = score;
+        }
+        return multi_label_result(people_account, tag, res, power);
+    }
+
 //    把用户标注的结果转换成数组存储
-    public String[] getIndexTag(String str, int n) {
+    public String[] getIndexTag(String str, Integer n) {
         String pattern = "\\{[^\\}]+\\}";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(str);
@@ -534,7 +665,7 @@ public class LabelResultController {
         return f;
     }
 
-//    计算用户标签标注的准确率
+//    计算用户单标签标注的准确率
     public double label_acc(String[] key, String[] res) {
         int score = 0;
         int len = key.length;
@@ -546,7 +677,49 @@ public class LabelResultController {
         return (double)score/len;
     }
 
-//    推测标签标注结果
+//    计算用户多层次标签标注的准确率和召回率
+    public double multi_label_acc(String key, String res) {
+        String regex = "\\{([^}])*\\}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher1 = pattern.matcher(key);
+        Matcher matcher2 = pattern.matcher(res);
+        List<String> keyList = new ArrayList<>();
+        List<String> resList = new ArrayList<>();
+        while (matcher1.find()) {
+            keyList.add(matcher1.group());
+        }
+        while (matcher2.find()) {
+            resList.add(matcher2.group());
+        }
+        int keySize = keyList.size();
+        int resSize = resList.size();
+        int score = 0;
+        for(int i = 0; i<resSize; i++){
+            if(keyList.indexOf(resList.get(i)) != -1) {
+                score++;
+            }
+        }
+        if(score == 0){
+            return 0;
+        }
+        double acc = (double)score/keySize;
+        double recall = (double)score/resSize;
+        double f = (double)2*acc*recall/(acc+recall);
+        return f;
+    }
+
+//    计算用户量级标签标注的准确率
+    public double order_label_acc(String key, String res){
+        String[] res_single = res.split(":");
+        String[] key_single = key.split(":");
+        if(res_single[0].equals(key_single[0])) {
+            double dec = Math.abs(Double.parseDouble(res_single[1]) - Double.parseDouble(key_single[1]));
+            return (1 - dec / Double.parseDouble(key_single[1]));
+        }
+        return 0.0;
+    }
+
+//    根据power合并单标签标注结果
     public String[] infer_label(List<String> people_account, String[] tag, List<List<String>> res,Double[] power){
         String[] answer = new String[res.get(0).size()];
         int peoLen = people_account.size();
@@ -571,7 +744,7 @@ public class LabelResultController {
         return answer;
 }
 
-//    推测序列标注结果
+//    根据power合并序列标注结果
     public String[] infer_sequence(List<String> people_account, String[] tag, List<List<String>> res, List<Integer> paragraph_len, Double[] power) {
         int peoLen = people_account.size();
         String[] answer = new String[res.get(0).size()];
@@ -608,8 +781,151 @@ public class LabelResultController {
         return answer;
     }
 
+//    根据power合并量级标签标注结果
+    public List<String> order_label_result(List<String> people_account, String[] tag, List<List<String>> res, Double[] power, Integer type){
+        int peoLen = people_account.size();
+        int sentenceLen = res.get(0).size();
+        int tagNum = tag.length;
+        List<String> answer = new ArrayList<>();
+        String[][][] resRecord = new String[sentenceLen][tagNum][2];
+        for(int i = 0; i<sentenceLen; i++){
+            double[] times = new double[tagNum];
+            double[] scores = new double[tagNum];
+            for(int j = 0; j<peoLen; j++){
+                String temp = res.get(j).get(i);
+                String[] tempArr = temp.split(":");
+                int index = getIndex(tag,tempArr[0]);
+                times[index] += power[j] * 2;
+                scores[index] += Double.parseDouble(tempArr[1]) * power[j] * 2;
+            }
+            String[][] senTemp = new String[tagNum][2];
+            for(int k = 0; k<tagNum; k++){
+                senTemp[k][0] = "" + times[k];
+                senTemp[k][1] = "" + scores[k];
+            }
+            resRecord[i] = senTemp;
+        }
+        // explain
+        // String[][][] resRecord = {{ {tag1's times, tag1's scores}, {tag1's times, tag1's scores},           }, //first sentence's label result
+        // 						  	{},
+        // 						  	{},
+        // 						  	{}}
+//        type == 0 表示标签出现的次数多少决定最终标签
+        if(type == 0){
+            String temp = "";
+            for(int i = 0; i<sentenceLen; i++){
+                double max = 0;
+                double maxScore = 0.0;
+                int maxIndex = 0;
+                for(int j = 0; j<tagNum; j++){
+                    max = Math.max(max, Double.parseDouble(resRecord[i][j][0]));
+                    if(max == Double.parseDouble(resRecord[i][j][0])){
+                        maxIndex = j;
+                        maxScore = Double.parseDouble(resRecord[i][j][1]);
+                    }
+                }
+                double resScore = maxScore / max;
+                temp = tag[maxIndex] + ':' + resScore;
+                answer.add(temp);
+            }
+        }
+        //        type == 1 表示标签量级分数多少决定最终标签
+        if(type == 1){
+            String temp = "";
+            for(int i = 0; i<sentenceLen; i++){
+                double max = 0.0;
+                double maxTimes = 0.0;
+                int maxIndex = 0;
+                for(int j = 0; j<tagNum; j++){
+                    max = Math.max(max, Double.parseDouble(resRecord[i][j][1]));
+                    if(max == Double.parseDouble(resRecord[i][j][1])){
+                        maxIndex = j;
+                        maxTimes = Double.parseDouble(resRecord[i][j][0]);
+                    }
+                }
+                double resScore = max / maxTimes;
+                temp = tag[maxIndex] + ':' + resScore;
+                answer.add(temp);
+            }
+        }
+        return answer;
+    }
+
+//    根据power合并多层次标签标注结果
+    public List<String> multi_label_result(List<String> people_account, String tag, List<List<String>> res, Double[] power){
+        int peoLen = people_account.size();
+        int senLen = res.get(0).size();
+        String regex = "\\{([^}])*\\}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(tag);
+        List<String> firstTag = new ArrayList<>();
+        List<List<String>> secondTag = new ArrayList<>();
+        double total = 0.0;
+        for(int i = 0; i<peoLen; i++){
+            total += power[i];
+        }
+        while (matcher.find()) {
+            String[] tagArr = matcher.group().substring(1,matcher.group().length()-1).split(":");
+            firstTag.add(tagArr[0]);
+            String[] secondTagArr = tagArr[1].split(",");
+            List<String> temp = new ArrayList<>();
+            for(int i = 0; i<secondTagArr.length; i++){
+                temp.add(secondTagArr[i]);
+            }
+            secondTag.add(temp);
+        }
+        // initialize tagNum
+        double[][][] tagNum = new double[senLen][][];
+        for(int j = 0; j<senLen; j++){
+            double[][] secondTagNum = new double[firstTag.size()][];
+            for(int i = 0; i<firstTag.size(); i++){
+                double[] thirdTagNum = new double[secondTag.get(i).size()];
+                secondTagNum[i] = thirdTagNum;
+            }
+            tagNum[j] = secondTagNum;
+        }
+
+        for(int i = 0; i<senLen; i++){
+            for(int j = 0; j<peoLen; j++){
+                String tempRes = res.get(j).get(i);
+                Matcher matcherPer = pattern.matcher(tempRes);
+                while(matcherPer.find()) {
+                    String[] tagResPer = matcherPer.group().substring(1, matcherPer.group().length()-1).split(",");
+                    int firstIndex = firstTag.indexOf(tagResPer[0]);
+                    int secondIndex = secondTag.get(firstIndex).indexOf(tagResPer[1]);
+                    tagNum[i][firstIndex][secondIndex] += power[j];
+                }
+            }
+        }
+
+
+        // {1,1-3},{2,2-2},{3,3-4}
+        // explain
+        // tagNum = {{first sentence { first level}, {second level }, {third level }, ...     },{second sentence { first level}, {second level }, {third level }, ...       },{third sentence        }};
+        // find right label by tagNum
+        List<String> ans = new ArrayList<>();
+        // List<List<String>> ans = new ArrayList<>();
+        for(int k=0; k<senLen; k++){
+            String tempAns = "";
+            // List<String> tempAns = new ArrayList<>();
+            for(int m =0; m<firstTag.size(); m++){
+                double max = 0.0;
+                String maxTag = "";
+                for(int n = 0; n<secondTag.get(m).size(); n++){
+                    // System.out.println(tagNum[k][m][n]);
+                    max = Math.max(tagNum[k][m][n], max);
+                    maxTag = max == tagNum[k][m][n] ? secondTag.get(m).get(n) : maxTag;
+                }
+                tempAns += "{" + firstTag.get(m) + "," + maxTag + "},";
+            }
+            ans.add(tempAns.substring(0, tempAns.length()-1));
+        }
+        return ans;
+
+    }
+
 //    计算用户用时和平均用时的关系
-    public Double[] time_count(List<String> people_account, int task_id){
+    public Double[] time_count(List<String> people_account, Integer task_id){
         int peoLen = people_account.size();
         int[] time_single = new int[peoLen];
         Double[] time_ratio = new Double[peoLen];
@@ -627,7 +943,7 @@ public class LabelResultController {
     }
 
 //    根据时间和正确率更新*标签标注*的power权值，并更新预测结果
-    public List<String> update_infer_label(List<String> people_account, int task_id, List<List<String>> res, String[] key_1, Double[] power_l,String[] tag){
+    public List<String> update_infer_label(List<String> people_account, Integer task_id, List<List<String>> res, String[] key_1, Double[] power_l,String[] tag){
         int peoLen = people_account.size();
         Double[] time_rate = time_count(people_account, task_id);
         Double[] acc_rate = new Double[peoLen];
@@ -658,7 +974,7 @@ public class LabelResultController {
     }
 
 //    根据时间和正确率更新*序列标注*的power权值，并更新预测结果
-    public List<String> update_infer_Sequence(List<String> people_account, int task_id, List<List<String>> res, String[] key_1, Double[] power_s,String[] tag, List<Integer> paragraph_len){
+    public List<String> update_infer_Sequence(List<String> people_account, Integer task_id, List<List<String>> res, String[] key_1, Double[] power_s,String[] tag, List<Integer> paragraph_len){
         int peoLen = people_account.size();
         int paraNum = paragraph_len.size();
         Double[] time_rate = time_count(people_account, task_id);
@@ -732,6 +1048,7 @@ public class LabelResultController {
         }
         return ans;
     }
+
 //    计算标签标注的用户结果一致性
     public double[] labelCI(List<List<String>> res, List<String> key){
         int peopleLen = res.size();
@@ -751,5 +1068,45 @@ public class LabelResultController {
             sentenceCI[i] = singleCI;
         }
         return sentenceCI;
+    }
+
+//    计算量级标签标注的用户结果一致性
+    public double[] orderCI(List<String> key, List<List<String>> res) {
+        int sentenceLen = key.size();
+        int peoLen = res.size();
+        double[] ci = new double[sentenceLen];
+        for(int i = 0; i<sentenceLen; i++){
+            double ciScore = 0.0;
+            for(int j = 0; j<peoLen; j++) {
+                ciScore += order_label_acc(key.get(i), res.get(j).get(i));
+            }
+            ci[i] = ciScore / peoLen;
+        }
+        return ci;
+    }
+
+//    计算多层次标签标注用户结果一致性
+    public double[] multiCI(List<String> key, List<List<String>> res) {
+        int peoLen = res.size();
+        int sentenceLen = key.size();
+        double[] ci = new double[sentenceLen];
+        for(int i = 0; i<sentenceLen; i++) {
+            double score = 0.0;
+            for(int j =0; j<peoLen; j++) {
+                score += multi_label_acc(key.get(i), res.get(j).get(i));
+            }
+            ci[i] = score/ peoLen;
+        }
+        return ci;
+    }
+
+//    获取元素在数组中的索引值
+    public static int getIndex(String[] arr, String value) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(value)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

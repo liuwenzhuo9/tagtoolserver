@@ -3,6 +3,7 @@ package com.example.tagtool.tagController;
 import com.example.tagtool.tagEntity.InferResult;
 import com.example.tagtool.tagService.InferResultServie;
 import com.example.tagtool.tagService.LabelResultService;
+import org.attoparser.dom.INestableNode;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -103,11 +104,11 @@ public class InferResultController {
 //  根据任务id获取所有句子标注信息
     @RequestMapping("/findInferInfoByTaskId")
     @ResponseBody
-    public ResponseBean findInferInfoByTaskId(Integer task_id){
+    public ResponseBean findInferInfoByTaskId(Integer task_id, Integer type){
         List<InferResult> data = inferResultServie.findInferInfoByTaskId(task_id);
 //        判断tb_infer_result是否存在infer_result 若不存在，则调用预测结果的接口；若存在直接返回获取的值
         if(data.get(0).getInfer_result() == null || data.get(0).getInfer_result().equals("")){
-            List<String> info = labelResultController.inferLabelResult(task_id);
+            List<String> info = labelResultController.inferLabelResult(task_id, type);
             for(int i = 0; i<info.size(); i++){
                 inferResultServie.updateInferResultByPosition(task_id, i, info.get(i));
             }
