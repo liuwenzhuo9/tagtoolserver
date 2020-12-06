@@ -163,7 +163,7 @@ public class SentencesController {
         }
 
     }
-
+//找到未标记句子数目
     @RequestMapping("/findUnmarkedNum")
     @ResponseBody
     public ResponseBean findUnmarkedNum (){
@@ -172,7 +172,7 @@ public class SentencesController {
         response.setData(sentencesService.findUnmarkedNum());
         return response;
     }
-
+//根据作者找到句子
     @RequestMapping("/findSentenceByAuthor")
     @ResponseBody
     public ResponseBean findSentenceByAuthor(String author){

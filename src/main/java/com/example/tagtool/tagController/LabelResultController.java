@@ -201,7 +201,7 @@ public class LabelResultController {
         responseBean.setMessage("查找成功");
         return responseBean;
     }
-//根据任务id和用户账号查询段落id
+//根据任务id和用户账号查询段落长度
     @RequestMapping("/findParaLenByTaskIdAndAccount")
     @ResponseBody
     public List<Integer> findParaLenByTaskIdAndAccount(Integer task_id,String user_account){
