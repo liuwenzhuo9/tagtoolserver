@@ -3,8 +3,8 @@ package com.example.tagtool.tagEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tb_user")
-public class User {
+@Table(name = "tb_user_info")
+public class UserInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -14,12 +14,11 @@ public class User {
     private String finished_tasks;
     private String progress_tasks;
     private String issue_tasks;
-    private String sds_score;
-    private String overall_score;
-    private String power_l;
-    private String power_s;
-    private String label_scores;
-    private String sequence_scores;
+    private double power_l1;
+    private double power_l2;
+    private double power_l3;
+    private double power_s;
+    private double points;
 
     public void setId(int id) {
         this.id = id;
@@ -45,16 +44,8 @@ public class User {
         return name;
     }
 
-    public String getOverall_score() {
-        return overall_score;
-    }
-
     public String getProgress_tasks() {
         return progress_tasks;
-    }
-
-    public String getSds_score() {
-        return sds_score;
     }
 
     public void setAccount(String account) {
@@ -73,16 +64,8 @@ public class User {
         this.name = name;
     }
 
-    public void setOverall_score(String overall_score) {
-        this.overall_score = overall_score;
-    }
-
     public void setProgress_tasks(String progress_tasks) {
         this.progress_tasks = progress_tasks;
-    }
-
-    public void setSds_score(String sds_score) {
-        this.sds_score = sds_score;
     }
 
     public String getIssue_tasks() {
@@ -93,41 +76,49 @@ public class User {
         this.issue_tasks = issue_tasks;
     }
 
-    public String getLabel_scores() {
-        return label_scores;
+    public double getPoints() {
+        return points;
     }
 
-    public void setLabel_scores(String label_scores) {
-        this.label_scores = label_scores;
+    public double getPower_l1() {
+        return power_l1;
     }
 
-    public String getSequence_scores() {
-        return sequence_scores;
+    public double getPower_l2() {
+        return power_l2;
     }
 
-    public void setSequence_scores(String sequence_scores) {
-        this.sequence_scores = sequence_scores;
+    public double getPower_l3() {
+        return power_l3;
     }
 
-    public String getPower_l() {
-        return power_l;
-    }
-
-    public String getPower_s() {
+    public double getPower_s() {
         return power_s;
     }
 
-    public void setPower_l(String power_l) {
-        this.power_l = power_l;
+    public void setPower_l1(double power_l1) {
+        this.power_l1 = power_l1;
     }
 
-    public void setPower_s(String power_s) {
+    public void setPoints(double points) {
+        this.points = points;
+    }
+
+    public void setPower_l2(double power_l2) {
+        this.power_l2 = power_l2;
+    }
+
+    public void setPower_l3(double power_l3) {
+        this.power_l3 = power_l3;
+    }
+
+    public void setPower_s(double power_s) {
         this.power_s = power_s;
     }
 
     @Override
     public String toString(){
-        return "User{" +
+        return "UserInfo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", account='" + account + '\'' +
@@ -135,11 +126,11 @@ public class User {
                 ", finished_tasks='" + finished_tasks + '\'' +
                 ", progress_tasks='" + progress_tasks + '\'' +
                 ", issue_tasks='" + issue_tasks + '\'' +
-                ", sds_score='" + sds_score + '\'' +
-                ", overall_score='" + overall_score + '\'' +
-                ", power_l='" + power_l + '\'' +
-                ", label_scores='" + label_scores + '\'' +
-                ", sequence_scores='" + sequence_scores + '\'' +
+                "power_l1=" + power_l1 +
+                "power_l2=" + power_l2 +
+                "power_l3=" + power_l3 +
+                "power_s=" + power_s +
+                "points=" + points +
                 '}';
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.tagtool.tagDao.UserDao">
+<mapper namespace="com.example.tagtool.tagDao.UserInfoDao">
     <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
-    <resultMap id="userMap" type="com.example.tagtool.tagEntity.User">
+    <resultMap id="userInfoMap" type="com.example.tagtool.tagEntity.UserInfo">
         <!-- 结果集的主键 -->
         <id column="id" property="id" jdbcType="INTEGER" />
         <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
@@ -12,30 +12,22 @@
         <result column="finished_tasks" property="finished_tasks" jdbcType="VARCHAR" />
         <result column="progress_tasks" property="progress_tasks" jdbcType="VARCHAR" />
         <result column="issue_tasks" property="issue_tasks" jdbcType="VARCHAR" />
-        <result column="sds_score" property="sds_score" jdbcType="VARCHAR" />
-        <result column="overall_score" property="overall_score" jdbcType="VARCHAR" />
-        <result column="power_l" property="power_l" jdbcType="VARCHAR" />
-        <result column="power_s" property="power_s" jdbcType="VARCHAR" />
-        <result column="label_scores" property="label_scores" jdbcType="VARCHAR" />
-        <result column="sequence_scores" property="sequence_scores" jdbcType="VARCHAR" />
 
     </resultMap>
     <!--插入人员信息-->
-    <insert id="insertUserInfo" parameterType="com.example.tagtool.tagEntity.User">
-        insert into tb_user (name,account,involved_tasks,finished_tasks,progress_tasks,
-        sds_score,overall_score,power_l,power_s,label_scores,sequence_scores)
-        values (#{name}, #{account},#{involved_tasks},#{finished_tasks},#{progress_tasks},
-         #{sds_score},#{overall_score},#{power_l},#{power_s},#{label_scores},#{sequence_scores})
+    <insert id="insertUserInfo" parameterType="com.example.tagtool.tagEntity.UserInfo">
+        insert into tb_user_info (name,account,involved_tasks,finished_tasks,progress_tasks)
+        values (#{name}, #{account},#{involved_tasks},#{finished_tasks},#{progress_tasks})
     </insert>
 <!--    根据用户账号查询用户信息-->
-    <select id="findInfoByUserAccount" resultMap="userMap" resultType="com.example.tagtool.tagEntity.User">
+    <select id="findInfoByUserAccount" resultMap="userMap" resultType="com.example.tagtool.tagEntity.UserInfo">
         select *
-        from tb_user
+        from tb_user_info
         where account =#{account}
     </select>
 <!--    根据用户账号更新任务情况-->
     <update id="updateTasksByUserAccount">
-        update tb_user
+        update tb_user_info
         set involved_tasks = #{involved_tasks},
             finished_tasks = #{finished_tasks},
             progress_tasks = #{progress_tasks},
@@ -44,46 +36,22 @@
     </update>
     <!--    当用户发布任务时，根据用户账号更新参与任务和进行的任务情况-->
     <update id="updateJoinTasksByUserAccount">
-        update tb_user
+        update tb_user_info
         set involved_tasks = #{involved_tasks},
             progress_tasks = #{progress_tasks}
          where account =#{account}
     </update>
 <!--    当用户完成任务时，根据用户账号更新已完成的任务情况-->
     <update id="updateFinishTasksByUserAccount">
-        update tb_user
+        update tb_user_info
         set progress_tasks = #{progress_tasks},
             finished_tasks = #{finished_tasks}
          where account =#{account}
     </update>
-<!--    根据用户账号更新标签标注总成绩-->
-    <update id="updateLabelPowerByUserAccount">
-        update tb_user
-        set power_l = #{power_l}
-        where account = #{account}
-    </update>
-    <!--    根据用户账号更新序列标注总成绩-->
-    <update id="updateSequencePowerByUserAccount">
-        update tb_user
-        set power_s = #{power_s}
-        where account = #{account}
-    </update>
-    <!--    根据用户账号更新标签标注分数-->
-    <update id="updateLabelScoresByUserAccount">
-        update tb_user
-        set label_scores = #{label_scores}
-        where account = #{account}
-    </update>
-    <!--    根据用户账号更新序列标注分数-->
-    <update id="updateSequenceScoresByUserAccount">
-        update tb_user
-        set sequence_scores = #{sequence_scores}
-        where account = #{account}
-    </update>
 <!--    根据用户账号删除user信息-->
     <delete id="deleteUser">
         delete
-        from tb_user
+        from tb_user_info
         where account = #{account}
     </delete>
 </mapper>

@@ -1,7 +1,6 @@
 package com.example.tagtool.tagController;
 
 import com.example.tagtool.tagEntity.Time;
-import com.example.tagtool.tagEntity.User;
 import com.example.tagtool.tagService.TimeService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

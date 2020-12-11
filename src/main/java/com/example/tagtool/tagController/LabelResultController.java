@@ -1,6 +1,5 @@
 package com.example.tagtool.tagController;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.example.tagtool.tagEntity.*;
 import com.example.tagtool.tagService.*;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,10 +7,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.math.BigDecimal;
-import java.nio.file.FileSystemNotFoundException;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,7 +20,7 @@ public class LabelResultController {
     @Resource
     private TasksInfoService tasksInfoService;
     @Resource
-    private UserService userService;
+    private UserInfoService userInfoService;
     @Resource
     private TimeService timeService;
     @Resource
@@ -228,7 +223,7 @@ public class LabelResultController {
         List<String> people_account = new ArrayList<>();
         for(int i=0;i<peopleSum.length;i++)
         {
-            List<User> userInfo = userService.findInfoByUserAccount(peopleSum[i]);
+            List<UserInfo> userInfo = userInfoService.findInfoByUserAccount(peopleSum[i]);
             String p_label = userInfo.get(0).getPower_l();
             String p_sequence = userInfo.get(0).getPower_s();
             if(p_label == null || p_label.equals("")){
