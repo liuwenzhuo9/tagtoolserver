@@ -217,24 +217,38 @@ public class LabelResultController {
         TasksInfo taskInfo = info.get(0);
         //        peopleSum记录用户账号信息
         String[] peopleSum = taskInfo.getMember_account().split(",");
-        //        power_l/power_s记录用户标注能力（用于不含黄金数据的标注任务）
-        Double[] power_l = new Double[peopleSum.length];
+        //        power_l1/power_l2/power_l3/power_s分别记录用户标注能力（用于不含黄金数据的标注任务）
+        Double[] power_l1 = new Double[peopleSum.length];
+        Double[] power_l2 = new Double[peopleSum.length];
+        Double[] power_l3 = new Double[peopleSum.length];
         Double[] power_s = new Double[peopleSum.length];
         List<String> people_account = new ArrayList<>();
         for(int i=0;i<peopleSum.length;i++)
         {
             List<UserInfo> userInfo = userInfoService.findInfoByUserAccount(peopleSum[i]);
-            String p_label = userInfo.get(0).getPower_l();
-            String p_sequence = userInfo.get(0).getPower_s();
-            if(p_label == null || p_label.equals("")){
-                power_l[i] = 0.5;
+            double p_l1 = userInfo.get(0).getPower_l1();
+            double p_l2 = userInfo.get(0).getPower_l2();
+            double p_l3 = userInfo.get(0).getPower_l3();
+            double p_sequence = userInfo.get(0).getPower_s();
+            if(p_l1 == 0){
+                power_l1[i] = 0.5;
             }else{
-                power_l[i] = Double.parseDouble(p_label);
+                power_l1[i] = p_l1;
             }
-            if(p_sequence == null || p_sequence.equals("")){
+            if(p_l2 == 0){
+                power_l2[i] = 0.5;
+            }else{
+                power_l2[i] = p_l2;
+            }
+            if(p_l1 == 0){
+                power_l3[i] = 0.5;
+            }else{
+                power_l3[i] = p_l3;
+            }
+            if(p_sequence == 0){
                 power_s[i] = 0.5;
             }else{
-                power_s[i] = Double.parseDouble(p_sequence);
+                power_s[i] = p_sequence;
             }
             people_account.add(peopleSum[i]);
         }
@@ -328,9 +342,9 @@ public class LabelResultController {
         //        判断是否为*不带*黄金数据的单标签标注任务
         if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==1){
             //            根据原始的power和多数投票法预测的标注结果
-            String[] key_1 = infer_label(people_account, tag, res, power_l);
+            String[] key_1 = infer_label(people_account, tag, res, power_l1);
             //            根据时间和准确率更新用户加权，重新预测
-            List<String> key_2 = update_infer_label(people_account,  task_id,  res,  key_1,  power_l, tag);
+            List<String> key_2 = update_infer_label(people_account,  task_id,  res,  key_1,  power_l1, tag);
             infer_res = key_2;
         }
 
@@ -360,14 +374,14 @@ public class LabelResultController {
         //        判断是否为*不带*黄金数据的量级标签标注任务
         if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==2){
             //            根据原始的power和多数投票法预测的量级标签标注任务结果
-            List<String> key_1 = order_label_result(people_account, tag,  res, power_l, type);
+            List<String> key_1 = order_label_result(people_account, tag,  res, power_l2, type);
             infer_res = key_1;
         }
 
         //        判断是否为*不带*黄金数据的多层次标签标注任务
         if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==3){
             //            根据原始的power和多数投票法预测的量级标签标注任务结果
-            List<String> key_1 = multi_label_result(people_account, taskInfo.getTask_label(),  res, power_l);
+            List<String> key_1 = multi_label_result(people_account, taskInfo.getTask_label(),  res, power_l3);
             infer_res = key_1;
         }
 

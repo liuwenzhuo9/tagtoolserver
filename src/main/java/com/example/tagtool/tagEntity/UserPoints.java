@@ -13,6 +13,8 @@ public class UserPoints {
     private int task_id;
     private int task_type;
     private double points;
+    private double power;
+    private int operation_type;
 
     public void setPoints(double points) {
         this.points = points;
@@ -62,6 +64,22 @@ public class UserPoints {
         return name;
     }
 
+    public double getPower() {
+        return power;
+    }
+
+    public int getOperation_type() {
+        return operation_type;
+    }
+
+    public void setOperation_type(int operation_type) {
+        this.operation_type = operation_type;
+    }
+
+    public void setPower(double power) {
+        this.power = power;
+    }
+
     @Override
     public String toString(){
         return "UserPoints{" +
@@ -71,6 +89,8 @@ public class UserPoints {
                 "task_id=" + task_id +
                 "task_type=" + task_type +
                 "points=" + points +
+                "power=" + power +
+                "operation_type=" + operation_type +
                 '}';
     }
 }

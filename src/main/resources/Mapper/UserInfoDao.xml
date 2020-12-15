@@ -11,16 +11,20 @@
         <result column="involved_tasks" property="involved_tasks" jdbcType="VARCHAR" />
         <result column="finished_tasks" property="finished_tasks" jdbcType="VARCHAR" />
         <result column="progress_tasks" property="progress_tasks" jdbcType="VARCHAR" />
-        <result column="issue_tasks" property="issue_tasks" jdbcType="VARCHAR" />
+        <result column="power_l1" property="power_l1" jdbcType="DOUBLE" />
+        <result column="power_l2" property="power_l2" jdbcType="DOUBLE" />
+        <result column="power_l3" property="power_l3" jdbcType="DOUBLE" />
+        <result column="power_s" property="power_s" jdbcType="DOUBLE" />
+        <result column="points" property="points" jdbcType="DOUBLE" />
 
     </resultMap>
     <!--插入人员信息-->
     <insert id="insertUserInfo" parameterType="com.example.tagtool.tagEntity.UserInfo">
-        insert into tb_user_info (name,account,involved_tasks,finished_tasks,progress_tasks)
-        values (#{name}, #{account},#{involved_tasks},#{finished_tasks},#{progress_tasks})
+        insert into tb_user_info (name,account,involved_tasks,finished_tasks,progress_tasks, points, power_l1, power_l2, power_l3, power_s)
+        values (#{name},#{account},#{involved_tasks},#{finished_tasks},#{progress_tasks},#{points},#{power_l1},#{power_l2},#{power_l3},#{power_s})
     </insert>
 <!--    根据用户账号查询用户信息-->
-    <select id="findInfoByUserAccount" resultMap="userMap" resultType="com.example.tagtool.tagEntity.UserInfo">
+    <select id="findInfoByUserAccount" resultMap="userInfoMap" resultType="com.example.tagtool.tagEntity.UserInfo">
         select *
         from tb_user_info
         where account =#{account}
@@ -54,6 +58,39 @@
         from tb_user_info
         where account = #{account}
     </delete>
+<!--    根据用户账号更新用户积分情况-->
+    <update id="updatePointsByAccount">
+        update tb_user_info
+        set points = #{points}
+         where account =#{account}
+    </update>
+    <!--    根据用户账号更新用户标注能力-->
+    <update id="updatePowerByAccount">
+        update tb_user_info
+        set power_l1 = #{power_l1},
+            power_l2 = #{power_l2},
+            power_l3 = #{power_l3},
+            power_s = #{power_s}
+         where account =#{account}
+    </update>
+    <!--    查询能力排序前20的用户信息-->
+    <select id="findTopUserOnLabelType" parameterType="java.lang.String" resultMap="userInfoMap" resultType="com.example.tagtool.tagEntity.UserInfo">
+        select *
+        from tb_user_info
+        order by ${type} desc limit 20
+        <!--        <if test='type == "power_l1"' >-->
+        <!--            order by  power_l1 desc limit 10-->
+        <!--        </if>-->
+        <!--        <if test="type == 'power_l2'" >-->
+        <!--            order by  power_l2 desc limit 10-->
+        <!--        </if>-->
+        <!--        <if test="type == 'power_l3'" >-->
+        <!--            order by  power_l3 desc limit 10-->
+        <!--        </if>-->
+        <!--        <if test="type == 'power_s'" >-->
+        <!--            order by  power_s desc limit 10-->
+        <!--        </if>-->
+    </select>
 </mapper>
 
 

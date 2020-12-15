@@ -24,7 +24,7 @@
         <result column="sds_pos" property="sds_pos" jdbcType="VARCHAR" />
         <result column="is_finished" property="is_finished" jdbcType="INTEGER" />
         <result column="deadline" property="deadline" jdbcType="VARCHAR" />
-        <result column="granularity" property="granularity" jdbcType="NUMERIC" />
+        <result column="granularity" property="granularity" jdbcType="DOUBLE" />
 
     </resultMap>
     <!--插入任务信息-->

@@ -71,6 +71,32 @@ public class UserInfoController {
         responseBean.setData(userInfoService.deleteUser(account));
         return responseBean;
     }
-
+//根据用户账号更新用户积分情况
+    @RequestMapping("/updatePointsByAccount")
+    @ResponseBody
+    public ResponseBean updatePointsByAccount(Double points, String account){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("更新成功");
+        responseBean.setData(userInfoService.updatePointsByAccount(points, account));
+        return responseBean;
+    }
+//    根据用户账号更新用户标注能力
+    @RequestMapping("/updatePowerByAccount")
+    @ResponseBody
+    public ResponseBean updatePowerByAccount(Double power_l1, Double power_l2, Double power_l3, Double power_s, String account){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("更新成功");
+        responseBean.setData(userInfoService.updatePowerByAccount(power_l1, power_l2, power_l3, power_s, account));
+        return responseBean;
+    }
+//    根据任务类型查询能力排序前20的用户信息
+    @RequestMapping("/findTopUserOnLabelType")
+    @ResponseBody
+    public ResponseBean findTopUserOnLabelType(String type){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("查询成功");
+        responseBean.setData(userInfoService.findTopUserOnLabelType(type));
+        return responseBean;
+    }
 }
  

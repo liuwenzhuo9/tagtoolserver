@@ -1,6 +1,7 @@
 package com.example.tagtool.tagDao;
 
 import com.example.tagtool.tagEntity.UserInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +17,10 @@ public interface UserInfoDao {
     int updateJoinTasksByUserAccount(String account,String involved_tasks,String progress_tasks);
     int updateFinishTasksByUserAccount(String account,String progress_tasks,String finished_tasks);
     int deleteUser(String account);
-//    根据用户账号查询成绩
-//    List<User> findPowerByUserAccount(String account);
+//    根据用户账号更新用户积分情况
+    int updatePointsByAccount(Double points, String account);
+//    根据用户账号更新用户标注能力
+    int updatePowerByAccount(Double power_l1, Double power_l2, Double power_l3, Double power_s, String account);
+//    查询power_l1能力排序前20的用户信息
+    List<UserInfo>  findTopUserOnLabelType(@Param("type")String type);
 }

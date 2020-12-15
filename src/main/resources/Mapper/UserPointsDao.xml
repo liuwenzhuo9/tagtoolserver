@@ -2,58 +2,57 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tagtool.tagDao.UserPointsDao">
     <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
-    <resultMap id="userPointsMap" type="com.example.tagtool.tagEntity.UserPoints">
+    <resultMap id="userPoin tsMap" type="com.example.tagtool.tagEntity.UserPoints">
         <!-- 结果集的主键 -->
         <id column="id" property="id" jdbcType="INTEGER" />
         <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
         <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="account" property="account" jdbcType="VARCHAR"/>
-        <result column="involved_tasks" property="involved_tasks" jdbcType="VARCHAR" />
-        <result column="finished_tasks" property="finished_tasks" jdbcType="VARCHAR" />
-        <result column="progress_tasks" property="progress_tasks" jdbcType="VARCHAR" />
-        <result column="issue_tasks" property="issue_tasks" jdbcType="VARCHAR" />
+        <result column="task_id" property="task_id" jdbcType="INTEGER" />
+        <result column="task_type" property="task_type" jdbcType="INTEGER" />
+        <result column="operation_type" property="operation_type" jdbcType="INTEGER" />
+        <result column="points" property="points" jdbcType="DOUBLE" />
+        <result column="power" property="power" jdbcType="DOUBLE" />
 
     </resultMap>
-    <!--插入人员信息-->
-    <insert id="insertUserInfo" parameterType="com.example.tagtool.tagEntity.UserInfo">
-        insert into tb_user_info (name,account,involved_tasks,finished_tasks,progress_tasks)
-        values (#{name}, #{account},#{involved_tasks},#{finished_tasks},#{progress_tasks})
+    <!--插入人员积分变动信息-->
+    <insert id="insertUserPoints" parameterType="com.example.tagtool.tagEntity.UserPoints">
+        insert into tb_user_points (name,account,task_id,task_type,operation_type,points,power)
+        values (#{name}, #{account},#{task_id},#{task_type},#{operation_type},#{points},#{power})
     </insert>
-    <!--    根据用户账号查询用户信息-->
-    <select id="findInfoByUserAccount" resultMap="userMap" resultType="com.example.tagtool.tagEntity.UserInfo">
-        select *
-        from tb_user_info
-        where account =#{account}
-    </select>
-    <!--    根据用户账号更新任务情况-->
-    <update id="updateTasksByUserAccount">
-        update tb_user_info
-        set involved_tasks = #{involved_tasks},
-            finished_tasks = #{finished_tasks},
-            progress_tasks = #{progress_tasks},
-            issue_tasks = #{issue_tasks}
-         where account =#{account}
-    </update>
-    <!--    当用户发布任务时，根据用户账号更新参与任务和进行的任务情况-->
-    <update id="updateJoinTasksByUserAccount">
-        update tb_user_info
-        set involved_tasks = #{involved_tasks},
-            progress_tasks = #{progress_tasks}
-         where account =#{account}
-    </update>
-    <!--    当用户完成任务时，根据用户账号更新已完成的任务情况-->
-    <update id="updateFinishTasksByUserAccount">
-        update tb_user_info
-        set progress_tasks = #{progress_tasks},
-            finished_tasks = #{finished_tasks}
-         where account =#{account}
-    </update>
-    <!--    根据用户账号删除user信息-->
-    <delete id="deleteUser">
+    <!--    发布者删除任务时，根据任务id删除积分信息-->
+    <delete id="deleteUserPointsByTaskId">
         delete
-        from tb_user_info
-        where account = #{account}
+        from tb_user_points
+        where task_id = #{task_id}
     </delete>
+    <!--    用户退出任务时，根据任务id和用户account删除积分信息-->
+    <delete id="deleteUserPointsByAccount">
+        delete
+        from tb_user_points
+        where task_id = #{task_id} and account = #{account} and operation_type = 1
+    </delete>
+    <!--    根据任务id和积分操作类型获取积分信息-->
+    <select id="findPointsByTaskId" resultType="com.example.tagtool.tagEntity.UserPoints">
+        select *
+        from tb_user_points
+        where task_id = #{task_id} and operation_type = 1
+        order by power desc
+    </select>
+    <!--    根据用户account和任务类型以及积分操作类型获取积分信息-->
+    <select id="findPointsByAccount" resultType="com.example.tagtool.tagEntity.UserPoints">
+        select *
+        from tb_user_points
+        where account = #{account} and operation_type = #{operation_type}
+        order by power desc
+    </select>
+<!--根据任务id和用户account更新积分和能力变动信息-->
+    <update id="updatePointsByTaskIdAndAccount">
+        update tb_user_points
+        set power = #{power},
+            points = #{points}
+         where account =#{account} and task_id = #{task_id} and operation_type = #{operation_type}
+    </update>
 </mapper>
 
 

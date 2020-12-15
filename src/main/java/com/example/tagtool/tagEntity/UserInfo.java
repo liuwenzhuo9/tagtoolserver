@@ -76,32 +76,8 @@ public class UserInfo {
         this.issue_tasks = issue_tasks;
     }
 
-    public double getPoints() {
-        return points;
-    }
-
-    public double getPower_l1() {
-        return power_l1;
-    }
-
-    public double getPower_l2() {
-        return power_l2;
-    }
-
-    public double getPower_l3() {
-        return power_l3;
-    }
-
-    public double getPower_s() {
-        return power_s;
-    }
-
     public void setPower_l1(double power_l1) {
         this.power_l1 = power_l1;
-    }
-
-    public void setPoints(double points) {
-        this.points = points;
     }
 
     public void setPower_l2(double power_l2) {
@@ -112,8 +88,32 @@ public class UserInfo {
         this.power_l3 = power_l3;
     }
 
+    public void setPoints(double points) {
+        this.points = points;
+    }
+
     public void setPower_s(double power_s) {
         this.power_s = power_s;
+    }
+
+    public double getPoints() {
+        return points;
+    }
+
+    public double getPower_l3() {
+        return power_l3;
+    }
+
+    public double getPower_s() {
+        return power_s;
+    }
+
+    public double getPower_l2() {
+        return power_l2;
+    }
+
+    public double getPower_l1() {
+        return power_l1;
     }
 
     @Override
@@ -126,11 +126,11 @@ public class UserInfo {
                 ", finished_tasks='" + finished_tasks + '\'' +
                 ", progress_tasks='" + progress_tasks + '\'' +
                 ", issue_tasks='" + issue_tasks + '\'' +
-                "power_l1=" + power_l1 +
-                "power_l2=" + power_l2 +
-                "power_l3=" + power_l3 +
-                "power_s=" + power_s +
-                "points=" + points +
+                ", power_l1=" + power_l1 +
+                ", power_l2=" + power_l2 +
+                ", power_l3=" + power_l3 +
+                ", power_s=" + power_s +
+                ", points=" + points +
                 '}';
     }
 }

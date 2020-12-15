@@ -28,7 +28,7 @@ public class UserInfoService {
     public int deleteUser(String account){
         return userInfoDao.deleteUser(account);
     }
-//    根据用户账号查询成绩
-//    public List<User> findPowerByUserAccount(String account){return userDao.findPowerByUserAccount(account);}
-
+    public int updatePointsByAccount(Double points, String account){return userInfoDao.updatePointsByAccount(points, account);}
+    public int updatePowerByAccount(Double power_l1, Double power_l2, Double power_l3, Double power_s, String account){return userInfoDao.updatePowerByAccount(power_l1, power_l2, power_l3, power_s, account);}
+    public List<UserInfo> findTopUserOnLabelType(String type){return userInfoDao.findTopUserOnLabelType(type);}
 }
