@@ -88,9 +88,9 @@ public class UserPointsController {
     }
 
 //    根据任务id更新参与用户的标注能力
-    @RequestMapping("/updatePointsByTaskId")
+    @RequestMapping("/updatePointsAndInfoByTaskId")
     @ResponseBody
-    public ResponseBean updatePointsByTaskId(Integer task_id){
+    public ResponseBean updatePointsAndInfoByTaskId(Integer task_id){
 //        1.从tb_label_result中获取每个用户正式任务的标注结果；2.从tb_infer_result中获取发布者确认的标注结果；3.计算每个用户的完成率和正确率；
 //        4.计算用户获得的积分，在tb_user_points中根据用户account和任务id更新用户积分、完成率和power
 //        5.更新tb_user_info中更新用户完成的任务、积分、power、完成率

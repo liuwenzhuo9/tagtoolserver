@@ -8,7 +8,6 @@ public class UserPoints {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
     private String account;
     private int task_id;
     private int task_type;
@@ -57,14 +56,6 @@ public class UserPoints {
         this.task_id = task_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public double getPower() {
         return power;
     }
@@ -93,7 +84,6 @@ public class UserPoints {
     public String toString(){
         return "UserPoints{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", account='" + account + '\'' +
                 ", task_id=" + task_id +
                 ", task_type=" + task_type +

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tagtool.tagDao.InviteInfoDao">
+    <!--resultMap对应的是表与实体类的映射  - type 数据库表对应的实体类，别名或完整类名都可以-->
+    <resultMap id="inviteInfoMap" type="com.example.tagtool.tagEntity.InviteInfo">
+        <!-- 结果集的主键 -->
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
+        <result column="invitee" property="invitee" jdbcType="VARCHAR"/>
+        <result column="inviter" property="inviter" jdbcType="VARCHAR"/>
+        <result column="task_id" property="task_id" jdbcType="INTEGER" />
+        <result column="task_type" property="task_type" jdbcType="INTEGER" />
+        <result column="is_join" property="is_join" jdbcType="INTEGER" />
+        <result column="power" property="power" jdbcType="DOUBLE" />
+
+    </resultMap>
+    <!--插入邀请人员信息-->
+    <insert id="insertInviteInfo" parameterType="com.example.tagtool.tagEntity.InviteInfo">
+        insert into tb_invite_info (invitee,inviter,task_id,task_type,is_join, power)
+        values (#{invitee},#{inviter},#{task_id},#{task_type},#{is_join},#{power})
+    </insert>
+    <!--    根据任务id和受邀人账号更新接受状态-->
+    <update id="updateIsJoinByInviteeAndTaskId">
+        update tb_invite_info
+        set is_join = #{is_join}
+         where task_id = #{task_id} and invitee = #{invitee}
+    </update>
+<!--    根据任务id删除邀请信息-->
+    <delete id="deleteInviteByTaskId">
+        delete
+        from tb_invite_info
+        where task_id = #{task_id}
+    </delete>
+<!--    根据受邀人和接受状态查询邀请信息-->
+    <select id="findInviteInfoByInviteeAndIsJoin" resultMap="inviteInfoMap" resultType="com.example.tagtool.tagEntity.InviteInfo">
+        select *
+        from tb_invite_info
+        where invitee = #{invitee} and is_join = #{is_join}
+    </select>
+<!--    根据邀请人和任务id查询邀请信息-->
+    <select id="findInviteInfoByInviterAndTaskId" resultMap="inviteInfoMap" resultType="com.example.tagtool.tagEntity.InviteInfo">
+        select *
+        from tb_invite_info
+        where inviter = #{inviter} and task_id = #{task_id}
+    </select>
+</mapper>
+
+

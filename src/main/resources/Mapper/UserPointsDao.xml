@@ -6,7 +6,6 @@
         <!-- 结果集的主键 -->
         <id column="id" property="id" jdbcType="INTEGER" />
         <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
-        <result column="name" property="name" jdbcType="VARCHAR"/>
         <result column="account" property="account" jdbcType="VARCHAR"/>
         <result column="task_id" property="task_id" jdbcType="INTEGER" />
         <result column="task_type" property="task_type" jdbcType="INTEGER" />
@@ -18,8 +17,8 @@
     </resultMap>
     <!--插入人员积分变动信息-->
     <insert id="insertUserPoints" parameterType="com.example.tagtool.tagEntity.UserPoints">
-        insert into tb_user_points (name,account,task_id,task_type,operation_type,points,power,complete_rate)
-        values (#{name}, #{account},#{task_id},#{task_type},#{operation_type},#{points},#{power}, #{complete_rate})
+        insert into tb_user_points (account,task_id,task_type,operation_type,points,power,complete_rate)
+        values (#{account},#{task_id},#{task_type},#{operation_type},#{points},#{power}, #{complete_rate})
     </insert>
     <!--    发布者删除任务时，根据任务id删除积分信息-->
     <delete id="deleteUserPointsByTaskId">
