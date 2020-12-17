@@ -57,7 +57,8 @@ public class EntityIndex {
     @Override
     public String toString() {
         return "EntityIndex{" +
-                "id_entity=" + id_entity +
+                "id=" + id +
+                ", id_entity=" + id_entity +
                 ",id_sentence=" + id_sentence +
                 ",start_index=" + start_index +
                 ",end_index=" + end_index +

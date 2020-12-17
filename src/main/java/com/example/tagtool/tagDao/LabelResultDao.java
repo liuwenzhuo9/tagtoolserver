@@ -37,4 +37,6 @@ public interface LabelResultDao {
     List<String> findLabelResultByTaskIdAndAccount(Integer task_id,String user_account);
 //    根据任务id和用户账号查询段落id
     List<Integer> findParaIdByTaskIdAndAccount(Integer task_id,String user_account);
+    //    根据任务id、用户账号以及句子类型查询标注结果
+    List<String> findLabelResultByIsTest(Integer task_id,String user_account, Integer is_test);
 }

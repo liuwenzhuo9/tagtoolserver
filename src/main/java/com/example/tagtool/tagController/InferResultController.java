@@ -2,8 +2,6 @@ package com.example.tagtool.tagController;
 
 import com.example.tagtool.tagEntity.InferResult;
 import com.example.tagtool.tagService.InferResultServie;
-import com.example.tagtool.tagService.LabelResultService;
-import org.attoparser.dom.INestableNode;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;

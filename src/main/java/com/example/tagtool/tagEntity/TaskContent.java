@@ -88,8 +88,8 @@ public class TaskContent {
                 ", task_name='" + task_name + '\'' +
                 ", content='" + content + '\'' +
                 ",paragraph_position=" + paragraph_position +
-                "is_test=" + is_test +
-                "task_type=" + task_type +
+                ", is_test=" + is_test +
+                ", task_type=" + task_type +
                 ", test_label='" + test_label + '\'' +
                 '}';
     }

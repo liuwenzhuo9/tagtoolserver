@@ -29,6 +29,6 @@ public class UserInfoService {
         return userInfoDao.deleteUser(account);
     }
     public int updatePointsByAccount(Double points, String account){return userInfoDao.updatePointsByAccount(points, account);}
-    public int updatePowerByAccount(Double power_l1, Double power_l2, Double power_l3, Double power_s, String account){return userInfoDao.updatePowerByAccount(power_l1, power_l2, power_l3, power_s, account);}
+    public int updatePowerByAccount(UserInfo userInfo){return userInfoDao.updatePowerByAccount(userInfo);}
     public List<UserInfo> findTopUserOnLabelType(String type){return userInfoDao.findTopUserOnLabelType(type);}
 }

@@ -58,9 +58,9 @@ public class Time {
         return "Time{" +
                 "id=" + id +
                 ", account='" + account + '\'' +
-                "task_id=" + task_id +
-                "use_time=" + use_time +
-                "is_finish=" + is_finish +
+                ", task_id=" + task_id +
+                ", use_time=" + use_time +
+                ", is_finish=" + is_finish +
                 '}';
     }
 }

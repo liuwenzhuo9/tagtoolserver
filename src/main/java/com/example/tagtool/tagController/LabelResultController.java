@@ -209,6 +209,16 @@ public class LabelResultController {
         }
         return paraLen;
     }
+//    根据任务id、用户账号以及句子类型查询标注结果
+    @RequestMapping("/findLabelResultByIsTest")
+    @ResponseBody
+    public ResponseBean findLabelResultByIsTest(Integer task_id,String user_account, Integer is_test){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(labelResultService.findLabelResultByIsTest(task_id, user_account, is_test));
+        responseBean.setMessage("查找成功");
+        return responseBean;
+    }
+
 //根据任务id预测标注结果
     @RequestMapping("/inferLabelResult")
     @ResponseBody
@@ -279,18 +289,6 @@ public class LabelResultController {
             List<String> a = label_result_1(people_account, pos, tag, res, god_key, task_id);
             infer_res = a;
 
-//            更新用户的power_l
-//            for(int p = 0; p<peoLen; p++){
-//                String[] infer_key_toArr = a.toArray(new String[]{});
-//                String[] res_toArr = res.toArray(new String[]{});
-//                double p_score = label_acc(infer_key_toArr, res_toArr);
-//                User user = userService.findInfoByUserAccount(people_account.get(p)).get(0);
-//                String new_label_scores = user.getLabel_scores() + "," + p_score;
-//                String[] score_arr = new_label_scores.split(",");
-//                double new_power_l = (Double.parseDouble(user.getPower_l()) + p_score)/score_arr.length;
-//                userService.updateLabelPowerByUserAccount(people_account.get(p),String.valueOf(new_power_l));
-//                userService.updateLabelScoresByUserAccount(people_account.get(p),new_label_scores);
-//            }
         }
 
         //        判断是否为带黄金数据的序列标注任务
@@ -302,19 +300,6 @@ public class LabelResultController {
             String[] god_key = godKey.toArray(new String[]{});
             List<String> a = label_result_2(people_account, tag,  res, pos,  god_key, paragraph_len, task_id);
             infer_res = a;
-//            for(int p = 0; p<peoLen; p++){
-//                double total_score = 0.0;
-//                for(int j = 0; j<res.get(p).size(); j++){
-//                    String[] res_index = getIndexTag(res.get(p).get(j), paragraph_len.get(j));
-//                    total_score += sequence_acc(res_index, infer_res.get(j).split(","));
-//                }
-//                User user = userService.findInfoByUserAccount(people_account.get(p)).get(0);
-//                String new_sequence_scores = user.getSequence_scores() + "," + total_score/res.get(p).size();
-//                String[] score_arr = new_sequence_scores.split(",");
-//                double new_power_s = (Double.parseDouble(user.getPower_l()) + total_score/res.get(p).size())/score_arr.length;
-//                userService.updateLabelPowerByUserAccount(people_account.get(p),String.valueOf(new_power_s));
-//                userService.updateLabelScoresByUserAccount(people_account.get(p),new_sequence_scores);
-//            }
         }
 
         //          判断是否为带黄金数据的量级标签标注任务
@@ -355,20 +340,6 @@ public class LabelResultController {
             //            根据时间和准确率更新用户加权，重新预测
             List<String> key_2 = update_infer_Sequence(people_account, task_id,  res,  key_1,  power_s, tag,  paragraph_len);
             infer_res = key_2;
-////            更新用户power_s
-//            for(int p = 0; p<peoLen; p++){
-//                double total_score = 0.0;
-//                for(int j = 0; j<res.get(p).size(); j++){
-//                    String[] res_index = getIndexTag(res.get(p).get(j), paragraph_len.get(j));
-//                    total_score += sequence_acc(res_index, infer_res.get(j).split(","));
-//                }
-//                User user = userService.findInfoByUserAccount(people_account.get(p)).get(0);
-//                String new_sequence_scores = user.getSequence_scores() + "," + total_score/res.get(p).size();
-//                String[] score_arr = new_sequence_scores.split(",");
-//                double new_power_s = (Double.parseDouble(user.getPower_l()) + total_score/res.get(p).size())/score_arr.length;
-//                userService.updateLabelPowerByUserAccount(people_account.get(p),String.valueOf(new_power_s));
-//                userService.updateLabelScoresByUserAccount(people_account.get(p),new_sequence_scores);
-//            }
         }
 
         //        判断是否为*不带*黄金数据的量级标签标注任务
@@ -411,18 +382,6 @@ public class LabelResultController {
             inferResultServie.updateCIByPosition(task_id, i, ci[i]+"");
         }
 
-//        //        插入tb_infer_result中
-//        for(int i = 0; i< taskContent.size(); i++){
-//            InferResult infer = new InferResult();
-//            infer.setTask_id(task_id);
-//            infer.setParagraph_id(taskContent.get(i).getId());
-//            infer.setParagraph_position(taskContent.get(i).getParagraph_position());
-////            infer.setInfer_result(infer_res.get(i));
-//            infer.setTask_type(taskContent.get(i).getTask_type());
-//            infer.setContent(taskContent.get(i).getContent());
-//            inferResultServie.insertInferResult(infer);
-//        }
-//        System.out.println(infer_res);
         return infer_res;
 
     }
@@ -611,6 +570,7 @@ public class LabelResultController {
             }
         }
         peoLen = people_account.size();
+//        diff根据用户的标注表现记录黄金用例的难度
         List<Double> diff = new ArrayList<>();
         for(int i = 0; i<gdLen; i++) {
             double score = 0;

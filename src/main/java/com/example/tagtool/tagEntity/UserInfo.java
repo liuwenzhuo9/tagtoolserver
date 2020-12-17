@@ -19,6 +19,7 @@ public class UserInfo {
     private double power_l3;
     private double power_s;
     private double points;
+    private double complete_rate;
 
     public void setId(int id) {
         this.id = id;
@@ -116,6 +117,14 @@ public class UserInfo {
         return power_l1;
     }
 
+    public double getComplete_rate() {
+        return complete_rate;
+    }
+
+    public void setComplete_rate(double complete_rate) {
+        this.complete_rate = complete_rate;
+    }
+
     @Override
     public String toString(){
         return "UserInfo{" +
@@ -131,6 +140,7 @@ public class UserInfo {
                 ", power_l3=" + power_l3 +
                 ", power_s=" + power_s +
                 ", points=" + points +
+                ", complete_rate=" + complete_rate +
                 '}';
     }
 }

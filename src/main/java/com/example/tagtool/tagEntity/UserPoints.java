@@ -15,6 +15,7 @@ public class UserPoints {
     private double points;
     private double power;
     private int operation_type;
+    private double complete_rate;
 
     public void setPoints(double points) {
         this.points = points;
@@ -80,17 +81,26 @@ public class UserPoints {
         this.power = power;
     }
 
+    public void setComplete_rate(double complete_rate) {
+        this.complete_rate = complete_rate;
+    }
+
+    public double getComplete_rate() {
+        return complete_rate;
+    }
+
     @Override
     public String toString(){
         return "UserPoints{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", account='" + account + '\'' +
-                "task_id=" + task_id +
-                "task_type=" + task_type +
-                "points=" + points +
-                "power=" + power +
-                "operation_type=" + operation_type +
+                ", task_id=" + task_id +
+                ", task_type=" + task_type +
+                ", points=" + points +
+                ", power=" + power +
+                ", operation_type=" + operation_type +
+                ", complete_rate=" + complete_rate +
                 '}';
     }
 }

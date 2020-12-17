@@ -41,6 +41,7 @@ public class LabelResultService {
     public List<String> findLabelResultByTaskIdAndAccount(Integer task_id,String user_account){return labelResultDao.findLabelResultByTaskIdAndAccount(task_id, user_account);}
 //    根据任务id和用户账号查询段落id
     public List<Integer> findParaIdByTaskIdAndAccount(Integer task_id, String user_account) {return labelResultDao.findParaIdByTaskIdAndAccount(task_id, user_account);}
-
+    //    根据任务id、用户账号以及句子类型查询标注结果
+    public List<String> findLabelResultByIsTest(Integer task_id,String user_account, Integer is_test){return labelResultDao.findLabelResultByIsTest(task_id, user_account, is_test);}
 }
 

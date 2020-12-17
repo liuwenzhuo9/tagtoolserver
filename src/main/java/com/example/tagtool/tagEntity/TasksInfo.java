@@ -14,7 +14,7 @@ public class TasksInfo {
     private String tfile_name;
     private String task_name;
     private int task_type;
-    private String task_reward;
+    private double task_reward;
     private String task_intro;
     private String task_label;
     private int member_num;
@@ -68,17 +68,13 @@ public class TasksInfo {
         return is_finished;
     }
 
-    public String getTask_reward() {
+    public double getTask_reward() {
         return task_reward;
     }
 
     public String getSds_path() {
         return sds_path;
     }
-
-//    public String getTfile_path() {
-//        return tfile_path;
-//    }
 
     public void setId(int id) {
         this.id = id;
@@ -132,13 +128,9 @@ public class TasksInfo {
         this.task_name = task_name;
     }
 
-    public void setTask_reward(String task_reward) {
+    public void setTask_reward(double task_reward) {
         this.task_reward = task_reward;
     }
-
-//    public void setTfile_path(String tfile_path) {
-//        this.tfile_path = tfile_path;
-//    }
 
     public String getTask_intro() {
         return task_intro;
@@ -195,11 +187,10 @@ public class TasksInfo {
                 "id=" + id +
                 ", leader_account='" + leader_account + '\'' +
                 ", leader_name='" + leader_name + '\'' +
-//                ", tfile_path='" + tfile_path + '\'' +
                 ", tfile_name='" + tfile_name + '\'' +
                 ", task_name='" + task_name + '\'' +
                 ", task_type='" + task_type +
-                ", task_reward='" + task_reward + '\'' +
+                ", task_reward=" + task_reward +
                 ", task_intro='" + task_intro + '\'' +
                 ", task_label='" + task_label + '\'' +
                 ", member_num=" + member_num +

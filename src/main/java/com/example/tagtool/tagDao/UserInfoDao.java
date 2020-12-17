@@ -20,7 +20,7 @@ public interface UserInfoDao {
 //    根据用户账号更新用户积分情况
     int updatePointsByAccount(Double points, String account);
 //    根据用户账号更新用户标注能力
-    int updatePowerByAccount(Double power_l1, Double power_l2, Double power_l3, Double power_s, String account);
+    int updatePowerByAccount(UserInfo userInfo);
 //    查询power_l1能力排序前20的用户信息
     List<UserInfo>  findTopUserOnLabelType(@Param("type")String type);
 }

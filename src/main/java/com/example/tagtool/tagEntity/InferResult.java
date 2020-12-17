@@ -93,9 +93,9 @@ public class InferResult {
     public String toString(){
         return "InferResult{" +
                 "id=" + id +
-                "task_id=" + task_id +
-                "paragraph_id=" + paragraph_id +
-                "paragraph_position='" + paragraph_position +
+                ", task_id=" + task_id +
+                ", paragraph_id=" + paragraph_id +
+                ", paragraph_position='" + paragraph_position +
                 ", infer_result='" + infer_result + '\'' +
                 ", task_type=" + task_type +
                 ", content=" + content + '\'' +

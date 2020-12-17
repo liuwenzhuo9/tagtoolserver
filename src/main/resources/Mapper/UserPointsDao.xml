@@ -13,12 +13,13 @@
         <result column="operation_type" property="operation_type" jdbcType="INTEGER" />
         <result column="points" property="points" jdbcType="DOUBLE" />
         <result column="power" property="power" jdbcType="DOUBLE" />
+        <result column="complete_rate" property="complete_rate" jdbcType="DOUBLE" />
 
     </resultMap>
     <!--插入人员积分变动信息-->
     <insert id="insertUserPoints" parameterType="com.example.tagtool.tagEntity.UserPoints">
-        insert into tb_user_points (name,account,task_id,task_type,operation_type,points,power)
-        values (#{name}, #{account},#{task_id},#{task_type},#{operation_type},#{points},#{power})
+        insert into tb_user_points (name,account,task_id,task_type,operation_type,points,power,complete_rate)
+        values (#{name}, #{account},#{task_id},#{task_type},#{operation_type},#{points},#{power}, #{complete_rate})
     </insert>
     <!--    发布者删除任务时，根据任务id删除积分信息-->
     <delete id="deleteUserPointsByTaskId">
@@ -50,7 +51,8 @@
     <update id="updatePointsByTaskIdAndAccount">
         update tb_user_points
         set power = #{power},
-            points = #{points}
+            points = #{points},
+            complete_rate = #{complete_rate}
          where account =#{account} and task_id = #{task_id} and operation_type = #{operation_type}
     </update>
 </mapper>

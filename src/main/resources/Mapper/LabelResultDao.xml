@@ -9,11 +9,12 @@
         <result column="user_account" property="user_account" jdbcType="VARCHAR"/>
         <result column="label_result" property="label_result" jdbcType="VARCHAR"/>
         <result column="task_type" property="task_type" jdbcType="INTEGER"/>
+        <result column="is_test" property="is_test" jdbcType="INTEGER"/>
     </resultMap>
     <!--插入用户的标注结果-->
     <insert id="insertLabelResult" parameterType="com.example.tagtool.tagEntity.LabelResult">
-            insert into tb_label_result (task_id,paragraph_id,paragraph_position,user_account,label_result,task_type)
-                values (#{task_id},#{paragraph_id},#{paragraph_position},#{user_account},#{label_result},#{task_type})
+            insert into tb_label_result (task_id,paragraph_id,paragraph_position,user_account,label_result,task_type,is_test)
+                values (#{task_id},#{paragraph_id},#{paragraph_position},#{user_account},#{label_result},#{task_type},#{is_test})
     </insert>
     <!--根据标注的信息id更新标注信息-->
     <update id="updateLabelById" parameterType="com.example.tagtool.tagEntity.LabelResult">
@@ -107,6 +108,13 @@
         select paragraph_id
         from tb_label_result
         where task_id = #{task_id} and user_account = #{user_account}
+        order by paragraph_position
+    </select>
+    <!--    根据任务id、用户账号以及句子类型查询标注结果-->
+    <select id="findLabelResultByIsTest" resultType="String">
+        select label_result
+        from tb_label_result
+        where task_id = #{task_id} and user_account = #{user_account} and is_test = #{is_test}
         order by paragraph_position
     </select>
 </mapper>

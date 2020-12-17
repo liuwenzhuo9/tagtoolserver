@@ -14,6 +14,7 @@ public class LabelResult {
     private String user_account;
     private String label_result;
     private int task_type;
+    private int is_test;
 
     public void setUser_account(String user_account) {
         this.user_account = user_account;
@@ -71,16 +72,25 @@ public class LabelResult {
         this.label_result = label_result;
     }
 
+    public int getIs_test() {
+        return is_test;
+    }
+
+    public void setIs_test(int is_test) {
+        this.is_test = is_test;
+    }
+
     @Override
     public String toString(){
         return "LabelResult{" +
                 "id=" + id +
-                "task_id=" + task_id +
-                "paragraph_id=" + paragraph_id +
-                "paragraph_position='" + paragraph_position +
+                ", task_id=" + task_id +
+                ", paragraph_id=" + paragraph_id +
+                ", paragraph_position='" + paragraph_position +
                 ", user_account='" + user_account + '\'' +
                 ", label_result='" + label_result + '\'' +
                 ", task_type=" + task_type +
+                ", is_test=" + is_test +
                 '}';
     }
 }

@@ -16,12 +16,13 @@
         <result column="power_l3" property="power_l3" jdbcType="DOUBLE" />
         <result column="power_s" property="power_s" jdbcType="DOUBLE" />
         <result column="points" property="points" jdbcType="DOUBLE" />
+        <result column="complete_rate" property="complete_rate" jdbcType="DOUBLE" />
 
     </resultMap>
     <!--插入人员信息-->
     <insert id="insertUserInfo" parameterType="com.example.tagtool.tagEntity.UserInfo">
-        insert into tb_user_info (name,account,involved_tasks,finished_tasks,progress_tasks, points, power_l1, power_l2, power_l3, power_s)
-        values (#{name},#{account},#{involved_tasks},#{finished_tasks},#{progress_tasks},#{points},#{power_l1},#{power_l2},#{power_l3},#{power_s})
+        insert into tb_user_info (name,account,involved_tasks,finished_tasks,progress_tasks, points, power_l1, power_l2, power_l3, power_s, complete_rate)
+        values (#{name},#{account},#{involved_tasks},#{finished_tasks},#{progress_tasks},#{points},#{power_l1},#{power_l2},#{power_l3},#{power_s}, #{complete_rate})
     </insert>
 <!--    根据用户账号查询用户信息-->
     <select id="findInfoByUserAccount" resultMap="userInfoMap" resultType="com.example.tagtool.tagEntity.UserInfo">
@@ -70,7 +71,8 @@
         set power_l1 = #{power_l1},
             power_l2 = #{power_l2},
             power_l3 = #{power_l3},
-            power_s = #{power_s}
+            power_s = #{power_s},
+            complete_rate = #{complete_rate}
          where account =#{account}
     </update>
     <!--    查询能力排序前20的用户信息-->

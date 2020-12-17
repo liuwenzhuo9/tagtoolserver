@@ -83,10 +83,10 @@ public class UserInfoController {
 //    根据用户账号更新用户标注能力
     @RequestMapping("/updatePowerByAccount")
     @ResponseBody
-    public ResponseBean updatePowerByAccount(Double power_l1, Double power_l2, Double power_l3, Double power_s, String account){
+    public ResponseBean updatePowerByAccount(UserInfo userInfo){
         ResponseBean responseBean = new ResponseBean();
         responseBean.setMessage("更新成功");
-        responseBean.setData(userInfoService.updatePowerByAccount(power_l1, power_l2, power_l3, power_s, account));
+        responseBean.setData(userInfoService.updatePowerByAccount(userInfo));
         return responseBean;
     }
 //    根据任务类型查询能力排序前20的用户信息

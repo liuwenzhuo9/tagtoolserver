@@ -8,11 +8,9 @@
         <!-- 普通的列  -column 是数据库中字段， property是实体类中字段-->
         <result column="leader_account" property="leader_account" jdbcType="VARCHAR"/>
         <result column="leader_name" property="leader_name" jdbcType="VARCHAR"/>
-<!--        <result column="tfile_path" property="tfile_path" jdbcType="VARCHAR" />-->
-<!--        <result column="tfile_name" property="tfile_name" jdbcType="VARCHAR" />-->
         <result column="task_name" property="task_name" jdbcType="VARCHAR" />
         <result column="task_type" property="task_type" jdbcType="INTEGER" />
-        <result column="task_reward" property="task_reward" jdbcType="VARCHAR" />
+        <result column="task_reward" property="task_reward" jdbcType="DOUBLE" />
         <result column="task_intro" property="task_intro" jdbcType="VARCHAR" />
         <result column="task_label" property="task_label" jdbcType="VARCHAR" />
         <result column="member_num" property="member_num" jdbcType="INTEGER" />
