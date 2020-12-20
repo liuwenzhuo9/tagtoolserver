@@ -23,5 +23,7 @@ public class UserPointsService {
     public List<UserPoints> findPointsByAccount(String account,Integer operation_type){return userPointsDao.findPointsByAccount(account, operation_type);}
 //    根据任务id和用户account更新积分和能力变动信息
     public int updatePointsByTaskIdAndAccount(UserPoints userPoints){return userPointsDao.updatePointsByTaskIdAndAccount(userPoints);}
+//    根据任务id和用户account获取积分能力信息
+    public List<UserPoints> findPowerByAccountAndTaskId(String account, Integer task_id){return userPointsDao.findPowerByAccountAndTaskId(account, task_id);}
 }
 

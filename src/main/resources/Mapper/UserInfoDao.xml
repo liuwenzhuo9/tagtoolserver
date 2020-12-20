@@ -75,11 +75,11 @@
             complete_rate = #{complete_rate}
          where account =#{account}
     </update>
-    <!--    查询能力排序前20的用户信息-->
+    <!--    查询能力排序前10的用户信息-->
     <select id="findTopUserOnLabelType" parameterType="java.lang.String" resultMap="userInfoMap" resultType="com.example.tagtool.tagEntity.UserInfo">
         select *
         from tb_user_info
-        order by ${type} desc limit 20
+        order by ${type} desc limit 10
         <!--        <if test='type == "power_l1"' >-->
         <!--            order by  power_l1 desc limit 10-->
         <!--        </if>-->

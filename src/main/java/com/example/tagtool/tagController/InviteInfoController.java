@@ -58,4 +58,22 @@ public class InviteInfoController {
         responseBean.setMessage("查询成功");
         return responseBean;
     }
+    //    根据受邀人和任务id查询是否有邀请信息
+    @RequestMapping("/findInviteInfoByInviteeAndTaskId")
+    @ResponseBody
+    public ResponseBean findInviteInfoByInviteeAndTaskId(String invitee, Integer task_id){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(inviteInfoService.findInviteInfoByInviteeAndTaskId(invitee, task_id));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
+//    根据受邀人查询邀请信息
+    @RequestMapping("/findInviteInfoByInvitee")
+    @ResponseBody
+    public ResponseBean findInviteInfoByInvitee(String invitee){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setData(inviteInfoService.findInviteInfoByInvitee(invitee));
+        responseBean.setMessage("查询成功");
+        return responseBean;
+    }
 }

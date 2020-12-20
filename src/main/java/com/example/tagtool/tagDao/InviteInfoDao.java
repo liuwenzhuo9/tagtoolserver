@@ -17,4 +17,8 @@ public interface InviteInfoDao {
     List<InviteInfo>  findInviteInfoByInviteeAndIsJoin(String invitee, Integer is_join);
     //    根据邀请人和任务id查询邀请信息
     List<InviteInfo>  findInviteInfoByInviterAndTaskId(String inviter, Integer task_id);
+//    根据受邀人和任务id查询是否有邀请信息
+    List<InviteInfo>  findInviteInfoByInviteeAndTaskId(String invitee, Integer task_id);
+//    根据受邀人查询邀请信息
+    List<InviteInfo>  findInviteInfoByInvitee(String invitee);
 }

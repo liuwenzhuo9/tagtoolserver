@@ -43,6 +43,18 @@
         from tb_invite_info
         where inviter = #{inviter} and task_id = #{task_id}
     </select>
+<!--    根据受邀人和任务id查询是否有邀请信息-->
+    <select id="findInviteInfoByInviteeAndTaskId" resultMap="inviteInfoMap" resultType="com.example.tagtool.tagEntity.InviteInfo">
+        select *
+        from tb_invite_info
+        where invitee = #{invitee} and task_id = #{task_id}
+    </select>
+<!--    根据受邀人查询邀请信息-->
+    <select id="findInviteInfoByInvitee" resultMap="inviteInfoMap" resultType="com.example.tagtool.tagEntity.InviteInfo">
+        select *
+        from tb_invite_info
+        where invitee = #{invitee}
+    </select>
 </mapper>
 
 

@@ -19,4 +19,6 @@ public interface UserPointsDao {
     List<UserPoints> findPointsByAccount(String account,Integer operation_type);
 //    根据任务id和用户account更新积分和能力变动信息
     int updatePointsByTaskIdAndAccount(UserPoints userPoints);
+//    根据任务id和用户account获取积分能力信息
+    List<UserPoints> findPowerByAccountAndTaskId(String account, Integer task_id);
 }

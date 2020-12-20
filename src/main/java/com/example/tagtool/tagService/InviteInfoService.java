@@ -22,4 +22,9 @@ public class InviteInfoService {
     public List<InviteInfo>  findInviteInfoByInviteeAndIsJoin(String invitee, Integer is_join){return inviteInfoDao.findInviteInfoByInviteeAndIsJoin(invitee, is_join);}
     //    根据邀请人和任务id查询邀请信息
     public List<InviteInfo>  findInviteInfoByInviterAndTaskId(String inviter, Integer task_id){return inviteInfoDao.findInviteInfoByInviterAndTaskId(inviter, task_id);}
+    //    根据受邀人和任务id查询是否有邀请信息
+    public List<InviteInfo>  findInviteInfoByInviteeAndTaskId(String invitee, Integer task_id){return inviteInfoDao.findInviteInfoByInviteeAndTaskId(invitee, task_id);}
+    //      根据受邀人查询邀请信息
+    public List<InviteInfo>  findInviteInfoByInvitee(String invitee){return inviteInfoDao.findInviteInfoByInvitee(invitee);}
+
 }

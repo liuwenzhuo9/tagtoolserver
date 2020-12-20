@@ -54,6 +54,12 @@
             complete_rate = #{complete_rate}
          where account =#{account} and task_id = #{task_id} and operation_type = #{operation_type}
     </update>
+<!--    根据任务id和用户account获取积分能力信息-->
+    <select id="findPowerByAccountAndTaskId" resultType="com.example.tagtool.tagEntity.UserPoints">
+        select *
+        from tb_user_points
+        where account = #{account} and task_id = #{task_id}
+    </select>
 </mapper>
 
 

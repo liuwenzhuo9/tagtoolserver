@@ -87,6 +87,16 @@ public class UserPointsController {
         return responseBean;
     }
 
+    //根据任务id和用户account获取积分能力信息
+    @RequestMapping("/findPowerByAccountAndTaskId")
+    @ResponseBody
+    public ResponseBean findPowerByAccountAndTaskId(String account, Integer task_id){
+        ResponseBean responseBean = new ResponseBean();
+        responseBean.setMessage("查询成功");
+        responseBean.setData(userPointsService.findPowerByAccountAndTaskId(account, task_id));
+        return responseBean;
+    }
+
 //    根据任务id更新参与用户的标注能力
     @RequestMapping("/updatePointsAndInfoByTaskId")
     @ResponseBody
