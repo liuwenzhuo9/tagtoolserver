@@ -271,8 +271,8 @@ public class LabelResultController {
             List<String> k = labelResultService.findLabelResultByTaskIdAndAccount(task_id, peopleSum[i]);
             res.add(k);
         }
-        //        记录每个段落的index长度
-        List<Integer> paragraph_len = findParaLenByTaskIdAndAccount(task_id, people_account.get(0));
+//                记录每个段落的index长度
+//        List<Integer> paragraph_len = findParaLenByTaskIdAndAccount(task_id, people_account.get(0));
         //        记录预测结果
         List<String> infer_res = new ArrayList<>();
 
@@ -298,7 +298,7 @@ public class LabelResultController {
             //      黄金数据的正确结果
             List<String> godKey = taskContentService.getTestLabelByTaskId(task_id);
             String[] god_key = godKey.toArray(new String[]{});
-            List<String> a = label_result_2(people_account, tag,  res, pos,  god_key, paragraph_len, task_id);
+            List<String> a = label_result_2(people_account, tag,  res, pos,  god_key, task_id);
             infer_res = a;
         }
 
@@ -336,9 +336,9 @@ public class LabelResultController {
         //        判断是否为*不带*黄金数据的序列标注任务
         if((taskInfo.getSds_name() == null || taskInfo.getSds_name() == "") && taskInfo.getTask_type()==0){
             //            根据原始的power和多数投票法预测的序列标注结果
-            String[] key_1 = infer_sequence(people_account, tag,  res, paragraph_len, power_s);
+            String[] key_1 = infer_sequence(people_account, tag,  res, power_s);
             //            根据时间和准确率更新用户加权，重新预测
-            List<String> key_2 = update_infer_Sequence(people_account, task_id,  res,  key_1,  power_s, tag,  paragraph_len);
+            List<String> key_2 = update_infer_Sequence(people_account, task_id,  res,  key_1,  power_s, tag);
             infer_res = key_2;
         }
 
@@ -366,7 +366,7 @@ public class LabelResultController {
         }
         //        计算用户序列标注的一致性ci
         if(taskInfo.getTask_type()==0){
-            ci = sequenceCI(res, infer_res, paragraph_len);
+            ci = sequenceCI(infer_res, people_account);
         }
         //        计算用户量级标签标注的一致性ci
         if(taskInfo.getTask_type()==2){
@@ -451,7 +451,7 @@ public class LabelResultController {
     }
 
 //    带黄金数据的序列标注结果合并方法
-    public List<String> label_result_2(List<String> people_account, String[] tag, List<List<String>> res, String[] pos, String[] god_key, List<Integer> paragraph_len, int task_id) {
+    public List<String> label_result_2(List<String> people_account, String[] tag, List<List<String>> res, String[] pos, String[] god_key, int task_id) {
         // 计算用户在黄金任务中的标注表现
         int peoLen = people_account.size();
         int gdLen = god_key.length;
@@ -460,16 +460,11 @@ public class LabelResultController {
         for(int p = 0 ;p<peoLen; p++) {
             double score = 0.0;
             for(int i = 0; i<gdLen; i++) {
-                int gdParaLen = paragraph_len.get(Integer.parseInt(pos[i]));
-                String resP = res.get(p - cnt).get(Integer.parseInt(pos[i]) - i);
-                String godKeyP = god_key[i];
-                if(resP != null) {
-                    String[] resPArr = getIndexTag(resP, gdParaLen);
-                    String[] gokKeyPArr = getIndexTag(godKeyP, gdParaLen);
-                    double f = sequence_acc(resPArr, gokKeyPArr);
-                    score += f;
-                    res.get(p - cnt).remove(Integer.parseInt(pos[i]) - i);
-                }
+                String[] resP = res.get(p - cnt).get(Integer.parseInt(pos[i]) - i).split(",");
+                String[] godKeyP = god_key[i].split(",");
+                double f = sequence_acc(resP, godKeyP);
+                score += f;
+                res.get(p - cnt).remove(Integer.parseInt(pos[i]) - i);
             }
             //        剔除正确率低于0.5的用户结果
             if(score / gdLen < 0.5) {
@@ -480,15 +475,11 @@ public class LabelResultController {
                 p_score.add(score / gdLen);
             }
         }
-        //      删除黄金数据的段落长度
-        for(int n = 0; n<gdLen; n++) {
-            paragraph_len.remove(Integer.parseInt(pos[n]) - n);
-        }
         Double[] power = p_score.toArray(new Double[]{});
         //      预测标注结果(不考虑时间和正确率)
-        String[] key_1 = infer_sequence(people_account, tag, res, paragraph_len, power);
+        String[] key_1 = infer_sequence(people_account, tag, res, power);
         //      根据时间和正确率更新权值，再次计算标注结果
-        List<String> key_2 = update_infer_Sequence(people_account, task_id,  res,  key_1,  power, tag,  paragraph_len);
+        List<String> key_2 = update_infer_Sequence(people_account, task_id,  res,  key_1,  power, tag);
         return key_2;
     }
 
@@ -613,23 +604,21 @@ public class LabelResultController {
     }
 
 //    计算用户序列标注的准确率和召回率
-    public double sequence_acc(String[] str, String[] key) {
-        int strNotNull = 0;
-        int keyNotNull = 0;
+    public double sequence_acc(String[] res, String[] key) {
+        int resLen = res.length;
+        int keyLen = key.length;
         int right = 0;
-        for(int i = 0; i<str.length; i++){
-            if(str[i] != null ) {
-                strNotNull++;
-            }
-            if(key[i] != null ) {
-                keyNotNull++;
-            }
-            if(str[i] != null && key[i] != null && key[i].equals(str[i])){
+        List<String> keyList = List.of(key);
+        for(int i = 0; i<resLen; i++) {
+            if(keyList.indexOf(res[i]) != -1) {
                 right++;
             }
         }
-        Double acc = (double)right/keyNotNull;
-        Double recall = (double)right/strNotNull;
+        if(right == 0){
+            return 0;
+        }
+        Double acc = (double)right/keyLen;
+        Double recall = (double)right/resLen;
         Double f = (double)2*acc*recall/(acc+recall);
         return f;
     }
@@ -714,38 +703,33 @@ public class LabelResultController {
 }
 
 //    根据power合并序列标注结果
-    public String[] infer_sequence(List<String> people_account, String[] tag, List<List<String>> res, List<Integer> paragraph_len, Double[] power) {
+    public String[] infer_sequence(List<String> people_account, String[] tag, List<List<String>> res, Double[] power) {
         int peoLen = people_account.size();
-        String[] answer = new String[res.get(0).size()];
-        for(int i = 0; i<res.get(0).size(); i++){
-            List<String> answerAtI = new ArrayList<>();
-            int gdParaLen = paragraph_len.get(i);
-            String[][] sumResAtI = new String[peoLen][gdParaLen];
-            for(int k = 0; k<peoLen; k++){
-                String[] resPArr = getIndexTag(res.get(k).get(i), gdParaLen);
-                sumResAtI[k] = resPArr;
-            }
-            for(int j = 0; j<gdParaLen; j++){
-                Map<String,Double> arg =new HashMap<String,Double>();
-                double max = 0.0;
-                String maxTag = "";
-                for(int m=0; m<tag.length; m++) {
-                    arg.put(tag[m], max);
-                }
-                arg.put(null,max);
-                for(int k = 0; k<peoLen; k++) {
-                    double a = arg.get(sumResAtI[k][j]);
-                    a += power[k] <= 0.0 ? 0.5 : power[k];
-                    max = Math.max(max, a);
-                    if(max == a) {
-                        maxTag = sumResAtI[k][j];
+        int sentenceLen = res.get(0).size();
+        String[] answer = new String[sentenceLen];
+        for(int i = 0; i<sentenceLen; i++){
+            List<String> senAns = new ArrayList<>();
+            List<Double> senAnsNum = new ArrayList<>();
+            for(int p = 0; p<peoLen; p++){
+                String[] temp = res.get(p).get(i).split(",");
+                for(int j = 0; j<temp.length; j++){
+                    if(senAns.indexOf(temp[j]) == -1){
+                        senAns.add(temp[j]);
+                        senAnsNum.add(power[p]);
+                    }else{
+                        int index = senAns.indexOf(temp[j]);
+                        double num = senAnsNum.get(index);
+                        num += power[p];
+                        senAnsNum.set(index, num);
                     }
-                    arg.put(sumResAtI[k][j], a);
                 }
-                answerAtI.add(maxTag);
             }
-            String[] ret = answerAtI.toArray(new String[]{});
-            answer[i] = Arrays.toString(ret);
+            int tagNum = senAns.size();
+            for(int j = 0; j<tagNum; j++) {
+                String temp = senAns.get(j) + '-' + senAnsNum.get(j);
+                senAns.set(j, temp);
+            }
+            answer[i] = senAns.toString();
         }
         return answer;
     }
@@ -943,20 +927,17 @@ public class LabelResultController {
     }
 
 //    根据时间和正确率更新*序列标注*的power权值，并更新预测结果
-    public List<String> update_infer_Sequence(List<String> people_account, Integer task_id, List<List<String>> res, String[] key_1, Double[] power_s,String[] tag, List<Integer> paragraph_len){
+    public List<String> update_infer_Sequence(List<String> people_account, Integer task_id, List<List<String>> res, String[] key_1, Double[] power_s,String[] tag){
         int peoLen = people_account.size();
-        int paraNum = paragraph_len.size();
+        int paraNum = res.get(0).size();
         Double[] time_rate = time_count(people_account, task_id);
         Double[] acc_rate = new Double[peoLen];
         for(int i = 0; i<peoLen; i++){
             double score = 0.0;
             for(int j = 0; j<paraNum; j++){
-                int paraLen = paragraph_len.get(j);
-                String peoRes = res.get(i).get(j);
-                String peoKey = key_1[j];
-                String[] peoResArr = getIndexTag(peoRes, paraLen);
-                String[] peoKeyArr = getIndexTag(peoKey, paraLen);
-                double f = sequence_acc(peoResArr, peoKeyArr);
+                String[] peoRes = res.get(i).get(j).split(",");
+                String[] peoKey = key_1[j].split(",");
+                double f = sequence_acc(peoRes, peoKey);
                 score += f;
             }
             acc_rate[i] = score/paraNum;
@@ -975,7 +956,7 @@ public class LabelResultController {
             }
         }
         //        第二次预测（考虑时间和正确率）
-        String[] key_2 = infer_sequence(people_account, tag, res, paragraph_len, power_s);
+        String[] key_2 = infer_sequence(people_account, tag, res, power_s);
         List<String> answer = new ArrayList<>();
         for(int i = 0; i<key_2.length; i++){
             answer.add(key_2[i]);
@@ -984,36 +965,20 @@ public class LabelResultController {
     }
 
 //    计算序列标注的用户结果一致性
-    public double[] sequenceCI(List<List<String>> resArr, List<String> key, List<Integer> paragraph_len)  {
-        int peopleLen = resArr.size();
+    public double[] sequenceCI(List<String> key, List<String> people_account)  {
         int sentenceLen = key.size();
+        int peoLen = people_account.size();
         double[] ans = new double[sentenceLen];
         for(int i = 0; i<sentenceLen; i++){
-            String[][] resIndexArr = new String[peopleLen][];
-            for(int j = 0; j<peopleLen; j++){
-                resIndexArr[j] = getIndexTag(resArr.get(j).get(i), paragraph_len.get(i));
-                // System.out.println(resIndexArr[j].length);
+            String[] senTagArr = key.get(i).split(",");
+            int tagNum = senTagArr.length;
+            double score = 0;
+            for(int j = 0; j<tagNum; j++){
+                String[] temp = senTagArr[j].split("-");
+                score += Double.parseDouble(temp[4]);
             }
-            double sentenceCI = 0.0;
-            String[] sentenceKey = key.get(i).split(", ");
-            for(int m = 0; m<paragraph_len.get(i); m++){
-                int yizhi = 0;
-                for(int n = 0; n<peopleLen; n++){
-                    if(resIndexArr[n][m] == null ){
-                        resIndexArr[n][m] = "null";
-                    }
-                    if(resIndexArr[n][m].equals(sentenceKey[m])){
-                        yizhi++;
-                    }
-                }
-                double indexCI = (double)yizhi/peopleLen;
-                if(indexCI < 0.3){
-                    indexCI = (double)indexCI*indexCI;
-                }
-                sentenceCI += indexCI;
-            }
-            sentenceCI = (double)sentenceCI/paragraph_len.get(i);
-            ans[i] = sentenceCI;
+            score /= peoLen*tagNum;
+            ans[i] = score;
         }
         return ans;
     }
